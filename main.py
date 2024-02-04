@@ -1,82 +1,38 @@
 from flask import Flask, jsonify
 from flask_cors import cross_origin
-
 import os
+from database import *
+from igolf import *
+from marshalI import *
+from golfweb import *
 
 app = Flask(__name__)
+
+# .envの`PORT`は勝手に読まれる
 
 
 @app.route('/')
 @cross_origin(origins=["http://localhost:5173"], methods=["GET"])
 def index():
-    data = [
-        {
-            "name": "上條栄子",
-            "gross": 95
-        },
-        {
-            "name": "北村友成",
-            "gross": 88
-        },
-        {
-            "name": "飯沼茂",
-            "gross": 75
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-        {
-            "name": "高田由美子",
-            "gross": 101
-        },
-    ]
+    try:
+        print("fetching.....")
+        x = golfweb()
+        scores = x.get_scores(
+            "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
+        return jsonify(scores)
 
-    return jsonify(data)
+    except ValueError as e:
+        return jsonify({
+            "status": "error",
+            "reason": str(e)
+        })
+
+    except Exception as e:
+        print(e)
+        return jsonify({
+            "status": "error",
+            "reason": e
+        })
 
 
 if __name__ == '__main__':
