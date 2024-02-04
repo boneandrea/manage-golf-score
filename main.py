@@ -11,9 +11,9 @@ app = Flask(__name__)
 # .envの`PORT`は勝手に読まれる
 
 
-@app.route('/')
+@app.route('/get')
 @cross_origin(origins=["http://localhost:5173"], methods=["GET"])
-def index():
+def get():
     readdata()
     try:
         print("fetching.....")
