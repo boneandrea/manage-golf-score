@@ -14,6 +14,7 @@ app = Flask(__name__)
 @app.route('/')
 @cross_origin(origins=["http://localhost:5173"], methods=["GET"])
 def index():
+    readdata()
     try:
         print("fetching.....")
         x = golfweb()
@@ -33,6 +34,17 @@ def index():
             "status": "error",
             "reason": e
         })
+
+
+def readdata():
+    print("read mongodb....")
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+    items = score.find()
+    for i in items:
+        print(i)
+    print(f"num of data: {score.count_documents({})}")
 
 
 if __name__ == '__main__':
