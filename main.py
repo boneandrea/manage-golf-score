@@ -1,4 +1,4 @@
-from flask import Flask, jsonifyin
+from flask import Flask, jsonify
 from flask_cors import cross_origin
 
 import os
