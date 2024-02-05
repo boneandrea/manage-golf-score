@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from flask_cors import cross_origin
 from flask import request
 
 import os
@@ -32,13 +31,14 @@ app = Flask(__name__)
 # .envの`PORT`は勝手に読まれる
 
 
-@app.route('/get', methods=["GET", "POST"])
-@cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
+@app.route('/get', methods=["POST"])
 def get():
     readdata()
     try:
-        print(f"fetching {request.json['url']} .....")
+        print(request.json["url"])
         x = golfweb()
+        print("AAAA")
+        print(x)
         scores = x.get_scores(request.json["url"])
         return jsonify(scores)
 
@@ -68,7 +68,6 @@ def readdata():
 
 
 @app.route('/store', methods=["POST"])
-@cross_origin(origins=["http://localhost:5173"], methods=["POST"])
 def store():
     try:
         readdata()
