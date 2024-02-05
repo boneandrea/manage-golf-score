@@ -43,9 +43,45 @@ def readdata():
     db = client["score"]
     score = db["score"]
     items = score.find()
-    for i in items:
-        print(i)
+    # for i in items:
+    #     print(i)
     print(f"num of data: {score.count_documents({})}")
+
+
+@app.route('/store', methods=["POST"])
+@cross_origin(origins=["http://localhost:5173"], methods=["POST"])
+def store():
+    try:
+        readdata()
+        print("sending.....")
+        print(request.json)
+        store_score(request.json)
+        return jsonify({"status": "success"})
+
+    except ValueError as e:
+        return jsonify({
+            "status": "error",
+            "reason": str(e)
+        })
+
+    except Exception as e:
+        print(e)
+        return jsonify({
+            "status": "error",
+            "reason": e
+        })
+
+
+def store_score(result):
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+
+    # import dateutil.parser
+    # dateStr = "2016-11-11"
+    # d = dateutil.parser.parse(dateStr)  # from string to ISODate
+
+    score.insert_one(result)
 
 
 if __name__ == '__main__':
