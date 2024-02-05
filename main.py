@@ -18,7 +18,7 @@ app = Flask(__name__)
 def get():
     readdata()
     try:
-        print("fetching.....")
+        print(f"fetching {request.json['url']} .....")
         x = golfweb()
         scores = x.get_scores(request.json["url"])
         return jsonify(scores)
