@@ -77,9 +77,9 @@ def store_score(result):
     db = client["score"]
     score = db["score"]
 
-    # import dateutil.parser
-    # dateStr = "2016-11-11"
-    # d = dateutil.parser.parse(dateStr)  # from string to ISODate
+    import dateutil.parser
+    result["date"] = dateutil.parser.parse(
+        result["date"])  # from string to ISODate
 
     score.insert_one(result)
 
