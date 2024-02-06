@@ -29,18 +29,11 @@ class igolf:
     def __init__(self, url):
         self.url = url
 
-    def init_browser(self):
-        global driver
-        options = webdriver.chrome.options.Options()
-        options.add_argument('--no-sandbox')
-        options.add_argument("--headless")
-        driver = webdriver.Chrome(options=options)
-
     def get_par(self):
-        self.init_browser()
-        driver.get(self.url)
-        wait = WebDriverWait(driver, timeout=5)
-        table = driver.find_elements(By.CSS_SELECTOR, ".sheet table")[0]
+        self.driver = init_browser()
+        self.driver.get(self.url)
+        wait = WebDriverWait(self.driver, timeout=5)
+        table = self.driver.find_elements(By.CSS_SELECTOR, ".sheet table")[0]
         tr = table.find_elements(By.TAG_NAME, "tr")
         td = tr[3].find_elements(By.TAG_NAME, "td")
         par = []
@@ -52,22 +45,22 @@ class igolf:
         return par
 
     def get_scores(self):
-        self.init_browser()
-        driver.get(self.url)
-        wait = WebDriverWait(driver, timeout=5)
-        driver.get(self.url.replace("#/landscape-a", "/leaderboard"))
-        wait = WebDriverWait(driver, timeout=5)
-        show_score_button = driver.find_elements(
+        self.driver = init_browser()
+        self.driver.get(self.url)
+        WebDriverWait(self.driver, timeout=5)
+        self.driver.get(self.url.replace("#/landscape-a", "/leaderboard"))
+        WebDriverWait(self.driver, timeout=5)
+        show_score_button = self.driver.find_elements(
             By.CSS_SELECTOR, ".show-score")
         show_score_button[0].click()
-        wait = WebDriverWait(driver, timeout=5)
-        table = driver.find_elements(By.CSS_SELECTOR, ".ui-table-view")[0]
-
-        tr = table.find_elements(By.TAG_NAME, "tr")
-        num_player = len(tr)-2
+        WebDriverWait(self.driver, timeout=5)
+        table = self.driver.find_elements(By.CSS_SELECTOR, ".ui-table-view")[0]
 
         basic_info = self.get_basic_info()
         par = self.get_par()
+
+        tr = table.find_elements(By.TAG_NAME, "tr")
+        num_player = len(tr)-2
 
         scores = {
             "course": basic_info["course"],
@@ -107,22 +100,20 @@ class igolf:
                     data["gross"] = int(score[i])
 
             scores["scores"].append(data)
-        driver.quit()
+        self.driver.quit()
         return scores
 
     def get_basic_info(self):
-        self.init_browser()
-        driver.get(
-            "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
-
-        wait = WebDriverWait(driver, timeout=5)
-        course = driver.find_elements(By.CSS_SELECTOR, ".cc-name")[
+        self.driver = init_browser()
+        self.driver.get(self.url)
+        WebDriverWait(self.driver, timeout=5)
+        course = self.driver.find_elements(By.CSS_SELECTOR, ".cc-name")[
             0].get_attribute("innerText")
         import re
         course = re.sub("^【", "", course)
         course = re.sub("】$", "", course)
 
-        date = driver.find_elements(By.CSS_SELECTOR, ".date")[
+        date = self.driver.find_elements(By.CSS_SELECTOR, ".date")[
             0].get_attribute("innerText")
 
         # from dateutil.parser import parse

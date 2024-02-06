@@ -28,16 +28,9 @@ class golfweb:
 
 
 if __name__ == "__main__":
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-
-    driver = webdriver.Chrome(options=options)
-
-    driver.get("https://www.yahoo.co.jp/")
-    element = driver.find_element(By.CSS_SELECTOR, "section#tabpanelTopics1")
-    print(element.text)
-    driver.quit()
-    # x = igolf(
-    #     "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
-    # x.get_scores()
+    x = golfweb()
+    r = x.get_scores(
+        # 'https://marshal-i.com/ops/score/oakvillage_20231031_7bf14538'
+        'https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a'
+    )
+    print(r)
