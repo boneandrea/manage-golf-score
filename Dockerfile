@@ -5,17 +5,28 @@ RUN apt update && apt install gpg python3.11 pip -y
 ENV TZ=Asia/Tokyo
 ENV LANG=en_US.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get install -y --no-install-recommends python3-pip python3-dev curl unzip tzdata libnss3-dev \
+RUN apt install -y --no-install-recommends python3-pip python3-dev curl unzip tzdata libnss3-dev \
 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 -y libcups2 libdrm-dev libxkbcommon-x11-0 \
-libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasound2
+libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasound2 nginx
 
 RUN apt upgrade -y && apt clean
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
-COPY . /app/backend
+COPY . /app
 WORKDIR /app/backend
-
-RUN pip install -U pip && pip install --no-cache-dir -r requirements.txt
+RUN ls /
+RUN ls /app/backend
+RUN ls /app/frontend
+COPY index.html /var/www/html
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
-CMD ["gunicorn","main:app"]
+RUN pip install -U pip && pip install -r requirements.txt
+
+EXPOSE 80
+#CMD nginx -g "daemon off;"
+
+WORKDIR /app
+ENTRYPOINT ["./entrypoint.sh"]
+
+#CMD ["service","nginx","start"]
+# o0CMD ["gunicorn","main:app"]
