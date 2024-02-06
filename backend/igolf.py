@@ -27,21 +27,19 @@ $ pytest test.py # silent
 class igolf:
     driver = None
 
+    def __init__(self, url):
+        self.url = url
+
     def init_browser(self):
-        caps = webdriver.DesiredCapabilities.CHROME.copy()
-        caps['acceptInsecureCerts'] = True
-        options = ChromeOptions()
-        options.add_argument("--no-selfandbox")
-        options.add_argument("--headless")
-        options.set_capability('acceptInsecureCerts', True)
         global driver
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(
-        ).install()), options=options)  # 自動的にSeleniumとChromeバージョンを一致させる
+        options = webdriver.chrome.options.Options()
+        options.add_argument('--no-sandbox')
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(options=options)
 
     def get_par(self):
         self.init_browser()
-        driver.get(
-            "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
+        driver.get(self.url)
         wait = WebDriverWait(driver, timeout=5)
         table = driver.find_elements(By.CSS_SELECTOR, ".sheet table")[0]
         tr = table.find_elements(By.TAG_NAME, "tr")
@@ -54,10 +52,28 @@ class igolf:
         par.pop(18)
         return par
 
-    def get_scores(self, url):
+    def get_scores(self):
+        """
+        hoge
+        """
+
+        options = webdriver.chrome.options.Options()
+        options.add_argument('--no-sandbox')
+        options.add_argument("--headless")
+
+        with webdriver.Chrome(options=options) as driver:
+            driver.get("https://www.yahoo.co.jp/")
+            element = driver.find_element(
+                By.CSS_SELECTOR, "section#tabpanelTopics1")
+            print(element.text)
+
+        """
+        hogiiii
+        """
+
         self.init_browser()
-        driver.get(url)
-        driver.get(url.replace("#/landscape-a", "/leaderboard"))
+        driver.get(self.url)
+        driver.get(self.url.replace("#/landscape-a", "/leaderboard"))
         wait = WebDriverWait(driver, timeout=5)
         show_score_button = driver.find_elements(
             By.CSS_SELECTOR, ".show-score")
@@ -70,6 +86,7 @@ class igolf:
 
         basic_info = self.get_basic_info()
         par = self.get_par()
+
         scores = {
             "course": basic_info["course"],
             "date": basic_info["date"],

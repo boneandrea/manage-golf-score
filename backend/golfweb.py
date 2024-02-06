@@ -25,3 +25,9 @@ class golfweb:
             raise ValueError("Parse failed")
 
         return data
+
+
+if __name__ == '__main__':
+    x = igolf(
+        "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
+    x.get_scores()
