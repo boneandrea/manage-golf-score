@@ -72,7 +72,6 @@ def store():
     try:
         readdata()
         print("sending.....")
-        print(request.json)
         store_score(request.json)
         print("sent")
         return jsonify({"status": "success"})
@@ -100,7 +99,16 @@ def store_score(result):
     result["date"] = dateutil.parser.parse(
         result["date"])  # from string to ISODate
 
-    score.insert_one(result)
+    try:
+        print("insert")
+        score.insert_one(result)
+        print("ok")
+    except Exception as e:
+        print(e)
+        return jsonify({
+            "status": "error",
+            "reason": e
+        })
 
 
 if __name__ == '__main__':
