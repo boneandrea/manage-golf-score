@@ -99,16 +99,7 @@ def store_score(result):
     result["date"] = dateutil.parser.parse(
         result["date"])  # from string to ISODate
 
-    try:
-        print("insert")
-        score.insert_one(result)
-        print("ok")
-    except Exception as e:
-        print(e)
-        return jsonify({
-            "status": "error",
-            "reason": e
-        })
+    score.insert_one(result)
 
 
 if __name__ == '__main__':

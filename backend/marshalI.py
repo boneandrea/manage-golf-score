@@ -43,7 +43,6 @@ class marshalI:
 
     def get_scores(self):
         self.init_browser()
-        print(self.url)
         driver.get(self.url)
         wait = WebDriverWait(driver, timeout=5)
         table = driver.find_element(

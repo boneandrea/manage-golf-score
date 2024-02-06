@@ -20,11 +20,11 @@ class golfweb:
         x = self.get_html_parser(url)
         try:
             data = x.get_scores()
+            return data
         except Exception as e:
             print(e)
-            raise ValueError("Parse failed")
-
-        return data
+            # raise ValueError("Parse failed")
+            raise ValueError(str(e))
 
 
 if __name__ == "__main__":

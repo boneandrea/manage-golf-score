@@ -46,6 +46,7 @@ class igolf:
 
     def get_scores(self):
         self.driver = init_browser()
+        # self.driver.set_window_size(950, 800)
         self.driver.get(self.url)
         WebDriverWait(self.driver, timeout=5)
         self.driver.get(self.url.replace("#/landscape-a", "/leaderboard"))

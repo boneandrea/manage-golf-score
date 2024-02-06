@@ -31,5 +31,6 @@ def prize(par, score):
 def init_browser():
     options = webdriver.chrome.options.Options()
     options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')  # 省メモリ
     options.add_argument("--headless")
     return webdriver.Chrome(options=options)
