@@ -1,6 +1,8 @@
 from igolf import *
 from marshalI import *
 from urllib.parse import urlparse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 class golfweb:
@@ -27,7 +29,17 @@ class golfweb:
         return data
 
 
-if __name__ == '__main__':
-    x = igolf(
-        "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
-    x.get_scores()
+if __name__ == "__main__":
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(options=options)
+
+    driver.get("https://www.yahoo.co.jp/")
+    element = driver.find_element(By.CSS_SELECTOR, "section#tabpanelTopics1")
+    print(element.text)
+    driver.quit()
+    # x = igolf(
+    #     "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
+    # x.get_scores()

@@ -2,34 +2,20 @@ FROM ghcr.io/railwayapp/nixpacks:ubuntu-1702339400@sha256:1a9c1eed040aacf8f898be
 
 RUN apt update && apt install gpg python3.11 pip -y
 
-RUN apt-get update
 ENV TZ=Asia/Tokyo
 ENV LANG=en_US.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get install -yq --no-install-recommends python3-pip \
-python3-dev \
-curl \
-unzip \
-tzdata && apt-get upgrade -y && apt-get clean
+RUN apt-get install -y --no-install-recommends python3-pip python3-dev curl unzip tzdata libnss3-dev \
+libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 -y libcups2 libdrm-dev libxkbcommon-x11-0 \
+libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasound2
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
-# Install Chrome binary
-RUN curl -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-apt-get install -yq --no-install-recommends ./google-chrome-stable_current_amd64.deb && \
-apt-get clean && rm google-chrome-stable_current_amd64.deb
-
-# Install Chrome Driver (Get Latest Version)
-RUN curl -O https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip && \
-unzip chromedriver_linux64.zip && \
-mv chromedriver /usr/local/bin/ && \
-rm chromedriver_linux64.zip
+RUN apt upgrade -y && apt clean
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 COPY . /app/backend
 WORKDIR /app/backend
-RUN pwd
-RUN ls
-RUN pip install -r requirements.txt
+
+RUN pip install -U pip && pip install --no-cache-dir -r requirements.txt
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 CMD ["gunicorn","main:app"]
