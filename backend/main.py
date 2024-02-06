@@ -69,6 +69,7 @@ def readdata():
 
 
 @app.route('/store', methods=["POST"])
+@cross_origin(origins=["http://localhost:5173"], methods=["POST"])
 def store():
     try:
         readdata()
