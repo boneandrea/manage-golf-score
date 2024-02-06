@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
@@ -53,24 +52,6 @@ class igolf:
         return par
 
     def get_scores(self):
-        """
-        hoge
-        """
-
-        options = webdriver.chrome.options.Options()
-        options.add_argument('--no-sandbox')
-        options.add_argument("--headless")
-
-        with webdriver.Chrome(options=options) as driver:
-            driver.get("https://www.yahoo.co.jp/")
-            element = driver.find_element(
-                By.CSS_SELECTOR, "section#tabpanelTopics1")
-            print(element.text)
-
-        """
-        hogiiii
-        """
-
         self.init_browser()
         driver.get(self.url)
         wait = WebDriverWait(driver, timeout=5)

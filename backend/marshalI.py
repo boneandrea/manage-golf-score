@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
@@ -27,36 +26,25 @@ $ pytest test.py # silent
 class marshalI:
     driver = None
 
+    def __init__(self, url):
+        self.url = url
+
     def init_browser(self):
-        caps = webdriver.DesiredCapabilities.CHROME.copy()
-        caps['acceptInsecureCerts'] = True
-        options = ChromeOptions()
-        options.add_argument("--no-selfandbox")
-        options.add_argument("--headless")
-        options.set_capability('acceptInsecureCerts', True)
         global driver
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(
-        ).install()), options=options)  # 自動的にSeleniumとChromeバージョンを一致させる
+        options = webdriver.chrome.options.Options()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        driver = webdriver.Chrome(options=options)
 
-    def get_par(self):
+    def get_par(self, table):
+        tr = table.find_elements(By.CSS_SELECTOR, "thead tr")[1]
+        th = tr.find_elements(By.TAG_NAME, "th")
+        return list(map(lambda e: int(e.get_attribute("innerText")), th))
+
+    def get_scores(self):
         self.init_browser()
-        driver.get(
-            "https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a")
-        wait = WebDriverWait(driver, timeout=5)
-        table = driver.find_elements(By.CSS_SELECTOR, ".sheet table")[0]
-        tr = table.find_elements(By.TAG_NAME, "tr")
-        td = tr[3].find_elements(By.TAG_NAME, "td")
-        par = []
-        for t in td:
-            par.append(int(t.get_attribute("innerText")))
-
-        par.pop(9)
-        par.pop(18)
-        return par
-
-    def get_scores(self, url):
-        self.init_browser()
-        driver.get(url)
+        print(self.url)
+        driver.get(self.url)
         wait = WebDriverWait(driver, timeout=5)
         table = driver.find_element(
             By.CSS_SELECTOR, "table.holebyholeTable")
@@ -67,7 +55,7 @@ class marshalI:
         m = re.match(r'((.|\s)*)プレー日：((.|\s)*)', d)
         course = m[1].strip()
         date = m[3].strip()
-        par = self.get_par()
+        par = self.get_par(table)
         from datetime import datetime
         import dateutil.parser
         date = datetime.strptime(date, "%Y年%m月%d日").strftime("%Y/%m/%d")

@@ -9,19 +9,17 @@ class golfweb:
 
     def get_html_parser(self, url):
         o = urlparse(url)
-        print(o)
         if o.hostname == "v2anegasaki.igolfshaper.com":
-            return igolf()
+            return igolf(url)
         if o.hostname == "marshal-i.com":
-            return marshalI()
+            return marshalI(url)
 
         raise ValueError("Unhandled url")
 
     def get_scores(self, url):
         x = self.get_html_parser(url)
-        print(x)
         try:
-            data = x.get_scores(url)
+            data = x.get_scores()
         except Exception as e:
             print(e)
             raise ValueError("Parse failed")

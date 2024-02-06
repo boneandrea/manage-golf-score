@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import cross_origin
 from flask import request
 
 import os
@@ -32,15 +33,13 @@ app = Flask(__name__)
 
 
 @app.route('/get', methods=["POST"])
+@cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
 def get():
     readdata()
     try:
         url = request.json["url"]
         print(url)
         x = golfweb()
-        print("AAAA")
-        return jsonify({"x": 1})
-        print(x)
         scores = x.get_scores(url)
         return jsonify(scores)
 
