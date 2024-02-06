@@ -134,7 +134,7 @@ const today = new Date()
         <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
       </div>
       <div class="col">
-        <button class="btn btn-primary" @click="fetchData" :disabled="spinner0">データ取得</button>
+        <button class="btn btn-primary" @click="fetchData" :disabled="spinner0 || spinner1">データ取得</button>
       </div>
       <div class="col">
         <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
@@ -203,10 +203,10 @@ const today = new Date()
     </table>
     <div class="form-group row">
       <div class="col">
-        <button class="btn btn-success" @click="sort">ソート</button>
+        <button class="btn btn-success" @click="sort" :disabled="spinner0 || spinner1">ソート</button>
       </div>
       <div class="col">
-        <button class="btn btn-primary" @click="send" :disabled="spinner1">送信</button>
+        <button class="btn btn-primary" @click="send" :disabled="spinner0 || spinner1">送信</button>
       </div>
       <div class="col">
         <div v-show="spinner1" class="spinner-border text-secondary" role="status" />

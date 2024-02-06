@@ -63,8 +63,6 @@ def readdata():
     db = client["score"]
     score = db["score"]
     items = score.find()
-    # for i in items:
-    #     print(i)
     print(f"num of data: {score.count_documents({})}")
 
 
@@ -76,6 +74,7 @@ def store():
         print("sending.....")
         print(request.json)
         store_score(request.json)
+        print("sent")
         return jsonify({"status": "success"})
 
     except ValueError as e:
