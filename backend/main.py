@@ -35,11 +35,13 @@ app = Flask(__name__)
 def get():
     readdata()
     try:
-        print(request.json["url"])
+        url = request.json["url"]
+        print(url)
         x = golfweb()
         print("AAAA")
+        return jsonify({"x": 1})
         print(x)
-        scores = x.get_scores(request.json["url"])
+        scores = x.get_scores(url)
         return jsonify(scores)
 
     except ValueError as e:

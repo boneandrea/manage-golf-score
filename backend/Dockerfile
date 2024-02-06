@@ -31,5 +31,5 @@ RUN pwd
 RUN ls
 RUN pip install -r requirements.txt
 
-
+ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 CMD ["gunicorn","main:app"]

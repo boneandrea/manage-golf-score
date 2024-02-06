@@ -73,6 +73,7 @@ class igolf:
 
         self.init_browser()
         driver.get(self.url)
+        wait = WebDriverWait(driver, timeout=5)
         driver.get(self.url.replace("#/landscape-a", "/leaderboard"))
         wait = WebDriverWait(driver, timeout=5)
         show_score_button = driver.find_elements(
