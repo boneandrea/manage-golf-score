@@ -32,6 +32,12 @@ app = Flask(__name__)
 # .envの`PORT`は勝手に読まれる
 
 
+@app.route('/api/puga', methods=["POST"])
+@cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
+def puga():
+    return jsonify({"fe", "hya"})
+
+
 @app.route('/get', methods=["POST"])
 @cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
 def get():
