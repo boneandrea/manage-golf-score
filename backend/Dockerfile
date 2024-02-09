@@ -12,21 +12,10 @@ libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasoun
 RUN apt upgrade -y && apt clean
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
-COPY . /app
+RUN mkdir -p /app/backend
+COPY backend /app/backend
 WORKDIR /app/backend
-RUN ls /
-RUN ls /app/backend
-RUN ls /app/frontend
-COPY index.html /var/www/html
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 RUN pip install -U pip && pip install -r requirements.txt
-
-EXPOSE 80
-#CMD nginx -g "daemon off;"
-
-WORKDIR /app
-ENTRYPOINT ["./entrypoint.sh"]
-
-#CMD ["service","nginx","start"]
-# o0CMD ["gunicorn","main:app"]
+CMD ["gunicorn","main:app"]
