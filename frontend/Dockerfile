@@ -11,9 +11,9 @@ RUN node -v
 #
 
 RUN mkdir -p /app/frontend
-COPY . /app/frontend
+COPY frontend /app/frontend
 WORKDIR /app/frontend
-
-ARG PORT
+RUN pwd
+RUN ls
 #CMD ["nginx","-g", "daemon off;"]
 ENTRYPOINT ["./entrypoint.sh"]

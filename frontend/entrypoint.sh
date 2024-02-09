@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -eux
-PORT=8888
+
 echo "server {
 	listen $PORT default_server;
 	listen [::]:$PORT default_server;

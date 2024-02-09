@@ -1,5 +1,11 @@
 #!/bin/bash
 
-service nginx start
 cd backend
+echo $PORT
+echo $PORT
+echo $PORT
+echo $PORT
+echo $PORT
+echo $PORT
+echo $PORT
 gunicorn main:app
