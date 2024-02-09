@@ -116,7 +116,12 @@ function send() {
             spinner1.value = false
             alert("送信成功しました")
             members.value.splice(0, members.value.length)
-
+            for(let key in game.value) {
+                if(game.value.hasOwnProperty(key)) {
+                    delete(game.value.key)
+                }
+            }
+            game.value.date=null
         })
         .catch((e) => {
             spinner1.value = false
@@ -203,7 +208,7 @@ const today = new Date()
         </table>
         <div class="form-group row">
             <div class="col">
-                <button class="btn btn-success" @click="sort" :disabled="spinner0 || spinner1">ソート</button>
+                <button class="btn btn-success" @click="sort" :disabled="spinner0 || spinner1">NET順</button>
             </div>
             <div class="col">
                 <button class="btn btn-primary" @click="send" :disabled="spinner0 || spinner1">送信</button>
