@@ -113,16 +113,15 @@ function send() {
             if (data.status === 'error') {
                 throw new Error(data['reason'])
             }
+            spinner1.value = false
             alert("送信成功しました")
             members.value.splice(0, members.value.length)
 
         })
         .catch((e) => {
+            spinner1.value = false
             console.error(e)
             alert(e)
-        })
-        .finally(() => {
-            spinner1.value = false
         })
 }
 const today = new Date()
