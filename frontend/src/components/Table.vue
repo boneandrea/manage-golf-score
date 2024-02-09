@@ -113,7 +113,7 @@ function send() {
             if (data.status === 'error') {
                 throw new Error(data['reason'])
             }
-            alert("送信成功しましたh")
+            alert("送信成功しました")
             members.value.splice(0, members.value.length)
 
         })
