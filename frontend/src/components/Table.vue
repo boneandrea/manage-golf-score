@@ -7,7 +7,6 @@ const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
 const API_ROOT = 'https://flask-production-fcc0.up.railway.app/api'
-
 const fetchData = () => {
     if (!q('#url').value) {
         alert('SET URL')
