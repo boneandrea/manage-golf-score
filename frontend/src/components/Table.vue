@@ -6,15 +6,13 @@ const game = ref({})
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
-const API_HOST = 'http://localhost:5000'
-//const API_HOST = 'https://flask-production-fcc0.up.railway.app'
-
+const API_ROOT = 'https://flask-production-fcc0.up.railway.app/api'
 const fetchData = () => {
   if (!q('#url').value) {
     alert('SET URL')
     return
   }
-  const apiUrl = `${API_HOST}/get`
+  const apiUrl = `${API_ROOT}/get`
   spinner0.value = true
   members.value.splice(0, members.value.length)
   fetch(apiUrl, {
@@ -95,7 +93,7 @@ const dragEnter = (index) => {
 function send() {
   console.log(members.value)
   if (!confirm('送信してよいですか？')) return
-  const apiUrl = `${API_HOST}/store`
+  const apiUrl = `${API_ROOT}/store`
   spinner1.value = true
   fetch(apiUrl, {
     method: 'POST',

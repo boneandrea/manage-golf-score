@@ -31,15 +31,17 @@ app = Flask(__name__)
 
 # .envの`PORT`は勝手に読まれる
 
+FRONTEND = 'https://frontend-production-4b66.up.railway.app'
+
 
 @app.route('/api/puga', methods=["POST"])
-@cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
 def puga():
     return jsonify({"fe", "hya"})
 
 
-@app.route('/get', methods=["POST"])
-@cross_origin(origins=["http://localhost:5173"], methods=["GET", "POST"])
+@app.route('/api/get', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
 def get():
     readdata()
     try:
@@ -72,8 +74,8 @@ def readdata():
     print(f"num of data: {score.count_documents({})}")
 
 
-@app.route('/store', methods=["POST"])
-@cross_origin(origins=["http://localhost:5173"], methods=["POST"])
+@app.route('/api/store', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
 def store():
     try:
         readdata()
