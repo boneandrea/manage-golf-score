@@ -11,6 +11,6 @@ RUN apt update && apt install nodejs -y
 RUN node -v
 
 RUN mkdir -p /app/frontend
-COPY frontend /app/frontend
+COPY . /app/frontend
 WORKDIR /app/frontend
 ENTRYPOINT ["./entrypoint.sh"]

@@ -2,9 +2,10 @@
 
 set -eux
 
+PORT=80
+
 echo "server {
 	listen $PORT default_server;
-	listen [::]:$PORT default_server;
 	root /app/frontend/dist;
 	index index.html;
 	server_name _;
