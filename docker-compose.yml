@@ -1,0 +1,32 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        APP_NAME: $COMPOSE_PROJECT_NAME
+    ports:
+      - "${WEB_PORT:-3000}:80"
+    environment:
+        COMPOSER_PROCESS_TIMEOUT: 600
+    volumes:
+      - ./frontend:/app/frontend
+    depends_on:
+      - mongodb
+
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     args:
+  #       PORT: 8000
+  #   ports:
+  #     - "${WEB_PORT:-3000}:80"
+  #   environment:
+  #       COMPOSER_PROCESS_TIMEOUT: 600
+  #   volumes:
+  #     - .:/app/backend
+  #   depends_on:
+  #     - mongodb
+
+  mongodb:
+    image: mongo
