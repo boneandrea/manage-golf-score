@@ -1,4 +1,3 @@
-version: '3'
 services:
   frontend:
     build:
@@ -12,19 +11,26 @@ services:
     depends_on:
       - mongodb
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     args:
-  #       PORT: 8000
-  #   ports:
-  #     - "${WEB_PORT:-3000}:80"
-  #   environment:
-  #       COMPOSER_PROCESS_TIMEOUT: 600
-  #   volumes:
-  #     - .:/app/backend
-  #   depends_on:
-  #     - mongodb
+  backend:
+    build:
+      context: ./backend
+      args:
+        PORT: 8000
+    ports:
+      - 8004:8000
+    volumes:
+      - .:/app/backend
+    depends_on:
+      - mongodb
 
+# Use root/example as user/password credentials
   mongodb:
-    image: mongo
+    # build:
+    #   context: ./backend
+    image: mongo:7.0.5
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpass
+      TZ: Asia/Tokyo

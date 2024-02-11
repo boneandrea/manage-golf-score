@@ -3,19 +3,22 @@ FROM ghcr.io/railwayapp/nixpacks:ubuntu-1702339400@sha256:1a9c1eed040aacf8f898be
 RUN apt update && apt install gpg python3.11 pip -y
 
 ENV TZ=Asia/Tokyo
-ENV LANG=en_US.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt install -y --no-install-recommends python3-pip python3-dev curl unzip tzdata libnss3-dev \
 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 -y libcups2 libdrm-dev libxkbcommon-x11-0 \
 libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasound2 nginx
 
-RUN apt upgrade -y && apt clean
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
-RUN mkdir -p /app/backend
-COPY backend /app/backend
-WORKDIR /app/backend
+COPY . /app
+WORKDIR /app
+
+RUN pwd
+RUN ls
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 RUN pip install -U pip && pip install -r requirements.txt
+RUN pwd
+RUN ls
+EXPOSE 8000
 CMD ["gunicorn","main:app"]
