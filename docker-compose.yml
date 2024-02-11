@@ -3,11 +3,11 @@ services:
     build:
       context: ./frontend
     ports:
-      - "${WEB_PORT:-3000}:80"
+      - "${WEB_PORT:-3000}:5173"
     environment:
         COMPOSER_PROCESS_TIMEOUT: 600
     volumes:
-      - .:/app
+      - ./frontend:/app
     depends_on:
       - mongodb
 

@@ -10,7 +10,10 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt update && apt install nodejs -y
 RUN node -v
 
-RUN mkdir -p /app/frontend
-COPY . /app/frontend
-WORKDIR /app/frontend
+WORKDIR /app
+
+#RUN sed -i "s/listen\s*80/listen 8888/" /etc/nginx/conf.d/default.conf
+#RUN sed -i '0,/root.*/ s/\/usr\/share\/nginx\/html/\/app\/dist/' /etc/nginx/conf.d/default.conf
+
 ENTRYPOINT ["./entrypoint.sh"]
+#CMD ["nginx", "-g", "daemon off;"]
