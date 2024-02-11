@@ -35,18 +35,18 @@ FRONTEND = 'https://frontend-production-4b66.up.railway.app'
 
 
 @app.route('/api/puga', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def puga():
     return jsonify({"fe", "hya"})
 
 
 @app.route('/api/get', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def get():
     readdata()
     try:
         url = request.json["url"]
-        print(url)
+        print(f"fetching {url}....")
         x = golfweb()
         scores = x.get_scores(url)
         return jsonify(scores)
@@ -71,14 +71,15 @@ def readdata():
     db = client["score"]
     score = db["score"]
     items = score.find()
+    for item in items:
+        print(item)
     print(f"num of data: {score.count_documents({})}")
 
 
 @app.route('/api/store', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:5173"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
-        readdata()
         print("sending.....")
         store_score(request.json)
         print("sent")

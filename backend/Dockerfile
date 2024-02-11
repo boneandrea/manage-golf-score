@@ -2,6 +2,7 @@ FROM ghcr.io/railwayapp/nixpacks:ubuntu-1702339400@sha256:1a9c1eed040aacf8f898be
 
 RUN apt update && apt install gpg python3.11 pip -y
 
+ENV LANG=ja_JP.UTF-8
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt install -y --no-install-recommends python3-pip python3-dev curl unzip tzdata libnss3-dev \
@@ -21,4 +22,4 @@ RUN pip install -U pip && pip install -r requirements.txt
 RUN pwd
 RUN ls
 EXPOSE 8000
-CMD ["gunicorn","main:app"]
+CMD ["gunicorn","main:app", "-b","0.0.0.0:8000"]
