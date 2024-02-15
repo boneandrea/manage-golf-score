@@ -33,10 +33,12 @@ const fetchData = () => {
                    throw new Error(data['reason'])
                }
                data['scores'].forEach((e) => {
+                   e.hdcp=calculateHandy(e)
                    members.value.push(e)
                })
-               setNet()
                spinner0.value = false
+               setNet()
+               sort()
            })
            .catch((e) => {
                console.error(e)
@@ -47,9 +49,25 @@ const fetchData = () => {
            })
 }
 
+ const scoreByHole = (scores, hole_no) => {
+     console.log(scores.find(e=>e.hole === hole_no).score)
+     return scores.find(e=>e.hole === hole_no).score
+ }
+const calculateHandy=(scores)=>{
+     //(隠しホールの合計スコアx1.5-72) x 0.8
+     const PERIA_HOLES=[2,4,6,7,8,9,10,11,13,14,16,17]
+
+     let sum=0
+     PERIA_HOLES.forEach(h=>{
+         sum+=scoreByHole(scores.score,h)
+     })
+
+     const hdcp=Math.round((sum*1.5-72)*0.8 *100)/100
+     return hdcp
+}
 const setNet = () => {
     members.value.forEach((e, i) => {
-        members.value[i]['net'] = members.value[i]['gross']
+        members.value[i]['net'] = members.value[i]['gross']-members.value[i]['hdcp']
     })
 }
 function dragList(e, i) {
@@ -195,27 +213,13 @@ const today = new Date()
                         <input type="checkbox" @change="change(e, index, 3)" :checked="members[index].near3" />
                     </td>
                     <td>{{ member.gross }}</td>
-                    <td class="col-lg-2">
-                        <input
-                            class="form-control"
-                            style="min-width: 4em"
-                            type="number"
-                            v-model="member.hdcp"
-                            step="0.1"
-                            @input="hdcp(index)"
-                        />
-                    </td>
+                    <td>{{ member.hdcp }}</td>
                     <td>{{ member.net }}</td>
-                    <td>
-                        <input style="min-width: 4em" class="form-control col-xs-6" type="number" v-model="member.point" step="1" />
-                    </td>
+                    <td>{{ member.point }}</td>
                 </tr>
             </tbody>
         </table>
         <div class="form-group row">
-            <div class="col">
-                <button class="btn btn-success" @click="sort" :disabled="spinner0 || spinner1">NET順</button>
-            </div>
             <div class="col">
                 <button class="btn btn-primary" @click="send" :disabled="spinner0 || spinner1">送信</button>
             </div>
