@@ -136,6 +136,9 @@ const today = new Date()
 <template>
     <div>
         <h1 class="green">スコア編集</h1>
+        <p>
+            <a href="https://boneandrea.github.io/gplus-golf-score/">ランキングページ</a>
+        </p>
         <div class="form-group row">
             <div class="col">
                 <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
