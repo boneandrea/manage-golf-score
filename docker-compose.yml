@@ -14,8 +14,6 @@ services:
   backend:
     build:
       context: ./backend
-      args:
-        PORT: 8000
     ports:
       - 8004:8000
     volumes:
