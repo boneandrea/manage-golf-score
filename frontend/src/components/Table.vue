@@ -1,13 +1,27 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
+const peria_holes = ref(["","","","","","","","","","","","",])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
-const API_ROOT = 'https://flask-production-fcc0.up.railway.app/api'
+const API_ROOT = import.meta.env.VITE_API_ROOT
+console.log(import.meta.env.MODE)
+console.log(API_ROOT)
+const collectPeriaHoles = () => peria_holes.value.filter(e=>parseInt(e)>0).length === 12
+const incompletedPeriaHoles=computed(()=>peria_holes.value.filter(e=>parseInt(e)>0).length < 12)
+const inValidPeriaHole=(e)=>{
+    const ee=parseInt(e)
+    return !(ee > 0)||(e>18)
+}
+
 const fetchData = () => {
+     if(!collectPeriaHoles()){
+         alert("新ペリホールを全部指定してください")
+         return
+     }
     if (!q('#url').value) {
         alert('SET URL')
         return
@@ -55,11 +69,9 @@ const fetchData = () => {
  }
 const calculateHandy=(scores)=>{
      //(隠しホールの合計スコアx1.5-72) x 0.8
-     const PERIA_HOLES=[2,4,6,7,8,9,10,11,13,14,16,17]
-
      let sum=0
-     PERIA_HOLES.forEach(h=>{
-         sum+=scoreByHole(scores.score,h)
+     peria_holes.value.forEach(h=>{
+         sum+=scoreByHole(scores.score,parseInt(h))
      })
 
      const hdcp=Math.round((sum*1.5-72)*0.8 *100)/100
@@ -158,24 +170,33 @@ const today = new Date()
 <template>
     <div>
         <h1 class="green">スコア編集</h1>
+        <p>
+            <a href="https://boneandrea.github.io/gplus-golf-score/" target="_blank">ランキングページ</a>
+        </p>
+        <h3 class="green">新ペリホール番号</h3>
+        <div class="form-group row peria">
+            <div v-for="(hole,index) in peria_holes.slice(0,6)" class="col-sm-2">
+                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index])}" type="number" v-model="peria_holes[index]" min="1" max="18" required>
+            </div>
+        </div>
+        <div class="form-group row peria">
+            <div v-for="(hole,index) in peria_holes.slice(6,12)" class="col-sm-2">
+                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index+6])}" type="number" v-model="peria_holes[index+6]" min="1" max="18" required>
+            </div>
+        </div>
+        <hr />
+        <h3 class="green">データ取得</h3>
         <div class="form-group row">
             <div class="col">
                 <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
             </div>
             <div class="col">
-                <button class="btn btn-primary" @click="fetchData" :disabled="spinner0 || spinner1">データ取得</button>
+                <button class="btn btn-primary" @click="fetchData" :disabled="incompletedPeriaHoles || spinner0 || spinner1">データ取得</button>
             </div>
             <div class="col">
                 <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
             </div>
         </div>
-        <p>やること：</p>
-        <ol>
-            <li>名前修正</li>
-            <li>ニアピン設定</li>
-            <li>HDCP入力</li>
-            <li>ソート</li>
-        </ol>
         <hr />
         <h2 v-if="game.date" class="green">
             {{ game.course }} {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
@@ -219,9 +240,14 @@ const today = new Date()
                 </tr>
             </tbody>
         </table>
+        <p>やること：</p>
+        <ol>
+            <li>名前修正</li>
+            <li>ニアピン設定</li>
+        </ol>
         <div class="form-group row">
             <div class="col">
-                <button class="btn btn-primary" @click="send" :disabled="spinner0 || spinner1">送信</button>
+                <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">送信</button>
             </div>
             <div class="col">
                 <div v-show="spinner1" class="spinner-border text-secondary" role="status" />
