@@ -70,6 +70,12 @@ const sort = () => {
         if (a.net < b.net) return -1
         return 0
     })
+
+     members.value.forEach((e,i)=>{
+         console.log(e.name, e.point)
+         e.point=members.value.length-i
+     })
+
 }
 
 const dragIndex = ref(null)
