@@ -181,8 +181,8 @@ const today = new Date()
                         <input class="form-control responsive" type="text" style="min-width: 10em" v-model="member.name" />
                     </td>
                     <td>
-                        <input type="checkbox" @change="change(e, index, 0)" v-model="members[index].near0" />
-                        <input type="checkbox" @change="change(e, index, 1)" v-model="members[index].near1" />
+                      <input type="checkbox" @change="change(e, index, 0)" :checked="members[index].near0" />
+                      <input type="checkbox" @change="change(e, index, 1)" :checked="members[index].near1" />
                     </td>
                     <td class="col-xs-6">
                         <input type="checkbox" @change="change(e, index, 2)" :checked="members[index].near2" />
