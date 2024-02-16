@@ -12,13 +12,22 @@ console.log(import.meta.env.MODE)
 console.log(API_ROOT)
 const collectPeriaHoles = () => {
     const check={}
-     peria_holes.value.forEach(e=>check[e]=true)
+    peria_holes.value.forEach(e=>check[e]=true)
     return Object.keys(check).length === 12
 }
 const incompletedPeriaHoles=computed(()=>peria_holes.value.filter(e=>parseInt(e)>0).length < 12)
-const inValidPeriaHole=(e)=>{
-    const ee=parseInt(e)
-    return !(ee > 0)||(e>18)
+const isDuplicated=(holeNo)=>{
+     let duplicated=false
+     if(holeNo === "") return false
+
+     return peria_holes.value.filter(e=>e===holeNo).length > 1
+ }
+const inValidPeriaHole=(holeNo)=>{
+     // check重複
+     const ee=parseInt(holeNo)
+     const validationRange=!(ee > 0)||ee>18
+     const duplicated=isDuplicated(holeNo)
+     return validationRange || duplicated
 }
 
 const fetchData = () => {
@@ -67,10 +76,7 @@ const fetchData = () => {
            })
 }
 
- const scoreByHole = (scores, hole_no) => {
-     console.log(scores.find(e=>e.hole === hole_no).score)
-     return scores.find(e=>e.hole === hole_no).score
- }
+const scoreByHole = (scores, hole_no) => scores.find(e=>e.hole === hole_no).score
 const calculateHandy=(scores)=>{
      //(隠しホールの合計スコアx1.5-72) x 0.8
      let sum=0
