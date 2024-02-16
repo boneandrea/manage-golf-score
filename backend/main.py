@@ -34,10 +34,6 @@ app = Flask(__name__)
 
 FRONTEND = os.getenv("FRONTEND_URL")
 
-# print(FRONTEND)
-# print("Y", FRONTEND)
-# print("どうしよう", FRONTEND)
-
 
 @app.route('/api/puga', methods=["POST"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])

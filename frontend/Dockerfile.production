@@ -15,6 +15,5 @@ COPY ./frontend /app
 WORKDIR /app
 ENV VITE_API_ROOT=https://backend-dev-0c68.up.railway.app/api
 RUN echo $VITE_API_ROOT
-RUN ls -l
 
 ENTRYPOINT ["./entrypoint_production.sh"]

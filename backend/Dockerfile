@@ -1,3 +1,4 @@
+# for Railway.app
 FROM ghcr.io/railwayapp/nixpacks:ubuntu-1702339400@sha256:1a9c1eed040aacf8f898be048210ef2d3366b1228373c4e6818362bb75611b32
 
 RUN apt update && apt install gpg python3.11 pip -y
@@ -11,15 +12,9 @@ libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasoun
 
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
-COPY . /app
+COPY ./backend /app
 WORKDIR /app
-
-RUN pwd
-RUN ls
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 RUN pip install -U pip && pip install -r requirements.txt
-RUN pwd
-RUN ls
-EXPOSE 8000
-CMD ["gunicorn","main:app", "-b","0.0.0.0:8000"]
+CMD ["gunicorn","main:app"]

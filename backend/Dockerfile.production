@@ -15,14 +15,6 @@ RUN ln -s /usr/bin/python3.10 /usr/bin/python
 COPY ./backend /app
 WORKDIR /app
 
-RUN pwd
-RUN ls
-
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
-
 RUN pip install -U pip && pip install -r requirements.txt
-RUN date
-RUN env
-RUN pwd
-RUN ls
 CMD ["gunicorn","main:app"]

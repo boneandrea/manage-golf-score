@@ -1,3 +1,4 @@
+# for Railway.app
 FROM nginx:latest
 
 RUN apt update && apt install curl gpg -y
@@ -10,11 +11,9 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt update && apt install nodejs -y
 RUN node -v
 
+COPY ./frontend /app
 WORKDIR /app
-RUN env
-
-#RUN sed -i "s/listen\s*80/listen 8888/" /etc/nginx/conf.d/default.conf
-#RUN sed -i '0,/root.*/ s/\/usr\/share\/nginx\/html/\/app\/dist/' /etc/nginx/conf.d/default.conf
+ENV VITE_API_ROOT=https://backend-dev-0c68.up.railway.app/api
+RUN echo $VITE_API_ROOT
 
 ENTRYPOINT ["./entrypoint.sh"]
-#CMD ["nginx", "-g", "daemon off;"]
