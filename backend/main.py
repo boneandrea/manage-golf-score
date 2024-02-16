@@ -32,8 +32,7 @@ app = Flask(__name__)
 
 # .envの`PORT`は勝手に読まれる
 
-FRONTEND_URL = os.getenv("FRONTEND_URL")
-FRONTEND = 'https://frontend-dev-ce22.up.railway.app'
+FRONTEND = os.getenv("FRONTEND_URL")
 
 # print(FRONTEND)
 # print("Y", FRONTEND)
