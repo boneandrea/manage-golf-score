@@ -11,8 +11,10 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt update && apt install nodejs -y
 RUN node -v
 
+ENV VITE_API_ROOT=https://frontend-production-4b66.up.railway.app
 COPY ./frontend /app
 WORKDIR /app
+RUN echo $VITE_API_ROOT
 RUN ls -l
 
 ENTRYPOINT ["./entrypoint_production.sh"]
