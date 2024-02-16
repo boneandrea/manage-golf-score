@@ -1,15 +1,27 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
+const peria_holes = ref(["","","","","","","","","","","","",])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
+const collectPeriaHoles = () => peria_holes.value.filter(e=>parseInt(e)>0).length === 12
+const incompletedPeriaHoles=computed(()=>peria_holes.value.filter(e=>parseInt(e)>0).length < 12)
+const inValidPeriaHole=(e)=>{
+    const ee=parseInt(e)
+    return !(ee > 0)||(e>18)
+}
+
 const fetchData = () => {
+     if(!collectPeriaHoles()){
+         alert("新ペリホールを全部指定してください")
+         return
+     }
     if (!q('#url').value) {
         alert('SET URL')
         return
@@ -35,10 +47,12 @@ const fetchData = () => {
                    throw new Error(data['reason'])
                }
                data['scores'].forEach((e) => {
+                   e.hdcp=calculateHandy(e)
                    members.value.push(e)
                })
-               setNet()
                spinner0.value = false
+               setNet()
+               sort()
            })
            .catch((e) => {
                console.error(e)
@@ -49,9 +63,23 @@ const fetchData = () => {
            })
 }
 
+ const scoreByHole = (scores, hole_no) => {
+     console.log(scores.find(e=>e.hole === hole_no).score)
+     return scores.find(e=>e.hole === hole_no).score
+ }
+const calculateHandy=(scores)=>{
+     //(隠しホールの合計スコアx1.5-72) x 0.8
+     let sum=0
+     peria_holes.value.forEach(h=>{
+         sum+=scoreByHole(scores.score,parseInt(h))
+     })
+
+     const hdcp=Math.round((sum*1.5-72)*0.8 *100)/100
+     return hdcp
+}
 const setNet = () => {
     members.value.forEach((e, i) => {
-        members.value[i]['net'] = members.value[i]['gross']
+        members.value[i]['net'] = members.value[i]['gross']-members.value[i]['hdcp']
     })
 }
 function dragList(e, i) {
@@ -72,6 +100,12 @@ const sort = () => {
         if (a.net < b.net) return -1
         return 0
     })
+
+     members.value.forEach((e,i)=>{
+         console.log(e.name, e.point)
+         e.point=members.value.length-i
+     })
+
 }
 
 const dragIndex = ref(null)
@@ -137,26 +171,32 @@ const today = new Date()
     <div>
         <h1 class="green">スコア編集</h1>
         <p>
-            <a href="https://boneandrea.github.io/gplus-golf-score/">ランキングページ</a>
+            <a href="https://boneandrea.github.io/gplus-golf-score/" target="_blank">ランキングページ</a>
         </p>
+        <h3 class="green">新ペリホール番号</h3>
+        <div class="form-group row peria">
+            <div v-for="(hole,index) in peria_holes.slice(0,6)" class="col-sm-2">
+                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index])}" type="number" v-model="peria_holes[index]" min="1" max="18" required>
+            </div>
+        </div>
+        <div class="form-group row peria">
+            <div v-for="(hole,index) in peria_holes.slice(6,12)" class="col-sm-2">
+                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index+6])}" type="number" v-model="peria_holes[index+6]" min="1" max="18" required>
+            </div>
+        </div>
+        <hr />
+        <h3 class="green">データ取得</h3>
         <div class="form-group row">
             <div class="col">
                 <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
             </div>
             <div class="col">
-                <button class="btn btn-primary" @click="fetchData" :disabled="spinner0 || spinner1">データ取得</button>
+                <button class="btn btn-primary" @click="fetchData" :disabled="incompletedPeriaHoles || spinner0 || spinner1">データ取得</button>
             </div>
             <div class="col">
                 <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
             </div>
         </div>
-        <p>やること：</p>
-        <ol>
-            <li>名前修正</li>
-            <li>ニアピン設定</li>
-            <li>HDCP入力</li>
-            <li>ソート</li>
-        </ol>
         <hr />
         <h2 v-if="game.date" class="green">
             {{ game.course }} {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
@@ -186,37 +226,28 @@ const today = new Date()
                         <input class="form-control responsive" type="text" style="min-width: 10em" v-model="member.name" />
                     </td>
                     <td>
-                        <input type="checkbox" @change="change(e, index, 0)" v-model="members[index].near0" />
-                        <input type="checkbox" @change="change(e, index, 1)" v-model="members[index].near1" />
+                      <input type="checkbox" @change="change(e, index, 0)" :checked="members[index].near0" />
+                      <input type="checkbox" @change="change(e, index, 1)" :checked="members[index].near1" />
                     </td>
                     <td class="col-xs-6">
                         <input type="checkbox" @change="change(e, index, 2)" :checked="members[index].near2" />
                         <input type="checkbox" @change="change(e, index, 3)" :checked="members[index].near3" />
                     </td>
                     <td>{{ member.gross }}</td>
-                    <td class="col-lg-2">
-                        <input
-                            class="form-control"
-                            style="min-width: 4em"
-                            type="number"
-                            v-model="member.hdcp"
-                            step="0.1"
-                            @input="hdcp(index)"
-                        />
-                    </td>
+                    <td>{{ member.hdcp }}</td>
                     <td>{{ member.net }}</td>
-                    <td>
-                        <input style="min-width: 4em" class="form-control col-xs-6" type="number" v-model="member.point" step="1" />
-                    </td>
+                    <td>{{ member.point }}</td>
                 </tr>
             </tbody>
         </table>
+        <p>やること：</p>
+        <ol>
+            <li>名前修正</li>
+            <li>ニアピン設定</li>
+        </ol>
         <div class="form-group row">
             <div class="col">
-                <button class="btn btn-success" @click="sort" :disabled="spinner0 || spinner1">NET順</button>
-            </div>
-            <div class="col">
-                <button class="btn btn-primary" @click="send" :disabled="spinner0 || spinner1">送信</button>
+                <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">送信</button>
             </div>
             <div class="col">
                 <div v-show="spinner1" class="spinner-border text-secondary" role="status" />
