@@ -1,0 +1,10 @@
+#mongosh mongodb://root:example@localhost:27018/admin
+mongosh mongodb://root:example@localhost:27018/admin --eval "db.runCommand({connectionStatus : 1})"
+
+
+db.runCommand({connectionStatus : 1})
+
+# これでもいい
+```
+docker run -p 27018:27017 -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+```
