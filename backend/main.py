@@ -32,20 +32,21 @@ app = Flask(__name__)
 # .envの`PORT`は勝手に読まれる
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
-print(FRONTEND_URL)
-print("Y", FRONTEND_URL)
-print("どうしよう", FRONTEND_URL)
+FRONTEND = 'https://frontend-dev-ce22.up.railway.app'
+
+print(FRONTEND)
+print("Y", FRONTEND)
+print("どうしよう", FRONTEND)
 
 
 @app.route('/api/puga', methods=["POST"])
-@cross_origin(origins=[FRONTEND_URL, "http://localhost:8003"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def puga():
     return jsonify({"fe", "hya"})
 
 
 @app.route('/api/get', methods=["POST"])
-@cross_origin(origins=["https://frontend-dev-ce22.up.railway.app",
-                       "http://localhost:8003"], methods=["GET", "POST"])
+@cross_origin(origins=["https://frontend-dev-ce22.up.railway.app", "http://localhost:8003"], methods=["GET", "POST"])
 def get():
     print("HOI")
     readdata()
@@ -82,7 +83,7 @@ def readdata():
 
 
 @app.route('/api/store', methods=["POST"])
-@cross_origin(origins=[FRONTEND_URL, "http://localhost:8003"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
         print("sending.....")
