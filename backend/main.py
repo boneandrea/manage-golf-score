@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import cross_origin
 from flask import request
+from flask_cors import CORS  # <-追加
 
 import os
 from database import *
@@ -34,9 +35,9 @@ app = Flask(__name__)
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 FRONTEND = 'https://frontend-dev-ce22.up.railway.app'
 
-print(FRONTEND)
-print("Y", FRONTEND)
-print("どうしよう", FRONTEND)
+# print(FRONTEND)
+# print("Y", FRONTEND)
+# print("どうしよう", FRONTEND)
 
 
 @app.route('/api/puga', methods=["POST"])
@@ -48,7 +49,6 @@ def puga():
 @app.route('/api/get', methods=["POST"])
 @cross_origin(origins=["https://frontend-dev-ce22.up.railway.app", "http://localhost:8003"], methods=["GET", "POST"])
 def get():
-    print("HOI")
     readdata()
     try:
         url = request.json["url"]
