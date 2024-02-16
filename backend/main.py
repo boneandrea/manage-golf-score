@@ -33,10 +33,8 @@ app = Flask(__name__)
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 print(FRONTEND_URL)
-print(FRONTEND_URL)
-print(FRONTEND_URL)
 print("Y", FRONTEND_URL)
-print("YNN", FRONTEND_URL)
+print("どうしよう", FRONTEND_URL)
 
 
 @app.route('/api/puga', methods=["POST"])
