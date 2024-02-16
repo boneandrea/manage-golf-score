@@ -10,7 +10,11 @@ const spinner1 = ref(false)
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
-const collectPeriaHoles = () => peria_holes.value.filter(e=>parseInt(e)>0).length === 12
+const collectPeriaHoles = () => {
+    const check={}
+     peria_holes.value.forEach(e=>check[e]=true)
+    return Object.keys(check).length === 12
+}
 const incompletedPeriaHoles=computed(()=>peria_holes.value.filter(e=>parseInt(e)>0).length < 12)
 const inValidPeriaHole=(e)=>{
     const ee=parseInt(e)
@@ -19,7 +23,7 @@ const inValidPeriaHole=(e)=>{
 
 const fetchData = () => {
      if(!collectPeriaHoles()){
-         alert("新ペリホールを全部指定してください")
+         alert("新ペリホールを正しく指定してください")
          return
      }
     if (!q('#url').value) {
@@ -176,7 +180,7 @@ const today = new Date()
         <h3 class="green">新ペリホール番号</h3>
         <div class="form-group row peria">
             <div v-for="(hole,index) in peria_holes.slice(0,6)" class="col-sm-2">
-                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index])}" type="number" v-model="peria_holes[index]" min="1" max="18" required>
+                <input class="form-control" :class="{'is-invalid': inValidPeriaHole(peria_holes[index])}" type="number" v-model="peria_holes[index]" min="1" max="18" required v-bind:autofocus="index===0">
             </div>
         </div>
         <div class="form-group row peria">
