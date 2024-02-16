@@ -13,5 +13,6 @@ RUN node -v
 
 COPY ./frontend /app
 WORKDIR /app
+RUN ls -l
 
 ENTRYPOINT ["./entrypoint_production.sh"]

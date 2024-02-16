@@ -31,7 +31,13 @@ app = Flask(__name__)
 
 # .envの`PORT`は勝手に読まれる
 
-FRONTEND = 'https://frontend-production-4b66.up.railway.app'
+FRONTEND = os.getenv("FRONTEND_URL")
+print(FRONTEND)
+print(FRONTEND)
+print(FRONTEND)
+print(FRONTEND)
+print(FRONTEND)
+print(FRONTEND)
 
 
 @app.route('/api/puga', methods=["POST"])

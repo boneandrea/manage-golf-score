@@ -7,6 +7,7 @@ const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
+console.log(process.env.VITE_API_ROOT)
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)

@@ -2,6 +2,7 @@
 
 set -eux
 
+env
 npm i
 npm run build
 
