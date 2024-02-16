@@ -2,10 +2,12 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile.dev
     ports:
       - "8003:5173"
     environment:
-        COMPOSER_PROCESS_TIMEOUT: 600
+      COMPOSER_PROCESS_TIMEOUT: 600
+      PORT: ${WEB_PORT:-3000}
     volumes:
       - ./frontend:/app
     depends_on:
@@ -14,6 +16,7 @@ services:
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile.dev
     ports:
       - 8004:8000
     volumes:
