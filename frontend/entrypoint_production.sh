@@ -7,7 +7,7 @@ npm i
 npm run build
 
 echo "server {
-	listen 80 default_server;
+	listen $PORT default_server;
 	root /app/dist;
 	index index.html;
 	server_name _;
