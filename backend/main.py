@@ -47,7 +47,7 @@ def puga():
 
 
 @app.route('/api/get', methods=["POST"])
-@cross_origin(origins=["https://frontend-dev-ce22.up.railway.app", "http://localhost:8003"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def get():
     readdata()
     try:
