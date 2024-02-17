@@ -12,18 +12,8 @@ libxcomposite-dev libxdamage1 libxrandr2 libgbm-dev libpangocairo-1.0-0 libasoun
 RUN apt upgrade -y && apt clean
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
-RUN pwd
-RUN ls /
-WORKDIR /app
-RUN ls
-RUN pwd
-RUN ls
-
-RUN pwd
-RUN ls
-
 WORKDIR /home
-
 ARG FRONTEND_URL
+
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
 ENTRYPOINT ["./entrypoint_dev.sh"]
