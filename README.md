@@ -4,12 +4,15 @@
 ランキング作成のため
 
 # 構成
+以下のモノレポ構成  
+localは`docker compose`, deployは`git push`でOK
+
 - front: Vue
 - back: Flask
 - DB: mongodb
 
 Railwayで稼働するため、`Dockerfile`と`Dockerfile.local`が別れている.  
-localでは`docker compose`で動作する
+localでは`docker compose`が`*/Dockerfile.local`を読んで動作する
 
 ## 環境変数
 
