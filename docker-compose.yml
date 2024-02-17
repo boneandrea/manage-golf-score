@@ -4,9 +4,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - "8003:5173"
+      - "${WEB_PORT:-3000}:5173"
     environment:
-      COMPOSER_PROCESS_TIMEOUT: 600
       PORT: ${WEB_PORT:-3000}
     volumes:
       - ./frontend:/app
@@ -20,18 +19,16 @@ services:
     ports:
       - 8004:8000
     volumes:
-      - ./backend:/app
+      - ./backend:/home
     depends_on:
       - mongodb
 
-# Use root/example as user/password credentials
   mongodb:
-    # build:
-    #   context: ./backend
     image: mongo:7.0.5
     ports:
       - 27018:27017
     environment:
+      # Use root/example as user/password credentials
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: adminpass
       TZ: Asia/Tokyo

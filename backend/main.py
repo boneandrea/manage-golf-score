@@ -33,7 +33,6 @@ app.logger.setLevel(logging.INFO)
 # .envの`PORT`は勝手に読まれる
 
 FRONTEND = os.getenv("FRONTEND_URL")
-app.logger.debug(FRONTEND)
 
 app.logger.debug("HELLO")
 app.logger.debug("HELLO")
@@ -44,13 +43,13 @@ app.logger.debug("HELLO")
 
 
 @ app.route('/api/puga', methods=["POST"])
-@ cross_origin(origins=[FRONTEND], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
 def puga():
-    return jsonify({"fe": "hya"})
+    return jsonify({"fe": FRONTEND})
 
 
 @app.route('/api/get', methods=["POST"])
-@cross_origin(origins=[FRONTEND], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
 def get():
     readdata()
     try:
@@ -86,7 +85,7 @@ def readdata():
 
 
 @ app.route('/api/store', methods=["POST"])
-@ cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
+@ cross_origin(origins=["http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
         app.logger.debug("sending.....")
