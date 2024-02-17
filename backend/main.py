@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import cross_origin
 from flask import request
-from flask_cors import CORS  # <-追加
 
 import os
 from database import *
@@ -9,8 +8,8 @@ from igolf import *
 from marshalI import *
 from golfweb import *
 
-# from logging.config import dictConfig
-
+# from logging.config import dictCjjjjonfig
+import logging
 # dictConfig({
 #     'version': 1,
 #     'formatters': {'default': {
@@ -29,25 +28,34 @@ from golfweb import *
 
 
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
 
 # .envの`PORT`は勝手に読まれる
 
 FRONTEND = os.getenv("FRONTEND_URL")
+app.logger.debug(FRONTEND)
+
+app.logger.debug("HELLO")
+app.logger.debug("HELLO")
+app.logger.debug("HELLO")
+app.logger.debug("HELLO")
+app.logger.debug("HELLO")
+app.logger.debug("HELLO")
 
 
-@app.route('/api/puga', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
+@ app.route('/api/puga', methods=["POST"])
+@ cross_origin(origins=[FRONTEND], methods=["GET", "POST"])
 def puga():
-    return jsonify({"fe", "hya"})
+    return jsonify({"fe": "hya"})
 
 
 @app.route('/api/get', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND], methods=["GET", "POST"])
 def get():
     readdata()
     try:
         url = request.json["url"]
-        print(f"fetching {url}....")
+        app.logger.debug(f"fetching {url}....")
         x = golfweb()
         scores = x.get_scores(url)
         return jsonify(scores)
@@ -59,7 +67,7 @@ def get():
         })
 
     except Exception as e:
-        print(e)
+        app.logger.debug(e)
         return jsonify({
             "status": "error",
             "reason": e
@@ -67,23 +75,23 @@ def get():
 
 
 def readdata():
-    print("read mongodb....")
+    app.logger.debug("read mongodb....")
     client = database().connect_db()
     db = client["score"]
     score = db["score"]
     items = score.find()
     for item in items:
-        print(item)
-    print(f"num of data: {score.count_documents({})}")
+        app.logger.debug(item)
+    app.logger.debug(f"num of data: {score.count_documents({})}")
 
 
-@app.route('/api/store', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
+@ app.route('/api/store', methods=["POST"])
+@ cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
-        print("sending.....")
+        app.logger.debug("sending.....")
         store_score(request.json)
-        print("sent")
+        app.logger.debug("sent")
         return jsonify({"status": "success"})
 
     except ValueError as e:
@@ -93,7 +101,7 @@ def store():
         })
 
     except Exception as e:
-        print(e)
+        app.logger.debug(e)
         return jsonify({
             "status": "error",
             "reason": e
