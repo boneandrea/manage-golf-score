@@ -4,7 +4,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - "${WEB_PORT:-3000}:5173"
+      - ${WEB_PORT:-3000}:5173
     environment:
       PORT: ${WEB_PORT:-3000}
     volumes:
@@ -17,7 +17,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     ports:
-      - 8004:8000
+      - ${API_PORT:-8004}:8000
     volumes:
       - ./backend:/home
     depends_on:
