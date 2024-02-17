@@ -16,4 +16,4 @@ WORKDIR /home
 ARG FRONTEND_URL
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
-ENTRYPOINT ["./entrypoint_dev.sh"]
+ENTRYPOINT ["./entrypoint_local.sh"]

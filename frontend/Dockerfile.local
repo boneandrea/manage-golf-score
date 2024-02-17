@@ -12,4 +12,4 @@ RUN node -v
 
 ARG PORT
 WORKDIR /app
-ENTRYPOINT ["./entrypoint_dev.sh"]
+ENTRYPOINT ["./entrypoint_local.sh"]

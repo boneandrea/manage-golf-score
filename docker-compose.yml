@@ -2,7 +2,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     ports:
       - ${WEB_PORT:-3000}:5173
     environment:
@@ -15,7 +15,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     ports:
       - ${API_PORT:-8004}:8000
     volumes:
