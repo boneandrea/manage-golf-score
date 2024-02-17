@@ -59,9 +59,9 @@ const fetchData = () => {
             if (data.status === 'error') {
                 throw new Error(data['reason'])
             }
-            data['scores'].forEach((e) => {
-                e.hdcp = calculateHandy(e)
-                members.value.push(e)
+            data['scores'].forEach((scores) => {
+                scores.hdcp = calculateHDCP(scores)
+                members.value.push(scores)
             })
             spinner0.value = false
             setNet()
@@ -77,15 +77,14 @@ const fetchData = () => {
 }
 
 const scoreByHole = (scores, hole_no) => scores.find((e) => e.hole === hole_no).score
-const calculateHandy = (scores) => {
+const calculateHDCP = (scores) => {
     //(隠しホールの合計スコアx1.5-72) x 0.8
     let sum = 0
     peria_holes.value.forEach((h) => {
         sum += scoreByHole(scores.score, parseInt(h))
     })
 
-    const hdcp = Math.round((sum * 1.5 - 72) * 0.8 * 100) / 100
-    return hdcp
+    return Math.round((sum * 1.5 - 72) * 0.8 * 100) / 100
 }
 const setNet = () => {
     members.value.forEach((e, i) => {
