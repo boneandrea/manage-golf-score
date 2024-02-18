@@ -2,9 +2,7 @@
 
 set -eux
 
-env
-npm i
-npm run build
+echo $BASIC_AUTH_PASSWORD | htpasswd -ci /etc/nginx/.htpasswd $BASIC_AUTH_USERNAME
 
 echo "server {
 	listen $PORT default_server;
@@ -12,7 +10,9 @@ echo "server {
 	index index.html;
 	server_name _;
 	location / {
-		try_files \$uri \$uri/ =404;
+    auth_basic	\"Restricted\";
+    auth_basic_user_file	/etc/nginx/.htpasswd;
+    try_files \$uri \$uri/ =404;
 	}
 }" >| /etc/nginx/conf.d/default.conf
 
