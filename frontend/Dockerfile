@@ -13,7 +13,7 @@ COPY ./frontend /app
 WORKDIR /app
 ARG BASIC_AUTH_PASSWORD
 ARG BASIC_AUTH_USERNAME
-ENV VITE_API_ROOT=https://backend-dev-0c68.up.railway.app/api
+ARG VITE_API_ROOT
 
 RUN npm i && npm run build
 ENTRYPOINT ["./entrypoint.sh"]
