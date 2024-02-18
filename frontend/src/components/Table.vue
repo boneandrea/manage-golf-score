@@ -107,6 +107,8 @@ const sort = () => {
     members.value.sort((a, b) => {
         if (a.net > b.net) return 1
         if (a.net < b.net) return -1
+        if (a.gross > b.gross) return 1
+        if (a.gross < b.gross) return -1
         return 0
     })
 
