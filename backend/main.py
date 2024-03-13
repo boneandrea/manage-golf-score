@@ -85,7 +85,7 @@ def readdata():
 
 
 @ app.route('/api/store', methods=["POST"])
-@ cross_origin(origins=["http://localhost:8003"], methods=["GET", "POST"])
+@ cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
         app.logger.debug("sending.....")
