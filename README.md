@@ -11,7 +11,7 @@ localは`docker compose`, deployは`git push`でOK
 - back: Flask
 - DB: mongodb
 
-Railwayで稼働するため、`Dockerfile`と`Dockerfile.local`が別れている.  
+Railwayで稼働するため、`Dockerfile`と`Dockerfile.local`が分かれている.  
 localでは`docker compose`が`*/Dockerfile.local`を読んで動作する
 
 ## 環境変数
