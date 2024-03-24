@@ -182,6 +182,9 @@ const today = new Date()
         <p>
             <a href="https://boneandrea.github.io/gplus-golf-score/" target="_blank">ランキングページ</a>
         </p>
+        <p>
+            <a href="./pdf">download</a>
+        </p>
         <h3 class="green">新ペリホール番号</h3>
         <div class="form-group row peria">
             <div v-for="(hole, index) in peria_holes.slice(0, 6)" class="col-sm-2">
