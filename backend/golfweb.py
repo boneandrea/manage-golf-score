@@ -3,6 +3,7 @@ from marshalI import *
 from urllib.parse import urlparse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import re
 
 
 class golfweb:
@@ -11,7 +12,7 @@ class golfweb:
         o = urlparse(url)
         if o.hostname == "v2anegasaki.igolfshaper.com":
             return igolf(url)
-        if o.hostname == "marshal-i.com":
+        if re.match("marshal-i.com", o.hostname):
             return marshalI(url)
 
         raise ValueError("Unhandled url")
