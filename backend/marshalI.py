@@ -88,6 +88,8 @@ class marshalI:
 
             gross = 0
             for i, s in enumerate(score):
+                if score[i] == "":
+                    continue
                 scores["score"].append({
                     "hole": i+1,
                     "score": int(score[i])+int(par[i-1]),
