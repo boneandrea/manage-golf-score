@@ -12,7 +12,7 @@ class golfweb:
         o = urlparse(url)
         if o.hostname == "v2anegasaki.igolfshaper.com":
             return igolf(url)
-        if re.match("marshal-i.com", o.hostname):
+        if re.search('marshal-i.com', o.hostname):
             return marshalI(url)
 
         raise ValueError("Unhandled url")
@@ -30,8 +30,9 @@ class golfweb:
 
 if __name__ == "__main__":
     x = golfweb()
+    # 新規URLをここでテストする
     r = x.get_scores(
         # 'https://marshal-i.com/ops/score/oakvillage_20231031_7bf14538'
-        'https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a'
+        "https://pgm.marshal-i.com/ops/score/kashimanomori_20240417_19e6694"
     )
     print(r)
