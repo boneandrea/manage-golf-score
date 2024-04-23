@@ -3,6 +3,10 @@ from flask_cors import cross_origin
 from flask import request
 
 from datetime import datetime
+from spire.doc import Document
+from spire.doc import FileFormat
+from spire.doc import XHTMLValidationType
+
 import os
 
 from database import *
@@ -114,6 +118,20 @@ def store_score(result):
         result["date"])  # from string to ISODate
     result["created_at"] = datetime.now()
     score.insert_one(result)
+
+
+@app.route('/api/pdf', methods=["GET"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET"])
+def download_pdf():
+    # Document クラスのオブジェクトを作成します
+    doc = Document()
+    # HTML ファイルを読み込みます
+    url = "https://boneandrea.github.io/gplus-golf-score/"
+    doc.LoadFromFile(url, FileFormat.Html, XHTMLValidationType.none)
+
+    # ファイルを PDF 形式に変換して保存します
+    doc.SaveToFile("/tmp/hoge.pdf", FileFormat.PDF)
+    doc.Close()
 
 
 if __name__ == '__main__':

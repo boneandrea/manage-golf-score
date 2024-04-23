@@ -13,6 +13,7 @@ import sys
 import re
 from database import *
 from util import *
+from base_score import *
 """
 Run:
 
@@ -24,11 +25,6 @@ $ pytest test.py # silent
 
 
 class igolf:
-    driver = None
-
-    def __init__(self, url):
-        self.url = url
-
     def get_par(self):
         self.driver = init_browser()
         self.driver.get(self.url)
@@ -102,6 +98,7 @@ class igolf:
 
             scores["scores"].append(data)
         self.driver.quit()
+        scores = self.after_filter(scores)
         return scores
 
     def get_basic_info(self):

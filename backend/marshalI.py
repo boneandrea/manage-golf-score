@@ -13,6 +13,7 @@ import sys
 import re
 from database import *
 from util import *
+from base_score import *
 """
 Run:
 
@@ -23,12 +24,7 @@ $ pytest test.py # silent
 """
 
 
-class marshalI:
-    driver = None
-
-    def __init__(self, url):
-        self.url = url
-
+class marshalI(base_score):
     def init_browser(self):
         global driver
         options = webdriver.chrome.options.Options()
@@ -99,4 +95,5 @@ class marshalI:
 
             results["scores"].append(scores)
         driver.quit()
+        results = self.after_filter(results)
         return results
