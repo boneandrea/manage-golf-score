@@ -10,11 +10,10 @@ class base_score():
     def get_scores(self):
         raise NotImplementedError("")
 
-    def after_filter(self, scores):
-        print("-----,,,,-")
-        print(scores["scores"])
+    def get_basic_info(self):
+        raise NotImplementedError("")
 
-        print(list(filter(lambda x: len(x["score"]) == 18, scores["scores"])))
+    def after_filter(self, scores):
         played_scores = list(
             filter(lambda x: len(x["score"]) == 18, scores["scores"]))
         scores["scores"] = played_scores
