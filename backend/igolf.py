@@ -71,7 +71,7 @@ class igolf:
             score = []
             for td in tds:
                 score.append(td.get_attribute(
-                    "innerText").replace('\u3000', ''))
+                    "innerText").replace('\u3000', '').replace(' ', ''))
             score.pop(0)
             del score[1:6]
             score.pop(10)

@@ -66,7 +66,7 @@ class marshalI(base_score):
 
         for i in range(0, num_player):
             name = tr[i].find_elements(By.TAG_NAME, "td")[
-                1].get_attribute("innerText").replace('\u3000', '')
+                1].get_attribute("innerText").replace('\u3000', '').replace(' ', '')
             td = tr[i].find_elements(By.TAG_NAME, "td")
             score = []
             for j in range(0, 20):
