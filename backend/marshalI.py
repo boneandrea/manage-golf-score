@@ -81,19 +81,20 @@ class marshalI(base_score):
                 "score": [],
                 "gross": 0
             }
-
-            gross = 0
             for i, s in enumerate(score):
-                if score[i] == "":
+                if s == "":
                     continue
-                scores["score"].append({
+                sss = int(score[i])+int(par[i])
+                ss = {
                     "hole": i+1,
-                    "score": int(score[i])+int(par[i-1]),
-                    "prize": prize(par[i-1], int(score[i])+int(par[i-1]))
-                })
-                scores["gross"] += int(score[i])+int(par[i-1])
+                    "score": sss,
+                    "prize": prize(par[i], int(sss))
+                }
+                scores["score"].append(ss)
+                scores["gross"] += sss
 
             results["scores"].append(scores)
+
         driver.quit()
         results = self.after_filter(results)
         return results
