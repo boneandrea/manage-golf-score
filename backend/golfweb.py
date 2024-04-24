@@ -35,4 +35,7 @@ if __name__ == "__main__":
         # 'https://marshal-i.com/ops/score/oakvillage_20231031_7bf14538'
         "https://pgm.marshal-i.com/ops/score/kashimanomori_20240417_19e6694#"
     )
-    print(r)
+    for s in r["scores"]:
+        print(s["name"], s["gross"])
+        for ss in s["score"]:
+            print(ss)
