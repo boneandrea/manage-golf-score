@@ -139,10 +139,7 @@ const dragEnter = (index) => {
     dragIndex.value = index
 }
 
-const changeEdit = (e) => {
-    console.log(e.target.value)
-    edit_mode.value = e.target.value
-}
+const changeEdit = (e) => edit_mode.value = e.target.value
 
 function send() {
     console.log(members.value)
@@ -354,6 +351,6 @@ h1 {
     margin-top: 0.5em;
 }
 .edit-mode {
-    width: 120px;
+    width: 200px;
 }
 </style>
