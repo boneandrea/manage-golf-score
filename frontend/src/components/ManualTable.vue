@@ -70,7 +70,7 @@ const setNearpin = (hole, player_index) => {
     }
 }
 const helpNearpin = () => {
-    alert('ニアピン対象ホール番号をクリックしてください\nそのあと、スコアの近くをクリックして下さい')
+    alert('ニアピン対象ホール番号をクリックしてください\nそのあと、該当ホールのスコアのマスをクリックして下さい')
 }
  const setNearpinHoleNumber = (hole) => {
     if (nearpin.value.includes(hole)) {
@@ -221,7 +221,7 @@ const removePlayer = (index) => {
         <div class="form-group row">
             <button type="button" class="btn btn-primary btn-lg mx-2" @click="addPlayer">Add Player</button>
             <button type="button" class="btn btn-primary btn-lg mx-2" @click="sort">Sort</button>
-            <button type="button" class="btn btn-primary btn-lg mx-2" @click="helpNearpin">Set ニアピンホール</button>
+            <button type="button" class="btn btn-info btn-lg mx-2" @click="helpNearpin">Set ニアピンホール</button>
         </div>
 
         <hr />
