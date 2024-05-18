@@ -8,7 +8,7 @@ const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
-const edit_mode = ref('manual')
+const edit_mode = ref('url')
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
@@ -203,6 +203,19 @@ const today = new Date()
                     max="18"
                     required
                     v-bind:autofocus="index === 0"
+                />
+            </div>
+        </div>
+        <div class="form-group row peria">
+            <div v-for="(hole, index) in peria_holes.slice(6, 12)" class="col-sm-2">
+                <input
+                    class="form-control"
+                    :class="{ 'is-invalid': inValidPeriaHole(peria_holes[index + 6]) }"
+                    type="number"
+                    v-model="peria_holes[index + 6]"
+                    min="1"
+                    max="18"
+                    required
                 />
             </div>
         </div>

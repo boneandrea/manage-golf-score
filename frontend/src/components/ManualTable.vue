@@ -45,12 +45,20 @@ const score = ref([
             null,
             null,
         ],
+        gross: 0,
+        hdcp: 0,
+        net: 0,
     },
 ])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
-const dump = () => {
+const changeHdcp = (index) => {
+    score.value[index].net = score.value[index].gross - parseFloat(score.value[index].hdcp)
+}
+const dump = (index) => {
     console.log(par.value)
-    console.log(score.value[0].score)
+    score.value[index].gross = score.value[index].score.reduce(function (sum, element) {
+        return sum + element
+    }, 0)
 }
 /*
    3 holeの場合
@@ -88,9 +96,11 @@ const removePlayer = (index) => {
                         <input class="form-control" type="number" min="1" max="6" required v-model="par[index]" />
                     </td>
                 </tr>
-                <tr v-for="(s, index) in score">
+                <tr v-for="(s, player_index) in score">
                     <td>
-                        <button type="button" class="btn btn-danger btn-lg" @click="removePlayer(index)">Remove</button>
+                        <button type="button" class="btn btn-danger btn-lg" @click="removePlayer(player_index)">
+                            Remove
+                        </button>
                     </td>
                     <td>
                         <input class="form-control name" placeholder="name" v-model="s.name" required />
@@ -103,17 +113,24 @@ const removePlayer = (index) => {
                             min="1"
                             max="18"
                             required
-                            @change="dump"
+                            @change="dump(player_index)"
                         />
                     </td>
                     <td>
-                        {{ 55 }}
+                        {{ s.gross }}
                     </td>
                     <td>
-                        <input class="form-control" type="number" min="1" max="18" required />
+                        <input
+                            class="form-control hdcp"
+                            type="number"
+                            step="0.1"
+                            required
+                            v-model="s.hdcp"
+                            @change="changeHdcp(player_index)"
+                        />
                     </td>
                     <td>
-                        {{ 55 }}
+                        {{ s.net }}
                     </td>
                 </tr>
             </tbody>
@@ -128,9 +145,12 @@ const removePlayer = (index) => {
 </template>
 <style scoped>
 table input {
-    width: 50px;
+    width: 5em;
 }
 table input.name {
     width: 100px;
+}
+table input.hdcp {
+    width: 7em;
 }
 </style>
