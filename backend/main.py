@@ -2,7 +2,10 @@ from flask import Flask, jsonify
 from flask_cors import cross_origin
 from flask import request
 
+from datetime import datetime
+
 import os
+
 from database import *
 from igolf import *
 from marshalI import *
@@ -33,12 +36,7 @@ app.logger.setLevel(logging.INFO)
 # .envの`PORT`は勝手に読まれる
 
 FRONTEND = os.getenv("FRONTEND_URL")
-
-app.logger.debug("HELLO")
-app.logger.debug("HELLO")
-app.logger.debug("HELLO")
-app.logger.debug("HELLO")
-app.logger.debug("HELLO")
+print(FRONTEND)
 app.logger.debug("HELLO")
 
 
@@ -51,7 +49,7 @@ def puga():
 @app.route('/api/get', methods=["POST"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
 def get():
-    readdata()
+    # readdata()
     try:
         url = request.json["url"]
         app.logger.debug(f"fetching {url}....")
@@ -115,7 +113,7 @@ def store_score(result):
     import dateutil.parser
     result["date"] = dateutil.parser.parse(
         result["date"])  # from string to ISODate
-
+    result["created_at"] = datetime.now()
     score.insert_one(result)
 
 

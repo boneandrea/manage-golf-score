@@ -3,6 +3,7 @@ from marshalI import *
 from urllib.parse import urlparse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import re
 
 
 class golfweb:
@@ -11,7 +12,7 @@ class golfweb:
         o = urlparse(url)
         if o.hostname == "v2anegasaki.igolfshaper.com":
             return igolf(url)
-        if o.hostname == "marshal-i.com":
+        if re.search('.*marshal-i.com', o.hostname):
             return marshalI(url)
 
         raise ValueError("Unhandled url")
@@ -29,8 +30,12 @@ class golfweb:
 
 if __name__ == "__main__":
     x = golfweb()
+    # 新規URLをここでテストする
     r = x.get_scores(
         # 'https://marshal-i.com/ops/score/oakvillage_20231031_7bf14538'
-        'https://v2anegasaki.igolfshaper.com/anegasaki/score/2nf6slre#/landscape-a'
+        "https://pgm.marshal-i.com/ops/score/kashimanomori_20240417_19e6694#"
     )
-    print(r)
+    for s in r["scores"]:
+        print(s["name"], s["gross"])
+        for ss in s["score"]:
+            print(ss)

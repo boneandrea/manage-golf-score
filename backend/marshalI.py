@@ -13,6 +13,7 @@ import sys
 import re
 from database import *
 from util import *
+from base_score import *
 """
 Run:
 
@@ -23,12 +24,7 @@ $ pytest test.py # silent
 """
 
 
-class marshalI:
-    driver = None
-
-    def __init__(self, url):
-        self.url = url
-
+class marshalI(base_score):
     def init_browser(self):
         global driver
         options = webdriver.chrome.options.Options()
@@ -70,7 +66,7 @@ class marshalI:
 
         for i in range(0, num_player):
             name = tr[i].find_elements(By.TAG_NAME, "td")[
-                1].get_attribute("innerText").replace('\u3000', '')
+                1].get_attribute("innerText").replace('\u3000', '').replace(' ', '')
             td = tr[i].find_elements(By.TAG_NAME, "td")
             score = []
             for j in range(0, 20):
@@ -85,16 +81,20 @@ class marshalI:
                 "score": [],
                 "gross": 0
             }
-
-            gross = 0
             for i, s in enumerate(score):
-                scores["score"].append({
+                if s == "":
+                    continue
+                sss = int(score[i])+int(par[i])
+                ss = {
                     "hole": i+1,
-                    "score": int(score[i])+int(par[i-1]),
-                    "prize": prize(par[i-1], int(score[i])+int(par[i-1]))
-                })
-                scores["gross"] += int(score[i])+int(par[i-1])
+                    "score": sss,
+                    "prize": prize(par[i], int(sss))
+                }
+                scores["score"].append(ss)
+                scores["gross"] += sss
 
             results["scores"].append(scores)
+
         driver.quit()
+        results = self.after_filter(results)
         return results
