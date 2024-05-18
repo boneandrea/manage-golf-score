@@ -136,7 +136,8 @@ const addPlayer = () => {
   })
 }
 const removePlayer = (index) => {
-  if (!confirm('remove OK?')) return
+  const name = score.value[index].name
+  if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
   score.value.splice(index, 1)
 }
 </script>
@@ -219,6 +220,9 @@ const removePlayer = (index) => {
   </div>
 </template>
 <style scoped>
+td {
+  vertical-align: middle !important;
+}
 table input {
   width: 5em;
 }
