@@ -222,7 +222,7 @@ const today = new Date()
         <hr />
         <h2 class="green">RESULT</h2>
 
-        <div class="w-25 mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+        <div class="edit-mode mb-3 btn-group btn-group-toggle" data-toggle="buttons">
             <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
                 <input type="radio" value="url" name="options" id="option1" autocomplete="off" checked /> URL
             </label>
@@ -349,5 +349,8 @@ td {
 }
 h1 {
     margin-top: 0.5em;
+}
+.edit-mode {
+    width: 120px;
 }
 </style>

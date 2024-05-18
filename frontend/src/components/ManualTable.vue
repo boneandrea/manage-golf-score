@@ -54,13 +54,38 @@ const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
     score.value[index].net = score.value[index].gross - parseFloat(score.value[index].hdcp)
 }
-const dump = (index) => {
-    console.log(par.value)
-    const gross = score.value[index].score.reduce(function (sum, element) {
+const getPrize = (par, shot) => {
+    const diff = par - shot
+    if (shot === 1) return 'HOLEINONE'
+
+    switch (diff) {
+        case -3:
+            return 'TB'
+        case -2:
+            return 'DB'
+        case -1:
+            return 'B'
+        case 0:
+            return 'par'
+        case 1:
+            return 'birdie'
+        case 2:
+            return 'eagle'
+        case 3:
+            return 'ALBATROSS'
+        default:
+            return null
+    }
+}
+const dump = (player_index, hole_index) => {
+    const gross = score.value[player_index].score.reduce(function (sum, element) {
         return sum + element
     }, 0)
-    score.value[index].gross = gross
-    score.value[index].net = gross - score.value[index].hdcp
+    score.value[player_index].gross = gross
+    score.value[player_index].net = gross - score.value[player_index].hdcp
+
+    const prize = getPrize(par.value[hole_index], score.value[player_index].score[hole_index])
+    console.log(prize)
 }
 const sort = () => {
     score.value.sort((a, b) => a.net - b.net)
@@ -124,7 +149,7 @@ const removePlayer = (index) => {
                             min="1"
                             max="20"
                             required
-                            @change="dump(player_index)"
+                            @change="dump(player_index, hole_index)"
                         />
                     </td>
                     <td>
