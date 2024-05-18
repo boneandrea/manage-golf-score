@@ -35,7 +35,9 @@ const score = ref([
 ])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
-  score.value[index].net = score.value[index].gross - parseFloat(score.value[index].hdcp)
+  score.value[index].net = (
+    Math.round((score.value[index].gross - parseFloat(score.value[index].hdcp)) * 10) / 10
+  ).toFixed(1)
 }
 const checkNearpin = (hole, player_index) =>
   nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)
