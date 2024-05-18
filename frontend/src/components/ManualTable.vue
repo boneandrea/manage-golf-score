@@ -70,7 +70,7 @@ const setNearpin = (hole, player_index) => {
     }
 }
 const helpNearpin = () => {
-    alert('ニアピン対象ホール番号をクリックしてください')
+    alert('ニアピン対象ホール番号をクリックしてください\nそのあと、スコアの近くをクリックして下さい')
 }
 const setNearpinHole = (hole) => {
     if (nearpin.value.includes(hole)) {
