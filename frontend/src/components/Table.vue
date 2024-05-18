@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
@@ -7,9 +8,11 @@ const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
+const edit_mode = ref('url')
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
+
 const collectPeriaHoles = () => {
     const check = {}
     peria_holes.value.forEach((e) => (check[e] = true))
@@ -91,10 +94,6 @@ const setNet = () => {
         members.value[i]['net'] = members.value[i]['gross'] - members.value[i]['hdcp']
     })
 }
-function dragList(e, i) {
-    console.log(e, i)
-    console.log(members.value)
-}
 
 function change(e, i, nearPinIndex) {
     if (nearPinIndex === 0) members.value[i].near0 = true
@@ -119,6 +118,11 @@ const sort = () => {
 
 const dragIndex = ref(null)
 
+function dragList(e, i) {
+    console.log(e, i)
+    console.log(members.value)
+}
+
 const dragStart = (index) => {
     console.log('drag start', index)
     dragIndex.value = index
@@ -133,6 +137,11 @@ const dragEnter = (index) => {
     const deleteElement = members.value.splice(dragIndex.value, 1)[0]
     members.value.splice(index, 0, deleteElement)
     dragIndex.value = index
+}
+
+const changeEdit = (e) => {
+    console.log(e.target.value)
+    edit_mode.value = e.target.value
 }
 
 function send() {
@@ -177,7 +186,7 @@ function send() {
 const today = new Date()
 </script>
 <template>
-    <div>
+    <div style="width: 100%">
         <h1 class="green">スコア編集</h1>
         <p>
             <a href="https://boneandrea.github.io/gplus-golf-score/" target="_blank">ランキングページ</a>
@@ -214,8 +223,18 @@ const today = new Date()
             </div>
         </div>
         <hr />
-        <h3 class="green">データ取得</h3>
-        <div class="form-group row">
+        <h2 class="green">RESULT</h2>
+
+        <div class="edit-mode mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
+                <input type="radio" value="url" name="options" id="option1" autocomplete="off" checked /> URL
+            </label>
+            <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'manual' }" @change="changeEdit">
+                <input type="radio" value="manual" name="options" id="option2" autocomplete="off" /> Manual
+            </label>
+        </div>
+
+        <div class="form-group row" v-if="edit_mode === 'url'">
             <div class="col">
                 <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
             </div>
@@ -231,6 +250,9 @@ const today = new Date()
             <div class="col">
                 <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
             </div>
+        </div>
+        <div class="form-group row" v-if="edit_mode === 'manual'">
+            <ManualTable class="ml-auto" />
         </div>
         <hr />
         <h2 v-if="game.date" class="green">
@@ -287,7 +309,11 @@ const today = new Date()
         </ol>
         <div class="form-group row">
             <div class="col">
-                <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
+                <button
+                    class="btn btn-primary btn-lg"
+                    @click="send"
+                    :disabled="incompletedPeriaHoles || spinner0 || spinner1"
+                >
                     送信
                 </button>
             </div>
@@ -326,5 +352,8 @@ td {
 }
 h1 {
     margin-top: 0.5em;
+}
+.edit-mode {
+    width: 120px;
 }
 </style>
