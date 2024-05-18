@@ -8,7 +8,7 @@ const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
-const edit_mode = ref('url')
+const edit_mode = ref('manual')
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
@@ -222,11 +222,11 @@ const today = new Date()
         <hr />
         <h2 class="green">RESULT</h2>
 
-        <div class="mb-3 btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
+        <div class="w-25 mb-3 btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
                 <input type="radio" value="url" name="options" id="option1" autocomplete="off" checked /> URL
             </label>
-            <label class="btn btn-secondary" :class="{ active: edit_mode === 'manual' }" @change="changeEdit">
+            <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'manual' }" @change="changeEdit">
                 <input type="radio" value="manual" name="options" id="option2" autocomplete="off" /> Manual
             </label>
         </div>
@@ -306,7 +306,11 @@ const today = new Date()
         </ol>
         <div class="form-group row">
             <div class="col">
-                <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
+                <button
+                    class="btn btn-primary btn-lg"
+                    @click="send"
+                    :disabled="incompletedPeriaHoles || spinner0 || spinner1"
+                >
                     送信
                 </button>
             </div>
