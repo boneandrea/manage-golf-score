@@ -44,10 +44,16 @@ const setNearpin = (hole, player_index) => {
   if (event.target.tagName.toUpperCase() !== 'TD') return
   if (!nearpin.value.includes(hole)) return
 
+  // toggle
   if (nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)) {
     const index = nearpinPlayer.value.findIndex((e) => e.player === player_index && e.hole === hole)
     nearpinPlayer.value.splice(index, 1)
   } else {
+    // 既存のニアピンユーザがいた場合
+    const existPlayerIndex = nearpinPlayer.value.findIndex((e) => e.hole === hole)
+    if (existPlayerIndex !== -1) {
+      nearpinPlayer.value.splice(existPlayerIndex, 1)
+    }
     nearpinPlayer.value.push({ player: player_index, hole: hole })
   }
 }
