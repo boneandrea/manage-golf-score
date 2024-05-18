@@ -76,10 +76,21 @@ const helpNearpin = () => {
     if (nearpin.value.includes(hole)) {
         const index = nearpin.value.findIndex((e) => e === hole)
         nearpin.value.splice(index, 1)
+        clear_related_nearpin(hole)
     } else {
         nearpin.value.push(hole)
     }
-}
+ }
+
+ // hole=N をニアピン対象から外した場合、ホールNのニアピン設定を全て消す
+ const clear_related_nearpin=(hole)=>{
+     const length = nearpinPlayer.value.length
+     for(let i=0; i<length;i++){
+         if(nearpinPlayer.value[0].hole === hole)
+             nearpinPlayer.value.splice(0, 1) // spliceは破壊的なので0だけ見る
+     }
+ }
+
 const getPrize = (par, shot) => {
     const diff = par - shot
     if (shot === 1) return 'HOLEINONE'
