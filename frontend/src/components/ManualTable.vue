@@ -56,9 +56,14 @@ const changeHdcp = (index) => {
 }
 const dump = (index) => {
     console.log(par.value)
-    score.value[index].gross = score.value[index].score.reduce(function (sum, element) {
+    const gross = score.value[index].score.reduce(function (sum, element) {
         return sum + element
     }, 0)
+    score.value[index].gross = gross
+    score.value[index].net = gross - score.value[index].hdcp
+}
+const sort = () => {
+    score.value.sort((a, b) => a.net - b.net)
 }
 /*
    3 holeの場合
@@ -68,7 +73,13 @@ const dump = (index) => {
    ]
  */
 const addPlayer = () => {
-    score.value.push({ name: '', score: [] })
+    score.value.push({
+        name: '',
+        score: [],
+        gross: 0,
+        hdcp: 0,
+        net: 0,
+    })
 }
 const removePlayer = (index) => {
     if (!confirm('remove OK?')) return
@@ -111,7 +122,7 @@ const removePlayer = (index) => {
                             type="number"
                             v-model="s['score'][hole_index]"
                             min="1"
-                            max="18"
+                            max="20"
                             required
                             @change="dump(player_index)"
                         />
@@ -135,7 +146,11 @@ const removePlayer = (index) => {
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary btn-lg" @click="addPlayer">Add Player</button>
+        <div class="form-group row">
+            <button type="button" class="btn btn-primary btn-lg mx-2" @click="addPlayer">Add Player</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" @click="sort">Sort</button>
+        </div>
+
         <hr />
         <p>やること：</p>
         <ul>
