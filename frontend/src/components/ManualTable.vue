@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
+const nearpin = ref([])
+const nearpinPlayer = ref([])
 const par = ref([
     null,
     null,
@@ -54,6 +56,31 @@ const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
     score.value[index].net = score.value[index].gross - parseFloat(score.value[index].hdcp)
 }
+const checkNearpin = (hole, player_index) =>
+    nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)
+
+const setNearpin = (hole, player_index) => {
+    console.log(nearpin.value, hole)
+    if (!nearpin.value.includes(hole)) return
+    if (nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)) {
+        const index = nearpinPlayer.value.findIndex((e) => e.player === player_index && e.hole === hole)
+        nearpinPlayer.value.splice(index, 1)
+    } else {
+        nearpinPlayer.value.push({ player: player_index, hole: hole })
+    }
+}
+const helpNearpin = () => {
+    alert('ニアピン対象ホール番号をクリックしてください')
+}
+const setNearpinHole = (hole) => {
+    if (nearpin.value.includes(hole)) {
+        console.log(nearpin.value)
+        const index = nearpin.value.findIndex((e) => e === hole)
+        nearpin.value.splice(index, 1)
+    } else {
+        nearpin.value.push(hole)
+    }
+}
 const getPrize = (par, shot) => {
     const diff = par - shot
     if (shot === 1) return 'HOLEINONE'
@@ -85,7 +112,10 @@ const dump = (player_index, hole_index) => {
     score.value[player_index].net = gross - score.value[player_index].hdcp
 
     const prize = getPrize(par.value[hole_index], score.value[player_index].score[hole_index])
-    console.log(prize)
+    if (prize === 'birdie') {
+    }
+    if (prize === 'B') {
+    }
 }
 const sort = () => {
     score.value.sort((a, b) => a.net - b.net)
@@ -118,7 +148,9 @@ const removePlayer = (index) => {
                 <tr class="text-center">
                     <th />
                     <th />
-                    <th v-for="h in holes">{{ h }}</th>
+                    <th v-for="h in holes" @click="setNearpinHole(h)">
+                        {{ h }}<span v-show="nearpin.includes(h)">[N]</span>
+                    </th>
                     <th>GROSS</th>
                     <th>HDCP</th>
                     <th>NET</th>
@@ -141,9 +173,14 @@ const removePlayer = (index) => {
                     <td>
                         <input class="form-control name" placeholder="name" v-model="s.name" required />
                     </td>
-                    <td v-for="(hole, hole_index) in holes">
+                    <td
+                        v-for="(hole, hole_index) in holes"
+                        :class="{ nearpin: checkNearpin(hole, player_index) }"
+                        @click="setNearpin(hole, player_index)"
+                        title="ニアピンにする場合はクリック"
+                    >
                         <input
-                            class="form-control"
+                            class="form-control score"
                             type="number"
                             v-model="s['score'][hole_index]"
                             min="1"
@@ -174,6 +211,7 @@ const removePlayer = (index) => {
         <div class="form-group row">
             <button type="button" class="btn btn-primary btn-lg mx-2" @click="addPlayer">Add Player</button>
             <button type="button" class="btn btn-primary btn-lg mx-2" @click="sort">Sort</button>
+            <button type="button" class="btn btn-primary btn-lg mx-2" @click="helpNearpin">Set ニアピンホール</button>
         </div>
 
         <hr />
@@ -192,5 +230,12 @@ table input.name {
 }
 table input.hdcp {
     width: 7em;
+}
+
+table input.birdie {
+    color: blue;
+}
+td.nearpin {
+    background: green;
 }
 </style>
