@@ -60,7 +60,7 @@ const checkNearpin = (hole, player_index) =>
     nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)
 
 const setNearpin = (hole, player_index) => {
-    console.log(nearpin.value, hole)
+     if(event.target.tagName.toUpperCase() !== "TD") return
     if (!nearpin.value.includes(hole)) return
     if (nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)) {
         const index = nearpinPlayer.value.findIndex((e) => e.player === player_index && e.hole === hole)
@@ -72,9 +72,8 @@ const setNearpin = (hole, player_index) => {
 const helpNearpin = () => {
     alert('ニアピン対象ホール番号をクリックしてください\nそのあと、スコアの近くをクリックして下さい')
 }
-const setNearpinHole = (hole) => {
+ const setNearpinHoleNumber = (hole) => {
     if (nearpin.value.includes(hole)) {
-        console.log(nearpin.value)
         const index = nearpin.value.findIndex((e) => e === hole)
         nearpin.value.splice(index, 1)
     } else {
@@ -128,7 +127,7 @@ const sort = () => {
    ]
  */
 const addPlayer = () => {
-    score.value.push({
+     score.value.push({
         name: '',
         score: [],
         gross: 0,
@@ -148,7 +147,7 @@ const removePlayer = (index) => {
                 <tr class="text-center">
                     <th />
                     <th />
-                    <th v-for="h in holes" @click="setNearpinHole(h)">
+                    <th v-for="h in holes" @click="setNearpinHoleNumber(h)">
                         {{ h }}<span v-show="nearpin.includes(h)">[N]</span>
                     </th>
                     <th>GROSS</th>
