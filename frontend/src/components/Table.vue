@@ -141,7 +141,13 @@ const dragEnter = (index) => {
 
 const changeEdit = (e) => (edit_mode.value = e.target.value)
 
+const create_data = () => {}
 function send() {
+  if (edit_mode.value === 'manual') {
+    const data = create_data()
+    console.log(data)
+    return
+  }
   console.log(members.value)
   if (!confirm('送信してよいですか？')) return
   const apiUrl = `${API_ROOT}/store`
