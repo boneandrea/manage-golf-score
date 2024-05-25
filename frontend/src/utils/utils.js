@@ -1,22 +1,23 @@
 export const getPrize= (par, shot)=> {
-  const diff = par - shot
   if (shot === 1) return 'HOLEINONE'
+  const diff = shot - par
+
 
   switch (diff) {
   case -3:
-    return 'TB'
+    return "ALBATROSS"
   case -2:
-    return 'DB'
+    return "EAGLE"
   case -1:
-    return 'B'
+    return "BIRDIE"
   case 0:
-    return 'par'
+    return "PAR"
   case 1:
-    return 'birdie'
+    return "BOGEY"
   case 2:
-    return 'eagle'
+    return "DOUBLEBOGEY"
   case 3:
-    return 'ALBATROSS'
+    return "TRIPLEBOGEY"
   default:
     return null
   }

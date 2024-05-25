@@ -81,7 +81,12 @@ const fetchData = () => {
     })
 }
 
-const scoreByHole = (scores, hole_no) => scores.find((e) => e.hole === hole_no).score
+const scoreByHole = (scores, hole_no) => {
+  console.log(scores)
+  console.log(scores)
+  console.log(scores)
+  return scores.find((e) => e.hole === hole_no).score
+}
 const calculateHDCP = (scores) => {
   //(隠しホールの合計スコアx1.5-72) x 0.8
   let sum = 0
@@ -143,13 +148,35 @@ const dragEnter = (index) => {
 
 const changeEdit = (e) => (edit_mode.value = e.target.value)
 
-const create_data = () => {}
+const create_data = (scores, par, nearpin) => {
+  return scores.map((s) => {
+    const personal_scores = s.score.map((ss, index) => ({
+      hole: index + 1,
+      prize: getPrize(par[index], ss),
+      score: ss,
+    }))
+    console.log(personal_scores)
+    console.log(personal_scores)
+    console.log(personal_scores)
+
+    const data = {
+      name: s.name,
+      score: personal_scores,
+      gross: s.gross,
+      hdcp: 0,
+      net: 999,
+      point: 999,
+    }
+    data.hdcp = calculateHDCP(data)
+    members.value.push(data)
+  })
+}
 const updateManualNearpin = (score, par, nearpin) => {
   nearpin.forEach((n) => {
-    console.log(n.player)
+    //    console.log(n.player)
     members.value[n.player]['nearx'] = !members.value[n.player]['nearx']
-    console.log(members.value[n.player])
-    console.log(members.value[n.player]['nearx'])
+    /* console.log(members.value[n.player])
+     * console.log(members.value[n.player]['nearx']) */
   })
   xxx.value.puga = !xxx.value.puga
 }
@@ -158,37 +185,22 @@ function updateManualData(score, par, nearpin) {
   updateManualNearpin(score, par, nearpin)
   members.value.splice(0)
 
-  score.forEach((scores) => {
-    console.log(scores)
-    const s = scores.score.map((s, i) => ({
-      hole: i + 1,
-      score: s,
-      prize: getPrize(par[i], s),
-    }))
-    const player = {
-      name: scores.name,
-      score: s,
-      gross: scores.gross,
-    }
-    player.hdcp = calculateHDCP(player)
-    members.value.push(player)
-    setNet()
-  })
+  //TODO: create as SAMPLE.json
+  console.log('HI')
+  console.log(score, par, nearpin)
+  const data = create_data(score, par, nearpin)
+  console.log(data)
+
+  setNet()
 
   if (!game.value.date) game.value.date = new Date()
 
-  //TODO: create as SAMPLE.json
   console.log(members.value)
   console.log(game.value)
   sort()
 }
 
 function send() {
-  if (edit_mode.value === 'manual') {
-    const data = create_data()
-    console.log(data)
-    return
-  }
   console.log(members.value)
   if (!confirm('送信してよいですか？')) return
   const apiUrl = `${API_ROOT}/store`
@@ -296,7 +308,7 @@ const today = new Date()
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
-      {{ game.course }} {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
+      [{{ game.course }}] {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
     </h2>
     <table class="table table-striped table-bordered">
       <thead>

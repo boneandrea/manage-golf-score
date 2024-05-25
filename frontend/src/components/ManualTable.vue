@@ -1,35 +1,24 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
+import { getPrize } from '@/utils/utils'
 const emit = defineEmits(['updateManualData'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
 const nearpin = ref([])
 const nearpinPlayer = ref([])
-const par = ref([
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-])
+const par = ref([4, 5, 3, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
 const score = ref([
   {
-    name: '',
-    score: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    gross: 0,
+    name: 'AAA',
+    score: [5, 5, 5, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    gross: 15,
+    hdcp: 0,
+    net: 0,
+  },
+  {
+    name: 'BBB',
+    score: [2, 2, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    gross: 6,
     hdcp: 0,
     net: 0,
   },
@@ -81,29 +70,6 @@ const clear_related_nearpin = (hole) => {
   }
 }
 
-const getPrize = (par, shot) => {
-  const diff = par - shot
-  if (shot === 1) return 'HOLEINONE'
-
-  switch (diff) {
-    case -3:
-      return 'TB'
-    case -2:
-      return 'DB'
-    case -1:
-      return 'B'
-    case 0:
-      return 'par'
-    case 1:
-      return 'birdie'
-    case 2:
-      return 'eagle'
-    case 3:
-      return 'ALBATROSS'
-    default:
-      return null
-  }
-}
 const dump = (player_index, hole_index) => {
   const gross = score.value[player_index].score.reduce(function (sum, element) {
     return sum + element
