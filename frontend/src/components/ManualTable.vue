@@ -6,11 +6,11 @@ const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s)
 const HOLE = 18
 const nearpin = ref([])
 const nearpinPlayer = ref([])
-const par = ref([4, 5, 3, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null])
+const par = ref([4, 4, 5, 3, 4, 5, 4, 3, 4, 4, 4, 4, 5, 3, 4, 5, 3, 4])
 const score = ref([
   {
     name: 'AAA',
-    score: [5, 5, 5, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    score: [9, 8, 9, 3, 8, 6, 6, 5, 7, 9, 6, 8, 9, 2, 7, 7, 5, 9],
     gross: 15,
     hdcp: 0,
     net: 0,
