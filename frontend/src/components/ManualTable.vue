@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { defineEmits, ref, computed } from 'vue'
+const emit = defineEmits(['updateManualData'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
 const nearpin = ref([])
@@ -118,6 +119,7 @@ const dump = (player_index, hole_index) => {
 }
 const sort = () => {
   score.value.sort((a, b) => a.net - b.net)
+  update()
 }
 /*
     3 holeの場合
@@ -138,6 +140,9 @@ const addPlayer = () => {
 const removePlayer = (index) => {
   if (!confirm('remove OK?')) return
   score.value.splice(index, 1)
+}
+const update = () => {
+  emit('updateManualData', score.value, par.value, nearpinPlayer.value)
 }
 </script>
 <template>

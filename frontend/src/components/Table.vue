@@ -1,10 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { getPrize } from '@/utils/utils'
 import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
-const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
+//const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
+const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
@@ -142,6 +144,45 @@ const dragEnter = (index) => {
 const changeEdit = (e) => (edit_mode.value = e.target.value)
 
 const create_data = () => {}
+const updateManualNearpin = (score, par, nearpin) => {
+  nearpin.forEach((n) => {
+    console.log(n.player)
+    members.value[n.player]['nearx'] = !members.value[n.player]['nearx']
+    console.log(members.value[n.player])
+    console.log(members.value[n.player]['nearx'])
+  })
+  xxx.value.puga = !xxx.value.puga
+}
+const xxx = ref({ pugi: false }) // 初期がpuga じゃなくても動く
+function updateManualData(score, par, nearpin) {
+  updateManualNearpin(score, par, nearpin)
+  members.value.splice(0)
+
+  score.forEach((scores) => {
+    console.log(scores)
+    const s = scores.score.map((s, i) => ({
+      hole: i + 1,
+      score: s,
+      prize: getPrize(par[i], s),
+    }))
+    const player = {
+      name: scores.name,
+      score: s,
+      gross: scores.gross,
+    }
+    player.hdcp = calculateHDCP(player)
+    members.value.push(player)
+    setNet()
+  })
+
+  if (!game.value.date) game.value.date = new Date()
+
+  //TODO: create as SAMPLE.json
+  console.log(members.value)
+  console.log(game.value)
+  sort()
+}
+
 function send() {
   if (edit_mode.value === 'manual') {
     const data = create_data()
@@ -251,7 +292,7 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable class="ml-auto" />
+      <ManualTable class="ml-auto" @updateManualData="updateManualData" />
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
