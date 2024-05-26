@@ -59,6 +59,7 @@ const update = () => {
 }
 
 const save = () => {
+  if (!confirm('入力内容を保存しますか？')) return
   const data = {
     peria_holes: [...props.peria_holes],
     courseInfo: courseInfo.value,
@@ -69,6 +70,7 @@ const save = () => {
   alert('saved')
 }
 const restore = () => {
+  if (!confirm('入力内容を読み込みますか？')) return
   try {
     const data = JSON.parse(localStorage.getItem('golf-gplus'))
     courseInfo.value.name = data.courseInfo.name

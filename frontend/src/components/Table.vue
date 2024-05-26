@@ -209,6 +209,7 @@ function send() {
         }
       }
       game.value.date = null
+      localStorage.removeItem('golf-gplus')
     })
     .catch((e) => {
       spinner1.value = false
