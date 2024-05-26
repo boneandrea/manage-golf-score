@@ -31,14 +31,16 @@ const dump = (player_index, hole_index) => {
   }, 0)
   score.value[player_index].gross = gross
   score.value[player_index].net = gross - score.value[player_index].hdcp
-
-  const prize = getPrize(par.value[hole_index], score.value[player_index].score[hole_index])
-  if (prize === 'birdie') {
-  }
-  if (prize === 'B') {
-  }
 }
 const sort = () => {
+  if (!courseInfo.value.name) {
+    alert('入力が完了していません')
+    return
+  }
+  if (!courseInfo.value.date) {
+    alert('入力が完了していません')
+    return
+  }
   score.value.sort((a, b) => a.net - b.net)
   update()
 }
@@ -83,10 +85,23 @@ addPlayer()
   <div>
     <form>
       <div class="form-group row ml-1">
-        <input class="form-control w-25" placeholder="コース名" v-model="courseInfo.name" required />
+        <input
+          class="form-control w-25"
+          :class="{ 'is-invalid': courseInfo.name === '' }"
+          placeholder="コース名"
+          v-model="courseInfo.name"
+          required
+        />
       </div>
       <div class="form-group row ml-1">
-        <input class="form-control w-25" placeholder="日時" type="date" v-model="courseInfo.date" required />
+        <input
+          class="form-control w-25"
+          :class="{ 'is-invalid': courseInfo.date === null }"
+          placeholder="日時"
+          type="date"
+          v-model="courseInfo.date"
+          required
+        />
       </div>
     </form>
     <table class="table table-striped table-bordered table-responsive-xl">

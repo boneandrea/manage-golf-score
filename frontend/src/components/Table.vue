@@ -177,7 +177,6 @@ function updateManualData(score, par, courseInfo) {
 }
 
 function send() {
-  console.log(members.value)
   if (!confirm('送信してよいですか？')) return
   const apiUrl = `${API_ROOT}/store`
   spinner1.value = true
