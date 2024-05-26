@@ -219,7 +219,6 @@ function send() {
     })
 }
 const setPeriaHoles = (holes) => {
-  console.log(holes)
   peria_holes.value.splice(0)
   holes.forEach((h) => peria_holes.value.push(h))
 }
