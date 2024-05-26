@@ -1,7 +1,7 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
 import { getPrize } from '@/utils/utils'
-const emit = defineEmits(['updateManualData'])
+const emit = defineEmits(['updateManualData', 'reset'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
 const courseInfo = ref({ name: '', date: null })
@@ -90,6 +90,7 @@ const restore = () => {
     courseInfo.value.date = data.courseInfo.date
     score.value.splice(0)
     data.score.forEach((s) => score.value.push(s))
+    emit('resetManualData')
   } catch (e) {
     alert('復元失敗... Arrrrggghhhh')
   }

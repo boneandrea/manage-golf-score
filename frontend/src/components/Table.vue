@@ -164,6 +164,9 @@ const create_data = (scores, par, nearpin) => {
     members.value.push(data)
   })
 }
+const reset = () => {
+  members.value.splice(0)
+}
 function updateManualData(score, par, courseInfo) {
   game.value.course = courseInfo.name
   game.value.date = new Date(courseInfo.date)
@@ -278,7 +281,7 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable class="ml-auto" @updateManualData="updateManualData" />
+      <ManualTable class="ml-auto" @updateManualData="updateManualData" @resetManualData="reset" />
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
@@ -360,6 +363,9 @@ h3 {
 th,
 td {
   white-space: nowrap;
+}
+table {
+  max-width: 800px;
 }
 @media (min-width: 1024px) {
   .greetings h1,
