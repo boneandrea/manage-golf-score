@@ -34,6 +34,7 @@ const inValidPeriaHole = (holeNo) => {
   return validationRange || duplicated
 }
 
+const title = computed(() => (edit_mode.value === 'url' ? 'URLから取得' : '地獄の手動入力'))
 const fetchData = () => {
   if (!collectPeriaHoles()) {
     alert('新ペリホールを正しく指定してください')
@@ -262,7 +263,7 @@ const today = new Date()
       </div>
     </div>
     <hr />
-    <h2 class="green">RESULT</h2>
+    <h2 class="green">{{ title }}</h2>
 
     <div class="edit-mode mb-3 btn-group btn-group-toggle" data-toggle="buttons">
       <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
@@ -296,9 +297,10 @@ const today = new Date()
       />
     </div>
     <hr />
-    <h2 v-if="game.date" class="green">
+    <h2 class="green">RESULT</h2>
+    <h3 v-if="game.date" class="green">
       [{{ game.course }}] {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
-    </h2>
+    </h3>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
