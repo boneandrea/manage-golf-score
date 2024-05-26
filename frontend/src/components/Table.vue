@@ -391,4 +391,8 @@ h1 {
 .edit-mode {
   width: 200px;
 }
+
+.peria input {
+  width: 6em;
+}
 </style>
