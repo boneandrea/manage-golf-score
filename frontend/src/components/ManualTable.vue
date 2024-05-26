@@ -5,6 +5,7 @@ const emit = defineEmits(['updateManualData'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
 const nearpin = ref([])
+const courseInfo = ref({ name: '', date: null })
 const nearpinPlayer = ref([])
 const par = ref([4, 4, 5, 3, 4, 5, 4, 3, 4, 4, 4, 4, 5, 3, 4, 5, 3, 4])
 const score = ref([
@@ -108,11 +109,19 @@ const removePlayer = (index) => {
   score.value.splice(index, 1)
 }
 const update = () => {
-  emit('updateManualData', score.value, par.value, nearpinPlayer.value)
+  emit('updateManualData', score.value, par.value, nearpinPlayer.value, courseInfo.value)
 }
 </script>
 <template>
   <div>
+    <form>
+      <div class="form-group row ml-1">
+        <input class="form-control w-25" placeholder="コース名" v-model="courseInfo.name" required />
+      </div>
+      <div class="form-group row ml-1">
+        <input class="form-control w-25" placeholder="日時" type="date" v-model="courseInfo.date" required />
+      </div>
+    </form>
     <table class="table table-striped table-bordered table-responsive-xl">
       <thead>
         <tr class="text-center">

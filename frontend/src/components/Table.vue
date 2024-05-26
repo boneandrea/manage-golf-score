@@ -82,9 +82,6 @@ const fetchData = () => {
 }
 
 const scoreByHole = (scores, hole_no) => {
-  console.log(scores)
-  console.log(scores)
-  console.log(scores)
   return scores.find((e) => e.hole === hole_no).score
 }
 const calculateHDCP = (scores) => {
@@ -181,11 +178,13 @@ const updateManualNearpin = (score, par, nearpin) => {
   xxx.value.puga = !xxx.value.puga
 }
 const xxx = ref({ pugi: false }) // 初期がpuga じゃなくても動く
-function updateManualData(score, par, nearpin) {
+function updateManualData(score, par, nearpin, courseInfo) {
   updateManualNearpin(score, par, nearpin)
   members.value.splice(0)
+  console.log(courseInfo)
+  game.value.course = courseInfo.name
+  game.value.date = new Date(courseInfo.date)
 
-  //TODO: create as SAMPLE.json
   console.log('HI')
   console.log(score, par, nearpin)
   const data = create_data(score, par, nearpin)
