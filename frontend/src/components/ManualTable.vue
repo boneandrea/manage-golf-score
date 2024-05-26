@@ -185,6 +185,7 @@ addPlayer()
         <li>コース名</li>
         <li>日時</li>
       </ul>
+      <li>疲れたらSave/Restoreもできる</li>
       <li>Sortを押す</li>
       <li>ニアピン設定する</li>
     </ul>
