@@ -236,9 +236,9 @@ const today = new Date()
     </p>
     <h3 class="green">新ペリホール番号</h3>
     <div class="form-group row peria">
-      <div v-for="(hole, index) in peria_holes.slice(0, 6)" class="col-sm-2">
+      <div v-for="(hole, index) in peria_holes.slice(0, 6)">
         <input
-          class="form-control"
+          class="form-control mr-2"
           :class="{ 'is-invalid': inValidPeriaHole(peria_holes[index]) }"
           type="number"
           v-model="peria_holes[index]"
@@ -250,9 +250,9 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row peria">
-      <div v-for="(hole, index) in peria_holes.slice(6, 12)" class="col-sm-2">
+      <div v-for="(hole, index) in peria_holes.slice(6, 12)">
         <input
-          class="form-control"
+          class="form-control mr-2"
           :class="{ 'is-invalid': inValidPeriaHole(peria_holes[index + 6]) }"
           type="number"
           v-model="peria_holes[index + 6]"
