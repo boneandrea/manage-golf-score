@@ -50,7 +50,8 @@ const addPlayer = () => {
   score.value.push(structuredClone(NEWUSER))
 }
 const removePlayer = (index) => {
-  if (!confirm('remove OK?')) return
+  const name = score.value[index].name
+  if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
   score.value.splice(index, 1)
 }
 const update = () => {
