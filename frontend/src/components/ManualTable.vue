@@ -73,6 +73,27 @@ const removePlayer = (index) => {
 const update = () => {
   emit('updateManualData', score.value, par.value, courseInfo.value)
 }
+
+const save = () => {
+  const data = {
+    courseInfo: courseInfo.value,
+    par: par.value,
+    score: score.value,
+  }
+  localStorage.setItem('golf-gplus', JSON.stringify(data))
+  alert('saved')
+}
+const restore = () => {
+  try {
+    const data = JSON.parse(localStorage.getItem('golf-gplus'))
+    courseInfo.value.name = data.courseInfo.name
+    courseInfo.value.date = data.courseInfo.date
+    score.value.splice(0)
+    data.score.forEach((s) => score.value.push(s))
+  } catch (e) {
+    alert('復元失敗... Arrrrggghhhh')
+  }
+}
 </script>
 <template>
   <div>
@@ -144,6 +165,10 @@ const update = () => {
       <button type="button" class="btn btn-primary mx-2" @click="addPlayer">Add Player</button>
       <button type="button" class="btn btn-primary mx-2" @click="sort">Sort</button>
       <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
+    </div>
+    <div class="form-group row functions ml-1">
+      <button type="button" class="btn btn-info mx-2" @click="save">Save</button>
+      <button type="button" class="btn btn-info mx-2" @click="restore">Restore</button>
     </div>
 
     <hr />
