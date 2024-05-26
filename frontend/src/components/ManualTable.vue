@@ -106,7 +106,7 @@ const update = () => {
         </tr>
         <tr v-for="(s, player_index) in score">
           <td>
-            <button type="button" class="btn btn-danger btn-lg" @click="removePlayer(player_index)">Remove</button>
+            <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">Remove</button>
           </td>
           <td>
             <input class="form-control name" placeholder="name" v-model="s.name" required />
@@ -162,9 +162,6 @@ const update = () => {
   </div>
 </template>
 <style scoped>
-td {
-  vertical-align: middle !important;
-}
 table input {
   width: 5em;
 }
