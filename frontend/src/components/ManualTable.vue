@@ -1,7 +1,8 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
-const emit = defineEmits(['updateManualData', 'reset'])
+const props = defineProps(['peria_holes'])
+const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const courseInfo = ref({ name: '', date: null })
 const par = ref([...Array(HOLE)].map((_, i) => null))
@@ -58,6 +59,7 @@ const update = () => {
 
 const save = () => {
   const data = {
+    peria_holes: [...props.peria_holes],
     courseInfo: courseInfo.value,
     par: par.value,
     score: score.value,
@@ -75,6 +77,7 @@ const restore = () => {
     par.value.splice(0)
     data.par.forEach((p) => par.value.push(p))
     emit('resetManualData')
+    emit('setPeriaHoles', data.peria_holes)
   } catch (e) {
     alert('復元失敗... Arrrrggghhhh')
   }
@@ -125,7 +128,7 @@ addPlayer()
         </tr>
         <tr v-for="(s, player_index) in score">
           <td>
-            <button type="button" class="btn btn-danger btn-lg" @click="removePlayer(player_index)">Remove</button>
+            <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">Remove</button>
           </td>
           <td>
             <input class="form-control name" placeholder="name" v-model="s.name" required />

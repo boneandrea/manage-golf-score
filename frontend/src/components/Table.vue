@@ -81,7 +81,9 @@ const fetchData = () => {
 }
 
 const scoreByHole = (scores, hole_no) => {
-  return scores.find((e) => e.hole === hole_no).score
+  const s = scores.find((e) => e.hole === hole_no)
+
+  return s ? s.score : 0
 }
 const calculateHDCP = (scores) => {
   //(隠しホールの合計スコアx1.5-72) x 0.8
@@ -214,6 +216,11 @@ function send() {
       alert(e)
     })
 }
+const setPeriaHoles = (holes) => {
+  console.log(holes)
+  peria_holes.value.splice(0)
+  holes.forEach((h) => peria_holes.value.push(h))
+}
 const today = new Date()
 </script>
 <template>
@@ -279,7 +286,13 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable class="ml-auto" @updateManualData="updateManualData" @resetManualData="reset" />
+      <ManualTable
+        class="ml-auto"
+        @update-manual-data="updateManualData"
+        @reset-manual-data="reset"
+        @set-peria-holes="setPeriaHoles"
+        :peria_holes="peria_holes"
+      />
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
