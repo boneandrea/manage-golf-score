@@ -90,6 +90,8 @@ const restore = () => {
     courseInfo.value.date = data.courseInfo.date
     score.value.splice(0)
     data.score.forEach((s) => score.value.push(s))
+    par.value.splice(0)
+    data.par.forEach((p) => par.value.push(p))
     emit('resetManualData')
   } catch (e) {
     alert('復元失敗... Arrrrggghhhh')
