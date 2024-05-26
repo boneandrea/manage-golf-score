@@ -70,7 +70,7 @@ const save = () => {
   alert('saved')
 }
 const restore = () => {
-  if (!confirm('入力内容を読み込みますか？')) return
+  if (!confirm('保存された内容を読み込みますか？')) return
   try {
     const data = JSON.parse(localStorage.getItem('golf-gplus'))
     courseInfo.value.name = data.courseInfo.name
