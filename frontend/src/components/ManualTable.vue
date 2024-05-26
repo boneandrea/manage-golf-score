@@ -172,8 +172,8 @@ addPlayer()
       <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
     </div>
     <div class="form-group row functions ml-1">
-      <button type="button" class="btn btn-info mx-2" @click="save">Save</button>
-      <button type="button" class="btn btn-info mx-2" @click="restore">Restore</button>
+      <button type="button" class="btn btn-danger mx-2" @click="save">Save</button>
+      <button type="button" class="btn btn-danger mx-2" @click="restore">Restore</button>
     </div>
 
     <hr />
