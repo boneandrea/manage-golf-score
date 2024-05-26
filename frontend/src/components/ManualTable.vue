@@ -23,7 +23,7 @@ const changeHdcp = (index) => {
 }
 
 const helpNearpin = () => {
-  alert('ニアピンは下の画面で設定してください')
+  alert('ニアピンはRESULT画面で設定してください')
 }
 
 const dump = (player_index, hole_index) => {
