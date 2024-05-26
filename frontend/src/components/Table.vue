@@ -1,12 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { getPrize } from '@/utils/utils'
+import { HOLE, getPrize } from '@/utils/utils'
 import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
-const peria_holes = ref([2, 3, 5, 7, 8, 9, 10, 12, 14, 15, 16, 18])
-//const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
+const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
@@ -82,7 +81,9 @@ const fetchData = () => {
 }
 
 const scoreByHole = (scores, hole_no) => {
-  return scores.find((e) => e.hole === hole_no).score
+  const s = scores.find((e) => e.hole === hole_no)
+
+  return s ? s.score : 0
 }
 const calculateHDCP = (scores) => {
   //(隠しホールの合計スコアx1.5-72) x 0.8
@@ -152,8 +153,6 @@ const create_data = (scores, par, nearpin) => {
       prize: getPrize(par[index], ss),
       score: ss,
     }))
-    console.log(personal_scores)
-
     const data = {
       name: s.name,
       score: personal_scores,
@@ -166,28 +165,20 @@ const create_data = (scores, par, nearpin) => {
     members.value.push(data)
   })
 }
-function updateManualData(score, par, courseInfo) {
+const reset = () => {
   members.value.splice(0)
-  console.log(courseInfo)
+}
+function updateManualData(score, par, courseInfo) {
   game.value.course = courseInfo.name
   game.value.date = new Date(courseInfo.date)
-
-  console.log('HI')
-  console.log(score, par)
+  members.value.splice(0)
   const data = create_data(score, par)
-  console.log(data)
-
   setNet()
-
   if (!game.value.date) game.value.date = new Date()
-
-  console.log(members.value)
-  console.log(game.value)
   sort()
 }
 
 function send() {
-  console.log(members.value)
   if (!confirm('送信してよいですか？')) return
   const apiUrl = `${API_ROOT}/store`
   spinner1.value = true
@@ -224,6 +215,11 @@ function send() {
       console.error(e)
       alert(e)
     })
+}
+const setPeriaHoles = (holes) => {
+  console.log(holes)
+  peria_holes.value.splice(0)
+  holes.forEach((h) => peria_holes.value.push(h))
 }
 const today = new Date()
 </script>
@@ -290,7 +286,13 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable class="ml-auto" @updateManualData="updateManualData" />
+      <ManualTable
+        class="ml-auto"
+        @update-manual-data="updateManualData"
+        @reset-manual-data="reset"
+        @set-peria-holes="setPeriaHoles"
+        :peria_holes="peria_holes"
+      />
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
@@ -372,6 +374,9 @@ h3 {
 th,
 td {
   white-space: nowrap;
+}
+table {
+  max-width: 800px;
 }
 @media (min-width: 1024px) {
   .greetings h1,

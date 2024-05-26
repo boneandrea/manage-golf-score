@@ -1,27 +1,20 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
-import { getPrize } from '@/utils/utils'
-const emit = defineEmits(['updateManualData'])
+import { HOLE, getPrize } from '@/utils/utils'
+const props = defineProps(['peria_holes'])
+const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
-const HOLE = 18
 const courseInfo = ref({ name: '', date: null })
-const par = ref([4, 4, 5, 3, 4, 5, 4, 3, 4, 4, 4, 4, 5, 3, 4, 5, 3, 4])
-const score = ref([
-  {
-    name: 'AAA',
-    score: [9, 8, 9, 3, 8, 6, 6, 5, 7, 9, 6, 8, 9, 2, 7, 7, 5, 9],
-    gross: 15,
-    hdcp: 0,
-    net: 0,
-  },
-  {
-    name: 'BBB',
-    score: [2, 2, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    gross: 6,
-    hdcp: 0,
-    net: 0,
-  },
-])
+const par = ref([...Array(HOLE)].map((_, i) => null))
+const NEWUSER = {
+  name: '',
+  score: [...Array(HOLE)].map((_, i) => null),
+  gross: 0,
+  hdcp: 0,
+  net: 0,
+}
+
+const score = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
   score.value[index].net = (
@@ -39,32 +32,22 @@ const dump = (player_index, hole_index) => {
   }, 0)
   score.value[player_index].gross = gross
   score.value[player_index].net = gross - score.value[player_index].hdcp
-
-  const prize = getPrize(par.value[hole_index], score.value[player_index].score[hole_index])
-  if (prize === 'birdie') {
-  }
-  if (prize === 'B') {
-  }
 }
 const sort = () => {
+  if (!courseInfo.value.name) {
+    alert('入力が完了していません')
+    return
+  }
+  if (!courseInfo.value.date) {
+    alert('入力が完了していません')
+    return
+  }
   score.value.sort((a, b) => a.net - b.net)
   update()
 }
-/*
-    3 holeの場合
-    score=[
-    [4,5,7],
-    [3,4,2],
-    ]
-  */
+
 const addPlayer = () => {
-  score.value.push({
-    name: '',
-    score: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    gross: 0,
-    hdcp: 0,
-    net: 0,
-  })
+  score.value.push(structuredClone(NEWUSER))
 }
 const removePlayer = (index) => {
   if (!confirm('remove OK?')) return
@@ -73,15 +56,55 @@ const removePlayer = (index) => {
 const update = () => {
   emit('updateManualData', score.value, par.value, courseInfo.value)
 }
+
+const save = () => {
+  const data = {
+    peria_holes: [...props.peria_holes],
+    courseInfo: courseInfo.value,
+    par: par.value,
+    score: score.value,
+  }
+  localStorage.setItem('golf-gplus', JSON.stringify(data))
+  alert('saved')
+}
+const restore = () => {
+  try {
+    const data = JSON.parse(localStorage.getItem('golf-gplus'))
+    courseInfo.value.name = data.courseInfo.name
+    courseInfo.value.date = data.courseInfo.date
+    score.value.splice(0)
+    data.score.forEach((s) => score.value.push(s))
+    par.value.splice(0)
+    data.par.forEach((p) => par.value.push(p))
+    emit('resetManualData')
+    emit('setPeriaHoles', data.peria_holes)
+  } catch (e) {
+    alert('復元失敗... Arrrrggghhhh')
+  }
+}
+addPlayer()
 </script>
 <template>
   <div>
     <form>
       <div class="form-group row ml-1">
-        <input class="form-control w-25" placeholder="コース名" v-model="courseInfo.name" required />
+        <input
+          class="form-control w-25"
+          :class="{ 'is-invalid': courseInfo.name === '' }"
+          placeholder="コース名"
+          v-model="courseInfo.name"
+          required
+        />
       </div>
       <div class="form-group row ml-1">
-        <input class="form-control w-25" placeholder="日時" type="date" v-model="courseInfo.date" required />
+        <input
+          class="form-control w-25"
+          :class="{ 'is-invalid': courseInfo.date === null }"
+          placeholder="日時"
+          type="date"
+          v-model="courseInfo.date"
+          required
+        />
       </div>
     </form>
     <table class="table table-striped table-bordered table-responsive-xl">
@@ -105,7 +128,7 @@ const update = () => {
         </tr>
         <tr v-for="(s, player_index) in score">
           <td>
-            <button type="button" class="btn btn-danger btn-lg" @click="removePlayer(player_index)">Remove</button>
+            <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">Remove</button>
           </td>
           <td>
             <input class="form-control name" placeholder="name" v-model="s.name" required />
@@ -144,6 +167,10 @@ const update = () => {
       <button type="button" class="btn btn-primary mx-2" @click="addPlayer">Add Player</button>
       <button type="button" class="btn btn-primary mx-2" @click="sort">Sort</button>
       <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
+    </div>
+    <div class="form-group row functions ml-1">
+      <button type="button" class="btn btn-info mx-2" @click="save">Save</button>
+      <button type="button" class="btn btn-info mx-2" @click="restore">Restore</button>
     </div>
 
     <hr />
