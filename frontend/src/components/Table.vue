@@ -1,10 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { getPrize } from '@/utils/utils'
 import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
-const peria_holes = ref(['', '', '', '', '', '', '', '', '', '', '', ''])
+const peria_holes = ref([2, 3, 5, 7, 8, 9, 10, 12, 14, 15, 16, 18])
+//const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
@@ -79,7 +81,9 @@ const fetchData = () => {
     })
 }
 
-const scoreByHole = (scores, hole_no) => scores.find((e) => e.hole === hole_no).score
+const scoreByHole = (scores, hole_no) => {
+  return scores.find((e) => e.hole === hole_no).score
+}
 const calculateHDCP = (scores) => {
   //(隠しホールの合計スコアx1.5-72) x 0.8
   let sum = 0
@@ -140,6 +144,35 @@ const dragEnter = (index) => {
 }
 
 const changeEdit = (e) => (edit_mode.value = e.target.value)
+
+const create_data = (scores, par, nearpin) => {
+  return scores.map((s) => {
+    const personal_scores = s.score.map((ss, index) => ({
+      hole: index + 1,
+      prize: getPrize(par[index], ss),
+      score: ss,
+    }))
+    const data = {
+      name: s.name,
+      score: personal_scores,
+      gross: s.gross,
+      hdcp: 0,
+      net: 999,
+      point: 999,
+    }
+    data.hdcp = calculateHDCP(data)
+    members.value.push(data)
+  })
+}
+function updateManualData(score, par, courseInfo) {
+  game.value.course = courseInfo.name
+  game.value.date = new Date(courseInfo.date)
+  members.value.splice(0)
+  const data = create_data(score, par)
+  setNet()
+  if (!game.value.date) game.value.date = new Date()
+  sort()
+}
 
 function send() {
   console.log(members.value)
@@ -245,11 +278,11 @@ const today = new Date()
       </div>
     </div>
     <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable class="ml-auto" />
+      <ManualTable class="ml-auto" @updateManualData="updateManualData" />
     </div>
     <hr />
     <h2 v-if="game.date" class="green">
-      {{ game.course }} {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
+      [{{ game.course }}] {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
     </h2>
     <table class="table table-striped table-bordered">
       <thead>
