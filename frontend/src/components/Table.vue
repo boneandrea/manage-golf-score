@@ -5,8 +5,7 @@ import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
-const peria_holes = ref([2, 3, 5, 7, 8, 9, 10, 12, 14, 15, 16, 18])
-//const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
+const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)

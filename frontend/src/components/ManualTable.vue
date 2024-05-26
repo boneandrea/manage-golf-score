@@ -5,23 +5,16 @@ const emit = defineEmits(['updateManualData', 'reset'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
 const courseInfo = ref({ name: '', date: null })
-const par = ref([4, 4, 5, 3, 4, 5, 4, 3, 4, 4, 4, 4, 5, 3, 4, 5, 3, 4])
-const score = ref([
-  {
-    name: 'AAA',
-    score: [9, 8, 9, 3, 8, 6, 6, 5, 7, 9, 6, 8, 9, 2, 7, 7, 5, 9],
-    gross: 15,
-    hdcp: 0,
-    net: 0,
-  },
-  {
-    name: 'BBB',
-    score: [2, 2, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    gross: 6,
-    hdcp: 0,
-    net: 0,
-  },
-])
+const par = ref([...Array(HOLE)].map((_, i) => null))
+const NEWUSER = {
+  name: '',
+  score: [...Array(HOLE)].map((_, i) => null),
+  gross: 0,
+  hdcp: 0,
+  net: 0,
+}
+
+const score = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
   score.value[index].net = (
@@ -50,21 +43,9 @@ const sort = () => {
   score.value.sort((a, b) => a.net - b.net)
   update()
 }
-/*
-    3 holeの場合
-    score=[
-    [4,5,7],
-    [3,4,2],
-    ]
-  */
+
 const addPlayer = () => {
-  score.value.push({
-    name: '',
-    score: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    gross: 0,
-    hdcp: 0,
-    net: 0,
-  })
+  score.value.push(structuredClone(NEWUSER))
 }
 const removePlayer = (index) => {
   if (!confirm('remove OK?')) return
@@ -97,6 +78,7 @@ const restore = () => {
     alert('復元失敗... Arrrrggghhhh')
   }
 }
+addPlayer()
 </script>
 <template>
   <div>
