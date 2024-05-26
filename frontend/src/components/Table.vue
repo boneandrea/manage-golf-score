@@ -81,6 +81,9 @@ const fetchData = () => {
     })
 }
 
+const changeTab = (name) => {
+  edit_mode.value = name
+}
 const scoreByHole = (scores, hole_no) => {
   const s = scores.find((e) => e.hole === hole_no)
 
@@ -261,39 +264,46 @@ const today = new Date()
         />
       </div>
     </div>
-    <hr />
     <h2 class="green">{{ title }}</h2>
-
-    <div class="edit-mode mb-3 btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'url' }" @change="changeEdit">
-        <input type="radio" value="url" name="options" id="option1" autocomplete="off" checked /> URL
-      </label>
-      <label class="w-50 btn btn-secondary" :class="{ active: edit_mode === 'manual' }" @change="changeEdit">
-        <input type="radio" value="manual" name="options" id="option2" autocomplete="off" /> Manual
-      </label>
+    <div>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: edit_mode === 'url' }" @click="changeTab('url')"> URL </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: edit_mode === 'manual' }" @click="changeTab('manual')"> Manual </a>
+        </li>
+      </ul>
     </div>
-
-    <div class="form-group row" v-if="edit_mode === 'url'">
-      <div class="col">
-        <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
+    <div class="tab-content">
+      <div class="tab-pane mt-2" :class="{ active: edit_mode === 'url' }" v-if="edit_mode === 'url'">
+        <div class="form-group row">
+          <div class="col">
+            <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-primary"
+              @click="fetchData"
+              :disabled="incompletedPeriaHoles || spinner0 || spinner1"
+            >
+              データ取得
+            </button>
+          </div>
+          <div class="col">
+            <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
+          </div>
+        </div>
       </div>
-      <div class="col">
-        <button class="btn btn-primary" @click="fetchData" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
-          データ取得
-        </button>
+      <div class="tab-pane mt-2" :class="{ active: edit_mode === 'manual' }" v-if="edit_mode === 'manual'">
+        <ManualTable
+          class="ml-auto"
+          @update-manual-data="updateManualData"
+          @reset-manual-data="reset"
+          @set-peria-holes="setPeriaHoles"
+          :peria_holes="peria_holes"
+        />
       </div>
-      <div class="col">
-        <div v-show="spinner0" class="spinner-border text-secondary" role="status" />
-      </div>
-    </div>
-    <div class="form-group row" v-if="edit_mode === 'manual'">
-      <ManualTable
-        class="ml-auto"
-        @update-manual-data="updateManualData"
-        @reset-manual-data="reset"
-        @set-peria-holes="setPeriaHoles"
-        :peria_holes="peria_holes"
-      />
     </div>
     <hr />
     <h2 class="green">RESULT</h2>
