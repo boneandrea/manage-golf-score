@@ -152,8 +152,6 @@ const create_data = (scores, par, nearpin) => {
       prize: getPrize(par[index], ss),
       score: ss,
     }))
-    console.log(personal_scores)
-
     const data = {
       name: s.name,
       score: personal_scores,
@@ -167,22 +165,12 @@ const create_data = (scores, par, nearpin) => {
   })
 }
 function updateManualData(score, par, courseInfo) {
-  members.value.splice(0)
-  console.log(courseInfo)
   game.value.course = courseInfo.name
   game.value.date = new Date(courseInfo.date)
-
-  console.log('HI')
-  console.log(score, par)
+  members.value.splice(0)
   const data = create_data(score, par)
-  console.log(data)
-
   setNet()
-
   if (!game.value.date) game.value.date = new Date()
-
-  console.log(members.value)
-  console.log(game.value)
   sort()
 }
 
