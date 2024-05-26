@@ -268,10 +268,16 @@ const today = new Date()
     <div>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link" :class="{ active: edit_mode === 'url' }" @click="changeTab('url')"> URL </a>
+          <a class="nav-link" :class="{ active: edit_mode === 'url' }" @click="changeTab('url')">
+            <i class="bi bi-browser-chrome"></i>
+            URL
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" :class="{ active: edit_mode === 'manual' }" @click="changeTab('manual')"> Manual </a>
+          <a class="nav-link" :class="{ active: edit_mode === 'manual' }" @click="changeTab('manual')">
+            <i class="bi bi-pencil"></i>
+            Manual
+          </a>
         </li>
       </ul>
     </div>
@@ -279,7 +285,7 @@ const today = new Date()
       <div class="tab-pane mt-2" :class="{ active: edit_mode === 'url' }" v-if="edit_mode === 'url'">
         <div class="form-group row">
           <div class="col">
-            <input class="form-control" type="url" id="url" placeholder="本日のスコアのURL" autofocus />
+            <input class="form-control" type="url" id="url" placeholder="スコアのURL" autofocus />
           </div>
           <div class="col">
             <button
@@ -354,9 +360,10 @@ const today = new Date()
       <li>名前修正</li>
       <li>ニアピン設定</li>
     </ol>
-    <div class="form-group row">
+    <div class="form-group row upload">
       <div class="col">
-        <button class="btn btn-primary btn-lg" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
+        <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
+          <i class="bi bi-cloud-upload"></i>
           送信
         </button>
       </div>
@@ -405,5 +412,8 @@ h1 {
 
 .peria input {
   width: 6em;
+}
+.upload .btn {
+  width: 200px;
 }
 </style>

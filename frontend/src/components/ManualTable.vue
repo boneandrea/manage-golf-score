@@ -131,7 +131,9 @@ addPlayer()
         </tr>
         <tr v-for="(s, player_index) in score">
           <td>
-            <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">Remove</button>
+            <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">
+              <i class="bi bi-trash"></i>
+            </button>
           </td>
           <td>
             <input class="form-control name" placeholder="name" v-model.trim="s.name" required />
@@ -167,8 +169,10 @@ addPlayer()
       </tbody>
     </table>
     <div class="form-group row functions ml-1">
-      <button type="button" class="btn btn-primary mx-2" @click="addPlayer">Add Player</button>
-      <button type="button" class="btn btn-primary mx-2" @click="sort">Sort</button>
+      <button type="button" class="btn btn-primary mx-2" @click="addPlayer">
+        <i class="bi bi-plus-circle"></i> Add Player
+      </button>
+      <button type="button" class="btn btn-primary mx-2" @click="sort"><i class="bi bi-sort-down"></i> Sort</button>
       <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
     </div>
     <div class="form-group row functions ml-1">
