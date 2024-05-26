@@ -4,9 +4,7 @@ import { getPrize } from '@/utils/utils'
 const emit = defineEmits(['updateManualData'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const HOLE = 18
-const nearpin = ref([])
 const courseInfo = ref({ name: '', date: null })
-const nearpinPlayer = ref([])
 const par = ref([4, 4, 5, 3, 4, 5, 4, 3, 4, 4, 4, 4, 5, 3, 4, 5, 3, 4])
 const score = ref([
   {
@@ -30,45 +28,9 @@ const changeHdcp = (index) => {
     Math.round((score.value[index].gross - parseFloat(score.value[index].hdcp)) * 10) / 10
   ).toFixed(1)
 }
-const checkNearpin = (hole, player_index) =>
-  nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)
 
-const setNearpin = (hole, player_index) => {
-  if (event.target.tagName.toUpperCase() !== 'TD') return
-  if (!nearpin.value.includes(hole)) return
-
-  // toggle
-  if (nearpinPlayer.value.find((e) => e.player === player_index && e.hole === hole)) {
-    const index = nearpinPlayer.value.findIndex((e) => e.player === player_index && e.hole === hole)
-    nearpinPlayer.value.splice(index, 1)
-  } else {
-    // 既存のニアピンユーザがいた場合
-    const existPlayerIndex = nearpinPlayer.value.findIndex((e) => e.hole === hole)
-    if (existPlayerIndex !== -1) {
-      nearpinPlayer.value.splice(existPlayerIndex, 1)
-    }
-    nearpinPlayer.value.push({ player: player_index, hole: hole })
-  }
-}
 const helpNearpin = () => {
-  alert('ニアピン対象ホール番号をクリックしてください\nそのあと、該当ホールのスコアのマスをクリックして下さい')
-}
-const setNearpinHoleNumber = (hole) => {
-  if (nearpin.value.includes(hole)) {
-    const index = nearpin.value.findIndex((e) => e === hole)
-    nearpin.value.splice(index, 1)
-    clear_related_nearpin(hole)
-  } else {
-    nearpin.value.push(hole)
-  }
-}
-
-// hole=N をニアピン対象から外した場合、ホールNのニアピン設定を全て消す
-const clear_related_nearpin = (hole) => {
-  const length = nearpinPlayer.value.length
-  for (let i = 0; i < length; i++) {
-    if (nearpinPlayer.value[0].hole === hole) nearpinPlayer.value.splice(0, 1) // spliceは破壊的なので0だけ見る
-  }
+  alert('ニアピンは下の画面で設定してください')
 }
 
 const dump = (player_index, hole_index) => {
@@ -98,7 +60,7 @@ const sort = () => {
 const addPlayer = () => {
   score.value.push({
     name: '',
-    score: [],
+    score: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     gross: 0,
     hdcp: 0,
     net: 0,
@@ -109,7 +71,7 @@ const removePlayer = (index) => {
   score.value.splice(index, 1)
 }
 const update = () => {
-  emit('updateManualData', score.value, par.value, nearpinPlayer.value, courseInfo.value)
+  emit('updateManualData', score.value, par.value, courseInfo.value)
 }
 </script>
 <template>
@@ -127,9 +89,7 @@ const update = () => {
         <tr class="text-center">
           <th />
           <th />
-          <th v-for="h in holes" @click="setNearpinHoleNumber(h)">
-            {{ h }}<span v-show="nearpin.includes(h)">[N]</span>
-          </th>
+          <th v-for="h in holes">{{ h }}</th>
           <th>GROSS</th>
           <th>HDCP</th>
           <th>NET</th>
@@ -150,12 +110,7 @@ const update = () => {
           <td>
             <input class="form-control name" placeholder="name" v-model="s.name" required />
           </td>
-          <td
-            v-for="(hole, hole_index) in holes"
-            :class="{ nearpin: checkNearpin(hole, player_index) }"
-            @click="setNearpin(hole, player_index)"
-            title="ニアピンにする場合はクリック"
-          >
+          <td v-for="(hole, hole_index) in holes" title="ニアピンにする場合はクリック">
             <input
               class="form-control score"
               type="number"
@@ -185,16 +140,23 @@ const update = () => {
         </tr>
       </tbody>
     </table>
-    <div class="form-group row">
-      <button type="button" class="btn btn-primary btn-lg mx-2" @click="addPlayer">Add Player</button>
-      <button type="button" class="btn btn-primary btn-lg mx-2" @click="sort">Sort</button>
-      <button type="button" class="btn btn-info btn-lg mx-2" @click="helpNearpin">Set ニアピンホール</button>
+    <div class="form-group row functions ml-1">
+      <button type="button" class="btn btn-primary mx-2" @click="addPlayer">Add Player</button>
+      <button type="button" class="btn btn-primary mx-2" @click="sort">Sort</button>
+      <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
     </div>
 
     <hr />
     <p>やること：</p>
     <ul>
       <li>がんばって全部打つ</li>
+      <ul>
+        <li>スコア</li>
+        <li>コース名</li>
+        <li>日時</li>
+      </ul>
+      <li>Sortを押す</li>
+      <li>ニアピン設定する</li>
     </ul>
   </div>
 </template>
@@ -214,5 +176,8 @@ table input.birdie {
 }
 td.nearpin {
   background: green;
+}
+.functions .btn {
+  width: 200px;
 }
 </style>

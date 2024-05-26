@@ -153,8 +153,6 @@ const create_data = (scores, par, nearpin) => {
       score: ss,
     }))
     console.log(personal_scores)
-    console.log(personal_scores)
-    console.log(personal_scores)
 
     const data = {
       name: s.name,
@@ -168,26 +166,15 @@ const create_data = (scores, par, nearpin) => {
     members.value.push(data)
   })
 }
-const updateManualNearpin = (score, par, nearpin) => {
-  nearpin.forEach((n) => {
-    //    console.log(n.player)
-    members.value[n.player]['nearx'] = !members.value[n.player]['nearx']
-    /* console.log(members.value[n.player])
-     * console.log(members.value[n.player]['nearx']) */
-  })
-  xxx.value.puga = !xxx.value.puga
-}
-const xxx = ref({ pugi: false }) // 初期がpuga じゃなくても動く
-function updateManualData(score, par, nearpin, courseInfo) {
-  updateManualNearpin(score, par, nearpin)
+function updateManualData(score, par, courseInfo) {
   members.value.splice(0)
   console.log(courseInfo)
   game.value.course = courseInfo.name
   game.value.date = new Date(courseInfo.date)
 
   console.log('HI')
-  console.log(score, par, nearpin)
-  const data = create_data(score, par, nearpin)
+  console.log(score, par)
+  const data = create_data(score, par)
   console.log(data)
 
   setNet()
