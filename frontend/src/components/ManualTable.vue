@@ -1,9 +1,8 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
-import { getPrize } from '@/utils/utils'
+import { HOLE, getPrize } from '@/utils/utils'
 const emit = defineEmits(['updateManualData', 'reset'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
-const HOLE = 18
 const courseInfo = ref({ name: '', date: null })
 const par = ref([...Array(HOLE)].map((_, i) => null))
 const NEWUSER = {

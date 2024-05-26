@@ -1,3 +1,4 @@
+export const HOLE=18
 export const getPrize= (par, shot)=> {
   if (shot === 1) return 'HOLEINONE'
   const diff = shot - par

@@ -1,11 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { getPrize } from '@/utils/utils'
+import { HOLE, getPrize } from '@/utils/utils'
 import ManualTable from './ManualTable.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
-const peria_holes = ref([...Array(18)].map((_, i) => i + 1))
+const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
