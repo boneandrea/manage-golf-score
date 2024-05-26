@@ -95,7 +95,7 @@ addPlayer()
           class="form-control w-25"
           :class="{ 'is-invalid': courseInfo.name === '' }"
           placeholder="コース名"
-          v-model="courseInfo.name"
+          v-model.trim="courseInfo.name"
           required
         />
       </div>
@@ -134,9 +134,9 @@ addPlayer()
             <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">Remove</button>
           </td>
           <td>
-            <input class="form-control name" placeholder="name" v-model="s.name" required />
+            <input class="form-control name" placeholder="name" v-model.trim="s.name" required />
           </td>
-          <td v-for="(hole, hole_index) in holes" title="ニアピンにする場合はクリック">
+          <td v-for="(hole, hole_index) in holes">
             <input
               class="form-control score"
               type="number"
