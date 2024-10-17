@@ -230,9 +230,11 @@ const today = new Date()
 <template>
   <div>
     <h1 class="green">スコア編集</h1>
-    <p>
-      <a href="https://boneandrea.github.io/gplus-golf-score/" target="_blank">ランキングページ</a>
-    </p>
+    <ul>
+      <li><a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024ランキングページ</a></li>
+      <li><a href="https://boneandrea.github.io/gplus-golf-score/2025" target="_blank">2025ランキングページ</a></li>
+      <li><a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026ランキングページ</a></li>
+    </ul>
     <p>
       <a href="./pdf">download</a>
     </p>
