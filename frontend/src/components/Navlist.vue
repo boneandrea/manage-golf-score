@@ -2,8 +2,8 @@
   <div>
     <nav class="nav-list-wrapper">
       <ul class="nav-list">
-        <li class="nav-list-item"><a href="#">新規入力</a></li>
-        <li class="nav-list-item"><a href="#">過去データ修正</a></li>
+        <li class="nav-list-item" @click="newScore"><a href="#">新規入力</a></li>
+        <li class="nav-list-item" @click="editScore"><a href="#">過去データ修正</a></li>
         <li class="nav-list-item">
           <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024</a>
         </li>
@@ -17,6 +17,17 @@
     </nav>
   </div>
 </template>
+<script setup>
+import Navlist from './Navlist.vue'
+const newScore = (e) => {
+  console.log(e)
+  alert(1)
+}
+const editScore = (e) => {
+  console.log(e)
+  alert(2)
+}
+</script>
 <style>
 .nav-list-wrapper {
   padding: 10px;

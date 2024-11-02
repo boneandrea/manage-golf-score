@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import cross_origin
 from flask import request
+from bson.json_util import dumps
 
 from datetime import datetime
 
@@ -40,9 +41,19 @@ print(FRONTEND)
 app.logger.debug("HELLO")
 
 
-@ app.route('/api/puga', methods=["POST"])
+# 過去データ読み取り
+@app.route('/api/find', methods=["GET"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
-def puga():
+def find():
+    data = readOne()
+    app.logger.debug(data)
+    return data
+
+
+# 過去データupdate
+@app.route('/api/update', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
+def update():
     return jsonify({"fe": FRONTEND})
 
 
@@ -77,9 +88,17 @@ def readdata():
     db = client["score"]
     score = db["score"]
     items = score.find()
-    for item in items:
-        app.logger.debug(item)
+    return json.dumps(arr, default=str)
     app.logger.debug(f"num of data: {score.count_documents({})}")
+
+
+def readOne():
+    app.logger.debug("read mongodb....")
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+    items = list(score.find())
+    return dumps(items, default=str)
 
 
 @ app.route('/api/store', methods=["POST"])

@@ -1,11 +1,12 @@
 <script setup>
 import ScoreForm from './components/ScoreForm.vue'
 import Sidebar from './components/Sidebar.vue'
+const fuga = { a: 'hhhhh' }
 </script>
 
 <template>
   <Sidebar />
-  <ScoreForm />
+  <ScoreForm :hoge="fuga" />
 </template>
 
 <style scoped>
