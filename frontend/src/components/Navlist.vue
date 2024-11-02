@@ -5,13 +5,13 @@
         <li class="nav-list-item"><a href="#">新規入力</a></li>
         <li class="nav-list-item"><a href="#">過去データ修正</a></li>
         <li class="nav-list-item">
-          <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024ランキングページ</a>
+          <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024</a>
         </li>
         <li class="nav-list-item">
-          <a href="https://boneandrea.github.io/gplus-golf-score/2025" target="_blank">2025ランキングページ</a>
+          <a href="https://boneandrea.github.io/gplus-golf-score/2025" target="_blank">2025</a>
         </li>
         <li class="nav-list-item">
-          <a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026ランキングページ</a>
+          <a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026</a>
         </li>
       </ul>
     </nav>
