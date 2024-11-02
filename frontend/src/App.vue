@@ -1,11 +1,11 @@
 <script setup>
-import Table from './components/Table.vue'
+import ScoreForm from './components/ScoreForm.vue'
 import Sidebar from './components/Sidebar.vue'
 </script>
 
 <template>
   <Sidebar />
-  <Table />
+  <ScoreForm />
 </template>
 
 <style scoped>
