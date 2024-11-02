@@ -1,8 +1,10 @@
 <script setup>
 import Table from './components/Table.vue'
+import Sidebar from './components/Sidebar.vue'
 </script>
 
 <template>
+  <Sidebar />
   <Table />
 </template>
 
