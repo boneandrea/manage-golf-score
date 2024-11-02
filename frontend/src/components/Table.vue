@@ -229,14 +229,9 @@ const today = new Date()
 </script>
 <template>
   <div>
-    <h1 class="green">スコア編集</h1>
-    <ul>
-      <li><a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024ランキングページ</a></li>
-      <li><a href="https://boneandrea.github.io/gplus-golf-score/2025" target="_blank">2025ランキングページ</a></li>
-      <li><a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026ランキングページ</a></li>
-    </ul>
+    <h1 class="green">スコア登録</h1>
     <p>
-      <a href="./pdf">download</a>
+      <a href="./pdf">download pdf(できてない)</a>
     </p>
     <h3 class="green">新ペリホール番号</h3>
     <div class="form-group row peria">

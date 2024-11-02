@@ -4,6 +4,15 @@
       <ul class="nav-list">
         <li class="nav-list-item"><a href="#">新規入力</a></li>
         <li class="nav-list-item"><a href="#">過去データ修正</a></li>
+        <li class="nav-list-item">
+          <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024ランキングページ</a>
+        </li>
+        <li class="nav-list-item">
+          <a href="https://boneandrea.github.io/gplus-golf-score/2025" target="_blank">2025ランキングページ</a>
+        </li>
+        <li class="nav-list-item">
+          <a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026ランキングページ</a>
+        </li>
       </ul>
     </nav>
   </div>
