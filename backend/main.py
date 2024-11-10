@@ -1,7 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import cross_origin
-from flask import request
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 from datetime import datetime
 
@@ -32,7 +32,8 @@ import logging
 
 
 app = Flask(__name__)
-app.logger.setLevel(logging.INFO)
+# app.logger.setLevel(logging.INFO)
+app.logger.setLevel(logging.DEBUG)
 
 # .envの`PORT`は勝手に読まれる
 
@@ -45,8 +46,16 @@ app.logger.debug("HELLO")
 @app.route('/api/find', methods=["GET"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
 def find():
-    data = readOne()
+    data = readAll()
     app.logger.debug(data)
+    return data
+
+
+# 過去データ読み取り
+@app.route('/api/findOne/<id>', methods=["GET"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
+def findOne(id):
+    data = readOne(id)
     return data
 
 
@@ -92,13 +101,23 @@ def readdata():
     app.logger.debug(f"num of data: {score.count_documents({})}")
 
 
-def readOne():
+def readAll():
     app.logger.debug("read mongodb....")
     client = database().connect_db()
     db = client["score"]
     score = db["score"]
     items = list(score.find())
     return dumps(items, default=str)
+
+
+def readOne(id):
+    app.logger.debug("read one; mongodb....")
+    app.logger.debug(id)
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+    item = score.find_one({"_id": ObjectId(id)})
+    return dumps(item, default=str)
 
 
 @ app.route('/api/store', methods=["POST"])

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
+import { API_ROOT } from '@/utils/common'
 import ManualTable from './ManualTable.vue'
 import DateList from './DateList.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
@@ -12,7 +13,6 @@ const spinner0 = ref(false)
 const spinner1 = ref(false)
 const dateList = ref([])
 const edit_mode = ref('url')
-const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
 
