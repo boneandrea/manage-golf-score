@@ -5,7 +5,7 @@
         <li class="nav-list-item" @click="newScore"><a href="#">新規入力</a></li>
         <li class="nav-list-item" @click="editScore">
           <a href="#">過去データ修正</a>
-          <DateList @aaa="ddd" class="ml-auto" :dateList="dateList" v-if="showList"></DateList>
+          <DateList @receive="recv" class="ml-auto" :dateList="dateList" v-if="showList"></DateList>
         </li>
         <li class="nav-list-item">
           <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024</a>
@@ -25,14 +25,15 @@ import { ref, computed } from 'vue'
 import Navlist from './Navlist.vue'
 import DateList from './DateList.vue'
 import { API_ROOT } from '@/utils/common'
+const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
 const newScore = (e) => {
   console.log(e)
   alert(1)
 }
-const ddd = (e) => {
-  console.log(e)
+const recv = (data) => {
+  emit('receive', data)
 }
 const editScore = (e) => {
   showList.value = !showList.value

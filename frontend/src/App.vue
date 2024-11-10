@@ -1,12 +1,17 @@
 <script setup>
+import { ref, computed } from 'vue'
 import ScoreForm from './components/ScoreForm.vue'
 import Sidebar from './components/Sidebar.vue'
-const fuga = { a: 'hhhhh' }
+const data = ref({})
+const recv = (e) => {
+  console.log(e)
+  data.value = e
+}
 </script>
 
 <template>
-  <Sidebar />
-  <ScoreForm :hoge="fuga" />
+  <Sidebar @receive="recv" />
+  <ScoreForm :data="data" />
 </template>
 
 <style scoped>

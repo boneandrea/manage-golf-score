@@ -1,11 +1,15 @@
 <template>
   <div class="sidebar-container">
     <h1>G+ ゴルフデータ管理</h1>
-    <navlist></navlist>
+    <navlist @receive="recv"></navlist>
   </div>
 </template>
 <script setup>
 import Navlist from './Navlist.vue'
+const emit = defineEmits(['receive'])
+const recv = (data) => {
+  emit('receive', data)
+}
 </script>
 <style>
 .sidebar-container {
