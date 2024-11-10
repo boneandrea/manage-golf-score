@@ -30,6 +30,11 @@ const dump = (player_index, hole_index) => {
   const gross = score.value[player_index].score.reduce(function (sum, element) {
     return sum + element
   }, 0)
+
+  const s = score.value[player_index]['score'][hole_index]
+  if (s > 10) {
+    alert(`${s} も打った??\nマジですか????`)
+  }
   score.value[player_index].gross = gross
   score.value[player_index].net = gross - score.value[player_index].hdcp
 }
