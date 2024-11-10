@@ -15,6 +15,7 @@ const NEWUSER = {
 }
 
 const score = ref([])
+const scorelist = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
   score.value[index].net = (

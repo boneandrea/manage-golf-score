@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
 import ManualTable from './ManualTable.vue'
+import DateList from './DateList.vue'
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const msg = '本日のスコア'
 const game = ref({})
@@ -9,6 +10,7 @@ const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
+const dateList = ref([])
 const edit_mode = ref('url')
 const API_ROOT = import.meta.env.VITE_API_ROOT
 console.log(import.meta.env.MODE)
@@ -47,8 +49,24 @@ const readData = (date) => {
       return response.json()
     })
     .then((data) => {
+      console.clear()
+      edit_mode.value = 'manual'
+      console.log(data)
       console.log(data[0])
       game.value.course = data[0].course
+      game.value.date = new Date(data[0].date)
+      const id = data[0]['_id']['$oid']
+      console.log(id)
+      dateList.value.splice(0)
+      data.forEach((d) => {
+        dateList.value.push({
+          date: d.date,
+          id: d._id['$oid'],
+        })
+      })
+      data[0].scores.forEach((s) => {
+        members.value.push(s)
+      })
     })
     .catch((e) => {
       console.error(e)
@@ -323,12 +341,16 @@ const today = new Date()
         </div>
       </div>
       <div class="tab-pane mt-2" :class="{ active: edit_mode === 'manual' }" v-if="edit_mode === 'manual'">
+        <DateList class="ml-auto" :dateList="dateList" />
+      </div>
+      <div class="tab-pane mt-2" :class="{ active: edit_mode === 'manual' }" v-if="edit_mode === 'manual'">
         <ManualTable
           class="ml-auto"
           @update-manual-data="updateManualData"
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
           :peria_holes="peria_holes"
+          :score="[]"
         />
       </div>
     </div>
