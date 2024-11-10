@@ -1,17 +1,13 @@
 <template>
-  <div>
-    <h3 class="green">過去データ選択</h3>
-    <ul>
-      <li v-for="d in props.dateList">
-        <a href="#" target="_blank" @click.stop.prevent="selectDate(d.id)">{{ formattedDate(d.date.$date) }}</a>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li v-for="d in props.dateList">
+      <a href="#" target="_blank" @click.stop.prevent="selectDate(d.id)">{{ formattedDate(d.date.$date) }}</a>
+    </li>
+  </ul>
 </template>
 <script setup>
 import { ref, computed } from 'vue'
 import { API_ROOT } from '@/utils/common'
-import Navlist from './Navlist.vue'
 const props = defineProps(['dateList'])
 const formattedDate = (d) => {
   const mydate = new Date(d)
