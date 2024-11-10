@@ -1,7 +1,11 @@
 <script setup>
 import { defineEmits, ref, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
-const props = defineProps(['peria_holes'])
+const props = defineProps({
+  score: Object,
+  peria_holes: Array,
+})
+console.log(props)
 const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const courseInfo = ref({ name: '', date: null })

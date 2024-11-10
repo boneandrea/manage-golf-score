@@ -1,7 +1,10 @@
 <template>
   <ul>
     <li v-for="d in props.dateList">
-      <a href="#" target="_blank" @click.stop.prevent="selectDate(d.id)">{{ formattedDate(d.date.$date) }}</a>
+      <a href="#" target="_blank" @click.stop.prevent="selectDate(d.id)">
+        {{ formattedDate(d.date.$date) }}:
+        {{ d.course }}
+      </a>
     </li>
   </ul>
 </template>

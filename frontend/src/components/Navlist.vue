@@ -55,6 +55,7 @@ const editScore = (e) => {
         dateList.value.push({
           date: d.date,
           id: d._id['$oid'],
+          course: d.course,
         })
       })
     })

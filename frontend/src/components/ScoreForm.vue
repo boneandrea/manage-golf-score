@@ -52,14 +52,10 @@ const readData = (date) => {
       return response.json()
     })
     .then((data) => {
-      console.clear()
       edit_mode.value = 'manual'
-      console.log(data)
-      console.log(data[0])
       game.value.course = data[0].course
       game.value.date = new Date(data[0].date)
       const id = data[0]['_id']['$oid']
-      console.log(id)
       dateList.value.splice(0)
       data.forEach((d) => {
         dateList.value.push({
@@ -350,8 +346,8 @@ const today = new Date()
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
           :peria_holes="peria_holes"
-          :score="[]"
-        />
+          :score="props.score"
+        />{{ props }}
       </div>
     </div>
     <hr />
