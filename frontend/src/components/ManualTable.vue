@@ -17,6 +17,7 @@ const NEWUSER = {
   net: 0,
 }
 
+// propsをコピーした値
 const score = ref({
   peria_holes: [],
   score: {
@@ -38,14 +39,15 @@ const helpNearpin = () => {
   alert('ニアピンはRESULT画面で設定してください')
 }
 
-const dump = (player_index, score) => {
-  //  const gross = score.value[player_index].score.reduce(function (sum, element) {
-  //    return sum + element
-  //  }, 0)
-  if (score.score > 10) {
-    alert(`${score.score} も打った??\nマジですか????`)
+const dump = (player_index, s) => {
+  console.log(score.value.score.scores[player_index].score)
+  const gross = score.value.score.scores[player_index].score.reduce(function (sum, element) {
+    return sum + element.score
+  }, 0)
+  if (s.score > 10) {
+    alert(`${s.score} も打った??\nマジですか????`)
   }
-  //  score.value[player_index].gross = gross
+  score.value.score.scores[player_index].gross = gross
   //  score.value[player_index].net = gross - score.value[player_index].hdcp
 }
 const sort = () => {
@@ -73,9 +75,7 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   console.log('mounted')
-  console.log(props)
   score.value = Object.assign(score.value, props)
-  console.log(score.value)
 })
 
 const removePlayer = (index) => {
