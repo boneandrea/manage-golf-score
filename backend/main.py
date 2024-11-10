@@ -46,17 +46,16 @@ app.logger.debug("HELLO")
 @app.route('/api/find', methods=["GET"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
 def find():
-    data = readAll()
-    app.logger.debug(data)
-    return data
+    items = readAll()
+    return dumps(items, default=str)
 
 
 # 過去データ読み取り
 @app.route('/api/findOne/<id>', methods=["GET"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
 def findOne(id):
-    data = readOne(id)
-    return data
+    item = readOne(id)
+    return dumps(item, default=str)
 
 
 # 過去データupdate
@@ -106,8 +105,7 @@ def readAll():
     client = database().connect_db()
     db = client["score"]
     score = db["score"]
-    items = list(score.find())
-    return dumps(items, default=str)
+    return list(score.find())
 
 
 def readOne(id):
@@ -117,7 +115,7 @@ def readOne(id):
     db = client["score"]
     score = db["score"]
     item = score.find_one({"_id": ObjectId(id)})
-    return dumps(item, default=str)
+    return item
 
 
 @ app.route('/api/store', methods=["POST"])
