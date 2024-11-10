@@ -48,10 +48,8 @@ const editScore = (e) => {
       return response.json()
     })
     .then((data) => {
-      console.log(data)
       dateList.value.splice(0)
       data.forEach((d) => {
-        console.log(d)
         dateList.value.push({
           date: d.date,
           id: d._id['$oid'],

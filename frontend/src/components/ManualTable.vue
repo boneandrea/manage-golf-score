@@ -5,7 +5,6 @@ const props = defineProps({
   score: Object,
   peria_holes: Array,
 })
-console.log(props)
 const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const courseInfo = ref({ name: '', date: null })
@@ -18,7 +17,20 @@ const NEWUSER = {
   net: 0,
 }
 
-const score = ref([])
+const score = ref({
+  peria_holes: [],
+  score: {
+    course: '',
+    scores: [],
+    date: '',
+  },
+})
+const mydate = ref(null)
+const scores = () => {
+  if (!props.score) return []
+  if (!props.score.scores) return []
+  return props.score.scores.length ? props.score.scores : []
+}
 const scorelist = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
@@ -31,17 +43,15 @@ const helpNearpin = () => {
   alert('ニアピンはRESULT画面で設定してください')
 }
 
-const dump = (player_index, hole_index) => {
-  const gross = score.value[player_index].score.reduce(function (sum, element) {
-    return sum + element
-  }, 0)
-
-  const s = score.value[player_index]['score'][hole_index]
-  if (s > 10) {
-    alert(`${s} も打った??\nマジですか????`)
+const dump = (player_index, score) => {
+  //  const gross = score.value[player_index].score.reduce(function (sum, element) {
+  //    return sum + element
+  //  }, 0)
+  if (score.score > 10) {
+    alert(`${score.score} も打った??\nマジですか????`)
   }
-  score.value[player_index].gross = gross
-  score.value[player_index].net = gross - score.value[player_index].hdcp
+  //  score.value[player_index].gross = gross
+  //  score.value[player_index].net = gross - score.value[player_index].hdcp
 }
 const sort = () => {
   if (!courseInfo.value.name) {
@@ -56,9 +66,23 @@ const sort = () => {
   update()
 }
 
-const addPlayer = () => {
-  score.value.push(structuredClone(NEWUSER))
+const changeDate = () => {
+  console.log(mydate.value)
 }
+
+const addPlayer = () => {
+  //  score.value.push(structuredClone(NEWUSER))
+}
+
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  console.log('mounted')
+  console.log(props)
+  score.value = Object.assign(score.value, props)
+  console.log(score.value)
+})
+
 const removePlayer = (index) => {
   const name = score.value[index].name
   if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
@@ -86,9 +110,9 @@ const restore = () => {
     courseInfo.value.name = data.courseInfo.name
     courseInfo.value.date = data.courseInfo.date
     score.value.splice(0)
-    data.score.forEach((s) => score.value.push(s))
+    //    data.score.forEach((s) => score.value.push(s))
     par.value.splice(0)
-    data.par.forEach((p) => par.value.push(p))
+    //    data.par.forEach((p) => par.value.push(p))
     emit('resetManualData')
     emit('setPeriaHoles', data.peria_holes)
   } catch (e) {
@@ -98,6 +122,10 @@ const restore = () => {
 addPlayer()
 </script>
 <template>
+  <hr />
+  <!--   x{{score}} -->
+  <hr />
+  y{{ score.score.scores }}
   <div>
     <form>
       <div class="form-group row ml-1">
@@ -105,7 +133,6 @@ addPlayer()
           class="form-control w-25"
           :class="{ 'is-invalid': courseInfo.name === '' }"
           placeholder="コース名"
-          v-model.trim="courseInfo.name"
           required
         />
       </div>
@@ -114,8 +141,9 @@ addPlayer()
           class="form-control w-25"
           :class="{ 'is-invalid': courseInfo.date === null }"
           placeholder="日時"
+          v-model.trim="mydate"
           type="date"
-          v-model="courseInfo.date"
+          @change="changeDate"
           required
         />
       </div>
@@ -139,7 +167,7 @@ addPlayer()
             <input class="form-control" type="number" min="1" max="6" required v-model="par[index]" />
           </td>
         </tr>
-        <tr v-for="(s, player_index) in score">
+        <tr v-for="(s, player_index) in score.score.scores">
           <td>
             <button type="button" class="btn btn-danger" @click="removePlayer(player_index)">
               <i class="bi bi-trash"></i>
@@ -148,15 +176,15 @@ addPlayer()
           <td>
             <input class="form-control name" placeholder="name" v-model.trim="s.name" required />
           </td>
-          <td v-for="(hole, hole_index) in holes">
+          <td v-for="ss in s.score">
             <input
               class="form-control score"
               type="number"
-              v-model="s['score'][hole_index]"
+              v-model="ss.score"
               min="1"
               max="20"
               required
-              @change="dump(player_index, hole_index)"
+              @change="dump(player_index, ss)"
             />
           </td>
           <td>
@@ -189,7 +217,6 @@ addPlayer()
       <button type="button" class="btn btn-danger mx-2" @click="save">Save</button>
       <button type="button" class="btn btn-danger mx-2" @click="restore">Restore</button>
     </div>
-
     <hr />
     <p>やること：</p>
     <ul>

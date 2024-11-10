@@ -346,8 +346,8 @@ const today = new Date()
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
           :peria_holes="peria_holes"
-          :score="props.score"
-        />{{ props }}
+          :score="data"
+        />
       </div>
     </div>
     <hr />
@@ -412,7 +412,6 @@ const today = new Date()
     </div>
   </div>
   <hr />
-  {{ data }}
 </template>
 
 <style scoped>
