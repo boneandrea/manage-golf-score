@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref, computed } from 'vue'
+import { defineEmits, ref, watch, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
 const props = defineProps({
   score: Object,
@@ -63,8 +63,13 @@ const sort = () => {
   update()
 }
 
+watch(props, () => {
+  // 時刻だけ汚く扱うことに激怒している
+  mydate.value = convertDate(score.value.score.date)
+})
+
 const changeDate = () => {
-  console.log(mydate.value)
+  console.log('change', mydate.value)
 }
 
 const addPlayer = () => {
@@ -77,6 +82,12 @@ onMounted(() => {
   console.log('mounted')
   score.value = Object.assign(score.value, props)
 })
+
+const convertDate = (d) => {
+  if (!d.$date) return ''
+  console.log(d.$date.replace(/T.*/, ''))
+  return d.$date.replace(/T.*/, '')
+}
 
 const removePlayer = (index) => {
   const name = score.value[index].name
@@ -118,7 +129,7 @@ addPlayer()
 </script>
 <template>
   <hr />
-  x{{ score }} -->
+  x{{ score.score.date }} -->
   <hr />
   y{{ score.score.scores }}
   <div>
@@ -135,8 +146,9 @@ addPlayer()
       <div class="form-group row ml-1">
         <input
           class="form-control w-25"
-          :class="{ 'is-invalid': courseInfo.date === null }"
+          :class="{ 'is-invalid': !mydate }"
           placeholder="日時"
+          v-model="mydate"
           type="date"
           @change="changeDate"
           required
