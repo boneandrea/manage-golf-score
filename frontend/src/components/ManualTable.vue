@@ -118,7 +118,7 @@ addPlayer()
 </script>
 <template>
   <hr />
-  <!--   x{{score}} -->
+  x{{ score }} -->
   <hr />
   y{{ score.score.scores }}
   <div>
@@ -126,8 +126,9 @@ addPlayer()
       <div class="form-group row ml-1">
         <input
           class="form-control w-25"
-          :class="{ 'is-invalid': courseInfo.name === '' }"
+          :class="{ 'is-invalid': !score.score.course }"
           placeholder="コース名"
+          v-model.trim="score.score.course"
           required
         />
       </div>
@@ -136,7 +137,6 @@ addPlayer()
           class="form-control w-25"
           :class="{ 'is-invalid': courseInfo.date === null }"
           placeholder="日時"
-          v-model.trim="mydate"
           type="date"
           @change="changeDate"
           required
