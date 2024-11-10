@@ -9,7 +9,7 @@ const msg = '本日のスコア'
 const game = ref({})
 const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const props = defineProps({
-  data: {},
+  data: Object,
 })
 const members = ref([])
 const spinner0 = ref(false)
@@ -415,6 +415,8 @@ const today = new Date()
       </div>
     </div>
   </div>
+  <hr />
+  {{ data }}
 </template>
 
 <style scoped>
