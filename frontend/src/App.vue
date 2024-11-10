@@ -4,8 +4,8 @@ import ScoreForm from './components/ScoreForm.vue'
 import Sidebar from './components/Sidebar.vue'
 const data = ref({})
 const recv = (e) => {
-  console.log(e)
-  data.value = e
+  Object.keys(data.value).forEach((k) => delete data.value[k])
+  data.value = Object.assign(data.value, e)
 }
 </script>
 

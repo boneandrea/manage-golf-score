@@ -26,11 +26,6 @@ const score = ref({
   },
 })
 const mydate = ref(null)
-const scores = () => {
-  if (!props.score) return []
-  if (!props.score.scores) return []
-  return props.score.scores.length ? props.score.scores : []
-}
 const scorelist = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {

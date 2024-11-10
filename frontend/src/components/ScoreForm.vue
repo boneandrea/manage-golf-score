@@ -341,7 +341,6 @@ const today = new Date()
       </div>
       <div class="tab-pane mt-2" :class="{ active: edit_mode === 'manual' }" v-if="edit_mode === 'manual'">
         <ManualTable
-          class="ml-auto"
           @update-manual-data="updateManualData"
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
