@@ -5,7 +5,7 @@
         <li class="nav-list-item" @click="newScore"><a href="#">新規入力</a></li>
         <li class="nav-list-item" @click="editScore">
           <a href="#">過去データ修正</a>
-          <DateList class="ml-auto" :dateList="dateList" v-if="showList"></DateList>
+          <DateList @aaa="ddd" class="ml-auto" :dateList="dateList" v-if="showList"></DateList>
         </li>
         <li class="nav-list-item">
           <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024</a>
@@ -31,10 +31,13 @@ const newScore = (e) => {
   console.log(e)
   alert(1)
 }
-const editScore = (e) => {
+const ddd = (e) => {
   console.log(e)
+}
+const editScore = (e) => {
   showList.value = !showList.value
-  console.log(showList.value)
+  if (!showList.value) return
+
   const apiUrl = `${API_ROOT}/find`
   fetch(apiUrl, {
     method: 'GET',
@@ -44,7 +47,6 @@ const editScore = (e) => {
       return response.json()
     })
     .then((data) => {
-      console.clear()
       console.log(data)
       dateList.value.splice(0)
       data.forEach((d) => {

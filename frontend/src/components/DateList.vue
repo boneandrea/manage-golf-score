@@ -9,6 +9,7 @@
 import { ref, computed } from 'vue'
 import { API_ROOT } from '@/utils/common'
 const props = defineProps(['dateList'])
+const emit = defineEmits(['aaa'])
 const formattedDate = (d) => {
   const mydate = new Date(d)
   return `${mydate.getFullYear()}/${mydate.getMonth() + 1}/${mydate.getDate()}`
@@ -24,8 +25,7 @@ const selectDate = (id) => {
       return response.json()
     })
     .then((data) => {
-      console.clear()
-      console.log(data)
+      emit('aaa', data)
     })
     .catch((e) => {
       console.error(e)

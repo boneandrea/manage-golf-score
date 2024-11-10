@@ -8,6 +8,9 @@ const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s)
 const msg = '本日のスコア'
 const game = ref({})
 const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
+const props = defineProps({
+  data: {},
+})
 const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
@@ -289,7 +292,7 @@ const today = new Date()
         />
       </div>
     </div>
-    <div class="form-group row peria">
+    <div class="form-group row peria" style="margineddc-left: 50px">
       <div v-for="(hole, index) in peria_holes.slice(6, 12)">
         <input
           class="form-control mr-2"
@@ -450,6 +453,9 @@ h1 {
   width: 200px;
 }
 
+.form-group {
+  margin-left: 10px;
+}
 .peria input {
   width: 6em;
 }
