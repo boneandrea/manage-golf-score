@@ -137,7 +137,7 @@ const restore = () => {
       <div class="form-group row ml-1">
         <input
           class="form-control w-25"
-          :class="{ 'is-invalid': !mydate }"
+          :class="{ 'is-invalid': !score.score.date }"
           placeholder="日時"
           :value="score.score.date"
           type="date"
@@ -172,7 +172,13 @@ const restore = () => {
             </button>
           </td>
           <td>
-            <input class="form-control name" placeholder="name" v-model.trim="s.name" required />
+            <input
+              class="form-control name"
+              placeholder="name"
+              v-model.trim="s.name"
+              required
+              :class="{ 'is-invalid': !s.name }"
+            />
           </td>
           <td v-for="ss in s.score">
             <input
