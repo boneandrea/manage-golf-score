@@ -63,14 +63,14 @@ const sort = () => {
   update()
 }
 
-watch(props, () => {
-  // 時刻だけ汚く扱うことに激怒している
-  mydate.value = convertDate(score.value.score.date)
-})
+if (0)
+  watch(props, () => {
+    // 時刻だけ汚く扱うことに激怒している
+    mydate.value = convertDate(score.value.score.date)
+  })
 
 const changeDate = () => {
-  console.log('change', mydate.value)
-  console.log('change', mydate.value)
+  console.log('change', score)
   console.log('change', mydate.value)
   console.log('change', mydate.value)
   score.date = new Date(mydate.value)
@@ -155,7 +155,7 @@ const restore = () => {
           class="form-control w-25"
           :class="{ 'is-invalid': !mydate }"
           placeholder="日時"
-          v-model="mydate"
+          v-model="score.score.date"
           type="date"
           @change="changeDate"
           required

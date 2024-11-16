@@ -86,10 +86,6 @@ const fetchData = () => {
     })
 }
 
-const changeDate = (date) => {
-  console.log(date)
-  //props.data.date=new Date(date)
-}
 const changeTab = (name) => {
   edit_mode.value = name
 }
@@ -182,6 +178,7 @@ const reset = () => {
   members.value.splice(0)
 }
 function updateManualData(score, par, courseInfo) {
+  return
   game.value.course = courseInfo.name
   game.value.date = new Date(courseInfo.date)
   members.value.splice(0)
@@ -194,9 +191,13 @@ function updateManualData(score, par, courseInfo) {
 function send() {
   if (!confirm('送信してよいですか？')) return
   console.log(props.data)
+  console.log(props.data.date)
+  console.log(props.data.date)
+  console.log(props.data.date)
+  console.log(props.data.date)
   const content = {
     course: props.data.course,
-    date: props.data.date.$date,
+    date: props.data.date,
     par: props.data.par,
     scores: props.data.scores,
   }
@@ -320,20 +321,15 @@ const today = new Date()
           @update-manual-data="updateManualData"
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
-          @change-date="changeDate"
           :peria_holes="peria_holes"
           :score="data"
         />
       </div>
     </div>
     <hr />
-    [[{{ data._id }}]]
+    [[ID:{{ data._id }}]]
     <h2 class="green">RESULT</h2>
-    <h3 v-if="data.date" class="green">
-      [{{ data.course }}] {{ new Date(data.date.$date).getFullYear() }}/{{
-        new Date(data.date.$date).getMonth() + 1
-      }}/{{ new Date(data.date.$date).getDate() }}
-    </h3>
+    <h3 v-if="data.date" class="green">[{{ data.course }}] / {{ data.date }}</h3>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>

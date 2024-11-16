@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 
 import os
+import dateutil.parser
 
 from database import *
 from igolf import *
@@ -144,6 +145,7 @@ def updateOne(json):
     app.logger.debug(json)
     id=json["id"]
     del json["id"]
+    json["date"] = dateutil.parser.parse(json["date"])  # from string to ISODate
     score.update_one({"_id": ObjectId(id)}, {"$set":json})
     return {}
 
@@ -176,7 +178,6 @@ def store_score(result):
     db = client["score"]
     score = db["score"]
 
-    import dateutil.parser
     result["date"] = dateutil.parser.parse(
         result["date"])  # from string to ISODate
     result["created_at"] = datetime.now()

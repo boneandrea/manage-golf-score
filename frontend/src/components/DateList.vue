@@ -28,6 +28,9 @@ const selectDate = (id) => {
       return response.json()
     })
     .then((data) => {
+      const d = new Date(data.date.$date)
+      data.date = `${d.getFullYear()}/${d.getMonth() < 10 ? '0' : ''}${d.getMonth() + 1}/${d.getDate()}`
+      console.log(data.date)
       emit('receive', data)
     })
     .catch((e) => {
