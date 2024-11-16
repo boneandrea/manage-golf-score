@@ -28,10 +28,7 @@ const selectDate = (id) => {
     })
     .then((data) => {
       const d = new Date(data.date.$date)
-      data.date = `${d.getFullYear()}/${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}/${d.getDate()}`
-      console.log(data.date)
-      console.log(data.date)
-      console.log(data.date)
+      data.date = `${d.getFullYear()}-${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}-${d.getDate()}`
       emit('receive', data)
     })
     .catch((e) => {

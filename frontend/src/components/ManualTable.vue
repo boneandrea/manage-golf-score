@@ -151,13 +151,13 @@ const restore = () => {
         />
       </div>
       <div class="form-group row ml-1">
+
         <input
           class="form-control w-25"
           :class="{ 'is-invalid': !mydate }"
           placeholder="日時"
-          v-model="score.score.date"
+          :value="score.score.date"
           type="date"
-          @change="changeDate"
           required
         />
       </div>
