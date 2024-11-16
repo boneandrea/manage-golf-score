@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref, watch, computed } from 'vue'
+import { defineEmits, ref, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
 const props = defineProps({
   score: Object,
@@ -62,12 +62,6 @@ const sort = () => {
   score.value.sort((a, b) => a.net - b.net)
   update()
 }
-
-if (0)
-  watch(props, () => {
-    // 時刻だけ汚く扱うことに激怒している
-    mydate.value = convertDate(score.value.score.date)
-  })
 
 const changeDate = (e) => emit('changeDate', e.target.value)
 const addPlayer = () => {

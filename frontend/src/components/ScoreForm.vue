@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { HOLE, getPrize } from '@/utils/utils'
 import { API_ROOT } from '@/utils/common'
 import ManualTable from './ManualTable.vue'
@@ -22,8 +22,17 @@ console.log(API_ROOT)
 const page = () => {
   if (props.data._id) {
     return '修正'
-  } else return '登録'
+  } else {
+    return '登録'
+  }
 }
+
+watch(props, () => {
+  // 時刻だけ汚く扱うことに激怒している
+  if (props.data._id) {
+    edit_mode.value = 'manual'
+  }
+})
 
 const changeDate = (e) => (props.data.date = e)
 const collectPeriaHoles = () => {
@@ -94,6 +103,10 @@ const fetchData = () => {
 }
 
 const changeTab = (name) => {
+  if (props.data._id) {
+    alert('修正時は手動入力のみです')
+    return
+  }
   edit_mode.value = name
 }
 const scoreByHole = (scores, hole_no) => {
