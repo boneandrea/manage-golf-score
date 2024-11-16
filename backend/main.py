@@ -43,9 +43,9 @@ print(FRONTEND)
 app.logger.debug("HELLO")
 
 
-# 過去データ読み取り
+# 過去データindex
 @app.route('/api/find', methods=["GET"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
 def find():
     items = readAll()
     return dumps(items, default=str)
@@ -83,6 +83,15 @@ def update():
         })
 
     return jsonify({"fe": FRONTEND})
+
+# 過去データ読み取り
+
+
+@app.route('/api/remove/<id>', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
+def remove(id):
+    deleteOne(id)
+    return dumps({}, default=str)
 
 
 @app.route('/api/get', methods=["POST"])
@@ -137,16 +146,26 @@ def readOne(id):
     item = score.find_one({"_id": ObjectId(id)})
     return item
 
+
 def updateOne(json):
     app.logger.debug("update one; mongodb....")
     client = database().connect_db()
     db = client["score"]
     score = db["score"]
     app.logger.debug(json)
-    id=json["id"]
+    id = json["id"]
     del json["id"]
-    json["date"] = dateutil.parser.parse(json["date"])  # from string to ISODate
-    score.update_one({"_id": ObjectId(id)}, {"$set":json})
+    json["date"] = dateutil.parser.parse(
+        json["date"])  # from string to ISODate
+    score.update_one({"_id": ObjectId(id)}, {"$set": json})
+    return {}
+
+
+def deleteOne(id):
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+    score.delete_one({"_id": ObjectId(id)})
     return {}
 
 

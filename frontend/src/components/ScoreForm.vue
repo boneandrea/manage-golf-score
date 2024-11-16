@@ -27,8 +27,27 @@ const page = () => {
   }
 }
 
+const remove = () => {
+  if (!confirm('この日のデータを削除します。戻せません')) return
+  const id = props.data._id.$oid
+  const apiUrl = `${API_ROOT}/remove/${id}`
+  spinner0.value = true
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({}),
+  })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      alert('削除しました')
+    })
+    .finally(() => {
+      spinner0.value = false
+    })
+}
 watch(props, () => {
-  // 時刻だけ汚く扱うことに激怒している
   if (props.data._id) {
     edit_mode.value = 'manual'
   }
@@ -404,6 +423,14 @@ const today = new Date()
       </div>
       <div class="col">
         <div v-show="spinner1" class="spinner-border text-secondary" role="status" />
+      </div>
+    </div>
+    <div class="form-group row" v-if="props.data._id">
+      <div class="col">
+        <button type="button" class="btn btn-danger" @click="remove">
+          <i class="bi bi-trash"></i>
+          この日のデータを削除する（戻せません）
+        </button>
       </div>
     </div>
   </div>
