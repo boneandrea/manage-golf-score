@@ -19,6 +19,11 @@ const edit_mode = ref('url')
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
 
+const page = () => {
+  if (props.data._id) {
+    return '修正'
+  } else return '登録'
+}
 const collectPeriaHoles = () => {
   const check = {}
   peria_holes.value.forEach((e) => (check[e] = true))
@@ -247,7 +252,7 @@ const today = new Date()
 </script>
 <template>
   <div>
-    <h1 class="green">スコア登録</h1>
+    <h1 class="green">スコア{{ page() }}</h1>
     <p>
       <a href="./pdf">download pdf(できてない)</a>
     </p>

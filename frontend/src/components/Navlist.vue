@@ -29,8 +29,7 @@ const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
 const newScore = (e) => {
-  console.log(e)
-  alert(1)
+  emit('receive', {})
 }
 const recv = (data) => {
   emit('receive', data)
