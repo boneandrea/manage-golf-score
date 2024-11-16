@@ -75,7 +75,6 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   score.value = Object.assign(score.value, props)
-  console.log('mounted', score.value)
   if (!score.value.score) {
     addPlayer()
   }
@@ -87,38 +86,8 @@ const removePlayer = (index) => {
   if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
   scores.splice(index, 1)
 }
-
-const save = () => {
-  if (!confirm('入力内容を保存しますか？')) return
-  const data = {
-    peria_holes: [...props.peria_holes],
-    courseInfo: courseInfo.value,
-    par: par.value,
-    score: score.value,
-  }
-  localStorage.setItem('golf-gplus', JSON.stringify(data))
-  alert('saved')
-}
-const restore = () => {
-  if (!confirm('保存された内容を読み込みますか？')) return
-  try {
-    const data = JSON.parse(localStorage.getItem('golf-gplus'))
-    courseInfo.value.name = data.courseInfo.name
-    courseInfo.value.date = data.courseInfo.date
-    score.value.splice(0)
-    //    data.score.forEach((s) => score.value.push(s))
-    par.value.splice(0)
-    //    data.par.forEach((p) => par.value.push(p))
-    emit('resetManualData')
-    emit('setPeriaHoles', data.peria_holes)
-  } catch (e) {
-    alert('復元失敗... Arrrrggghhhh')
-  }
-}
 </script>
 <template>
-  <hr />
-  <hr />
   <div>
     <form>
       <div class="form-group row ml-1">

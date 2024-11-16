@@ -362,7 +362,6 @@ const today = new Date()
       </div>
     </div>
     <hr />
-    [[ID:{{ data._id }}]]
     <h2 class="green">RESULT</h2>
     <h3 v-if="data.date" class="green">[{{ data.course }}] / {{ data.date }}</h3>
     <table class="table table-striped table-bordered">
