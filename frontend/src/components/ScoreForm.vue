@@ -13,7 +13,6 @@ const props = defineProps({
 })
 const spinner0 = ref(false)
 const spinner1 = ref(false)
-const dateList = ref([])
 const edit_mode = ref('url')
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)

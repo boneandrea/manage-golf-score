@@ -27,7 +27,6 @@ const score = ref({
   },
 })
 const mydate = ref(null)
-const scorelist = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
   const target = score.value.score.scores[index]
@@ -61,7 +60,6 @@ const sort = () => {
   score.value.score.scores.sort((a, b) => a.net - b.net)
   setPoint()
 }
-
 const setPoint = () => {
   const scores = score.value.score.scores
   scores.forEach((e, i) => {
@@ -70,6 +68,12 @@ const setPoint = () => {
 }
 const changeDate = (e) => emit('changeDate', e.target.value)
 const addPlayer = () => score.value.score.scores.push(structuredClone(NEWUSER))
+const removePlayer = (index) => {
+  const scores = score.value.score.scores
+  const name = score.value.score.scores[index].name
+  if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
+  scores.splice(index, 1)
+}
 
 import { onMounted } from 'vue'
 
@@ -79,13 +83,6 @@ onMounted(() => {
     addPlayer()
   }
 })
-
-const removePlayer = (index) => {
-  const scores = score.value.score.scores
-  const name = score.value.score.scores[index].name
-  if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
-  scores.splice(index, 1)
-}
 </script>
 <template>
   <div>
