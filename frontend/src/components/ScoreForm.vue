@@ -11,7 +11,6 @@ const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const props = defineProps({
   data: Object,
 })
-const members = ref([])
 const spinner0 = ref(false)
 const spinner1 = ref(false)
 const dateList = ref([])
@@ -162,10 +161,6 @@ const sort = () => {
     if (a.gross > b.gross) return 1
     if (a.gross < b.gross) return -1
     return 0
-  })
-
-  members.value.forEach((e, i) => {
-    e.point = members.value.length - i
   })
 }
 

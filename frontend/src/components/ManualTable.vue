@@ -59,9 +59,15 @@ const sort = () => {
     return
   }
   score.value.score.scores.sort((a, b) => a.net - b.net)
-  update()
+  setPoint()
 }
 
+const setPoint = () => {
+  const scores = score.value.score.scores
+  scores.forEach((e, i) => {
+    scores[i].point = scores.length - i
+  })
+}
 const changeDate = (e) => emit('changeDate', e.target.value)
 const addPlayer = () => score.value.score.scores.push(structuredClone(NEWUSER))
 
@@ -75,20 +81,11 @@ onMounted(() => {
   }
 })
 
-const convertDate = (d) => {
-  if (!d.$date) return ''
-  console.log(d.$date.replace(/T.*/, ''))
-  return d.$date.replace(/T.*/, '')
-}
-
 const removePlayer = (index) => {
   const scores = score.value.score.scores
   const name = score.value.score.scores[index].name
   if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
   scores.splice(index, 1)
-}
-const update = () => {
-  emit('updateManualData', score.value, par.value, courseInfo.value)
 }
 
 const save = () => {
