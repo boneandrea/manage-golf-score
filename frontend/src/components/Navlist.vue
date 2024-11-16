@@ -33,7 +33,6 @@ const newScore = (e) => {
   emit('receive', { scores: [] })
 }
 const recv = (data) => {
-  console.log(data)
   emit('receive', data)
 }
 const editScore = (e) => {
