@@ -40,41 +40,6 @@ const inValidPeriaHole = (holeNo) => {
 }
 
 const title = computed(() => (edit_mode.value === 'url' ? 'URLから取得' : '地獄の手動入力'))
-const readData = (date) => {
-  const apiUrl = `${API_ROOT}/find`
-  spinner0.value = true
-  members.value.splice(0, members.value.length)
-  fetch(apiUrl, {
-    method: 'GET',
-    headers: { 'content-type': 'application/json' },
-  })
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      edit_mode.value = 'manual'
-      game.value.course = data[0].course
-      game.value.date = new Date(data[0].date)
-      const id = data[0]['_id']['$oid']
-      dateList.value.splice(0)
-      data.forEach((d) => {
-        dateList.value.push({
-          date: d.date,
-          id: d._id['$oid'],
-        })
-      })
-      data[0].scores.forEach((s) => {
-        members.value.push(s)
-      })
-    })
-    .catch((e) => {
-      console.error(e)
-      alert(e)
-    })
-    .finally(() => {
-      spinner0.value = false
-    })
-}
 const fetchData = () => {
   if (!collectPeriaHoles()) {
     alert('新ペリホールを正しく指定してください')
@@ -303,7 +268,6 @@ const today = new Date()
     </div>
     <h2 class="green">{{ title }}</h2>
     <div>
-      <button @click="readData()">readOne</button>
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link" :class="{ active: edit_mode === 'url' }" @click="changeTab('url')">

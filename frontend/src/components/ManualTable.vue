@@ -73,14 +73,18 @@ const changeDate = () => {
 }
 
 const addPlayer = () => {
-  //  score.value.push(structuredClone(NEWUSER))
+  console.log(1, score.value)
+  score.value.score.scores.push(structuredClone(NEWUSER))
 }
 
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  console.log('mounted')
   score.value = Object.assign(score.value, props)
+  console.log('mounted', score.value)
+  if (!score.value.score) {
+    addPlayer()
+  }
 })
 
 const convertDate = (d) => {
@@ -125,11 +129,9 @@ const restore = () => {
     alert('復元失敗... Arrrrggghhhh')
   }
 }
-addPlayer()
 </script>
 <template>
   <hr />
-  x{{ score.score.date }} -->
   <hr />
   y{{ score.score.scores }}
   <div>
