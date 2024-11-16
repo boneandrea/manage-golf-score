@@ -159,7 +159,7 @@ const restore = () => {
       <tbody class="text-center">
         <tr>
           <th />
-          <th>NAME \ PAR</th>
+          <th class="corner">NAME \ PAR</th>
           <td v-for="(_p, index) in par">
             <input class="form-control" type="number" min="1" max="6" required v-model="par[index]" />
           </td>
@@ -240,6 +240,10 @@ table input.name {
 }
 table input.hdcp {
   width: 7em;
+}
+
+table .corner {
+  white-space: nowrap;
 }
 
 table input.birdie {
