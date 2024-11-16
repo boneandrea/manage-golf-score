@@ -30,9 +30,8 @@ const mydate = ref(null)
 const scorelist = ref([])
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
-  score.value[index].net = (
-    Math.round((score.value[index].gross - parseFloat(score.value[index].hdcp)) * 10) / 10
-  ).toFixed(1)
+  const target = score.value.score.scores[index]
+  target.net = (Math.round((target.gross - parseFloat(target.hdcp)) * 10) / 10).toFixed(1)
 }
 
 const helpNearpin = () => {
@@ -40,7 +39,6 @@ const helpNearpin = () => {
 }
 
 const dump = (player_index, s) => {
-  console.log(score.value.score.scores[player_index].score)
   const gross = score.value.score.scores[player_index].score.reduce(function (sum, element) {
     return sum + element.score
   }, 0)
@@ -51,15 +49,15 @@ const dump = (player_index, s) => {
   //  score.value[player_index].net = gross - score.value[player_index].hdcp
 }
 const sort = () => {
-  if (!courseInfo.value.name) {
+  if (!score.value.score.course) {
     alert('入力が完了していません')
     return
   }
-  if (!courseInfo.value.date) {
+  if (!score.value.score.date) {
     alert('入力が完了していません')
     return
   }
-  score.value.sort((a, b) => a.net - b.net)
+  score.value.score.scores.sort((a, b) => a.net - b.net)
   update()
 }
 

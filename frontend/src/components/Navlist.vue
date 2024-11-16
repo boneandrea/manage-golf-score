@@ -5,7 +5,7 @@
         <li class="nav-list-item" @click="newScore"><a href="#">新規入力</a></li>
         <li class="nav-list-item" @click="editScore">
           <a href="#">過去データ修正</a>
-          <DateList @receive="recv" class="ml-auto" :dateList="dateList" v-if="showList"></DateList>
+          <DateList @receive="recv" class="ml-auto" :dateList="dateList"></DateList>
         </li>
         <li class="nav-list-item">
           <a href="https://boneandrea.github.io/gplus-golf-score/2024" target="_blank">2024</a>
@@ -30,9 +30,10 @@ const showList = ref(false)
 const dateList = ref([])
 const newScore = (e) => {
   dateList.value.splice(0)
-  emit('receive', {})
+  emit('receive', { scores: [] })
 }
 const recv = (data) => {
+  console.log(data)
   emit('receive', data)
 }
 const editScore = (e) => {
