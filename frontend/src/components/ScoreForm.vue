@@ -86,6 +86,10 @@ const fetchData = () => {
     })
 }
 
+const changeDate = (date) => {
+  console.log(date)
+  //props.data.date=new Date(date)
+}
 const changeTab = (name) => {
   edit_mode.value = name
 }
@@ -189,17 +193,24 @@ function updateManualData(score, par, courseInfo) {
 
 function send() {
   if (!confirm('送信してよいですか？')) return
-  const apiUrl = `${API_ROOT}/store`
+  console.log(props.data)
+  const content = {
+    course: props.data.course,
+    date: props.data.date.$date,
+    par: props.data.par,
+    scores: props.data.scores,
+  }
+  if (props.data._id) {
+    content.id = props.data._id.$oid
+  }
+  console.log(content)
+  const apiUrl = props.data._id ? `${API_ROOT}/update` : `${API_ROOT}/store`
+
   spinner1.value = true
   fetch(apiUrl, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      course: game.value.course,
-      date: game.value.date,
-      par: game.value.par,
-      scores: members.value,
-    }),
+    body: JSON.stringify(content),
   })
     .then((response) => {
       return response.json()
@@ -211,7 +222,8 @@ function send() {
       }
       spinner1.value = false
       alert('送信成功しました')
-      members.value.splice(0, members.value.length)
+      return
+      members.splice(0, members.value.length)
       for (let key in game.value) {
         if (game.value.hasOwnProperty(key)) {
           delete game.value.key
@@ -308,12 +320,14 @@ const today = new Date()
           @update-manual-data="updateManualData"
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
+          @change-date="changeDate"
           :peria_holes="peria_holes"
           :score="data"
         />
       </div>
     </div>
     <hr />
+    [[{{ data._id }}]]
     <h2 class="green">RESULT</h2>
     <h3 v-if="data.date" class="green">
       [{{ data.course }}] {{ new Date(data.date.$date).getFullYear() }}/{{
@@ -366,7 +380,7 @@ const today = new Date()
     </ol>
     <div class="form-group row upload">
       <div class="col">
-        <button class="btn btn-primary" @click="send" :disabled="incompletedPeriaHoles || spinner0 || spinner1">
+        <button class="btn btn-primary" @click="send">
           <i class="bi bi-cloud-upload"></i>
           送信
         </button>

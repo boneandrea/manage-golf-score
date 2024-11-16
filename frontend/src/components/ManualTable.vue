@@ -5,7 +5,7 @@ const props = defineProps({
   score: Object,
   peria_holes: Array,
 })
-const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles'])
+const emit = defineEmits(['updateManualData', 'resetManualData', 'setPeriaHoles', 'changeDate'])
 const q = (s, root) => (root ? root.querySelector(s) : document.querySelector(s))
 const courseInfo = ref({ name: '', date: null })
 const par = ref([...Array(HOLE)].map((_, i) => null))
@@ -70,6 +70,11 @@ watch(props, () => {
 
 const changeDate = () => {
   console.log('change', mydate.value)
+  console.log('change', mydate.value)
+  console.log('change', mydate.value)
+  console.log('change', mydate.value)
+  score.date = new Date(mydate.value)
+  emit('changeDate', mydate.value)
 }
 
 const addPlayer = () => {
@@ -134,7 +139,6 @@ const restore = () => {
 <template>
   <hr />
   <hr />
-  y {{ score.score.scores }}
   <div>
     <form>
       <div class="form-group row ml-1">

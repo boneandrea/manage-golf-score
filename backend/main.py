@@ -60,8 +60,27 @@ def findOne(id):
 
 # 過去データupdate
 @app.route('/api/update', methods=["POST"])
-@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET", "POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
 def update():
+    try:
+        app.logger.debug("sending.....")
+        updateOne(request.json)
+        app.logger.debug("sent")
+        return jsonify({"status": "success"})
+
+    except ValueError as e:
+        return jsonify({
+            "status": "error",
+            "reason": str(e)
+        })
+
+    except Exception as e:
+        app.logger.debug(e)
+        return jsonify({
+            "status": "error",
+            "reason": e
+        })
+
     return jsonify({"fe": FRONTEND})
 
 
@@ -117,9 +136,20 @@ def readOne(id):
     item = score.find_one({"_id": ObjectId(id)})
     return item
 
+def updateOne(json):
+    app.logger.debug("update one; mongodb....")
+    client = database().connect_db()
+    db = client["score"]
+    score = db["score"]
+    app.logger.debug(json)
+    id=json["id"]
+    del json["id"]
+    score.update_one({"_id": ObjectId(id)}, {"$set":json})
+    return {}
 
-@ app.route('/api/store', methods=["POST"])
-@ cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
+
+@app.route('/api/store', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003"], methods=["GET", "POST"])
 def store():
     try:
         app.logger.debug("sending.....")
