@@ -94,9 +94,10 @@ const convertDate = (d) => {
 }
 
 const removePlayer = (index) => {
-  const name = score.value[index].name
+  const scores = score.value.score.scores
+  const name = score.value.score.scores[index].name
   if (!confirm(`${name} さんを消しますよ？？？OK?`)) return
-  score.value.splice(index, 1)
+  scores.splice(index, 1)
 }
 const update = () => {
   emit('updateManualData', score.value, par.value, courseInfo.value)
@@ -133,7 +134,7 @@ const restore = () => {
 <template>
   <hr />
   <hr />
-  y{{ score.score.scores }}
+  y {{ score.score.scores }}
   <div>
     <form>
       <div class="form-group row ml-1">
