@@ -69,14 +69,7 @@ if (0)
     mydate.value = convertDate(score.value.score.date)
   })
 
-const changeDate = () => {
-  console.log('change', score)
-  console.log('change', mydate.value)
-  console.log('change', mydate.value)
-  score.date = new Date(mydate.value)
-  emit('changeDate', mydate.value)
-}
-
+const changeDate = (e) => emit('changeDate', e.target.value)
 const addPlayer = () => {
   console.log(1, score.value)
   score.value.score.scores.push(structuredClone(NEWUSER))
@@ -151,13 +144,13 @@ const restore = () => {
         />
       </div>
       <div class="form-group row ml-1">
-
         <input
           class="form-control w-25"
           :class="{ 'is-invalid': !mydate }"
           placeholder="日時"
           :value="score.score.date"
           type="date"
+          @change="changeDate"
           required
         />
       </div>

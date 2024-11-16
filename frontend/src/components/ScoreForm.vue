@@ -24,6 +24,8 @@ const page = () => {
     return '修正'
   } else return '登録'
 }
+
+const changeDate = (e) => (props.data.date = e)
 const collectPeriaHoles = () => {
   const check = {}
   peria_holes.value.forEach((e) => (check[e] = true))
@@ -326,6 +328,7 @@ const today = new Date()
           @update-manual-data="updateManualData"
           @reset-manual-data="reset"
           @set-peria-holes="setPeriaHoles"
+          @change-date="changeDate"
           :peria_holes="peria_holes"
           :score="data"
         />
