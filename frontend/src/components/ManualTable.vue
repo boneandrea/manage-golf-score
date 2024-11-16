@@ -216,10 +216,6 @@ const restore = () => {
       <button type="button" class="btn btn-primary mx-2" @click="sort"><i class="bi bi-sort-down"></i> Sort</button>
       <button type="button" class="btn btn-info mx-2" @click="helpNearpin">Set ニアピンホール</button>
     </div>
-    <div class="form-group row functions ml-1">
-      <button type="button" class="btn btn-danger mx-2" @click="save">Save</button>
-      <button type="button" class="btn btn-danger mx-2" @click="restore">Restore</button>
-    </div>
     <hr />
     <p>やること：</p>
     <ul>
@@ -229,7 +225,7 @@ const restore = () => {
         <li>コース名</li>
         <li>日時</li>
       </ul>
-      <li>疲れたらSave/Restoreもできる</li>
+      <li>疲れたらとりあえず送信して、後で編集する(NEW)</li>
       <li>Sortを押す</li>
       <li>ニアピン設定する</li>
     </ul>
