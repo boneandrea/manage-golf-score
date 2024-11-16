@@ -19,7 +19,6 @@ const formattedDate = (d) => {
 }
 const selectDate = (id) => {
   const apiUrl = `${API_ROOT}/findOne/${id}`
-  console.log(id)
   fetch(apiUrl, {
     method: 'GET',
     headers: { 'content-type': 'application/json' },
@@ -29,7 +28,9 @@ const selectDate = (id) => {
     })
     .then((data) => {
       const d = new Date(data.date.$date)
-      data.date = `${d.getFullYear()}/${d.getMonth() < 10 ? '0' : ''}${d.getMonth() + 1}/${d.getDate()}`
+      data.date = `${d.getFullYear()}/${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}/${d.getDate()}`
+      console.log(data.date)
+      console.log(data.date)
       console.log(data.date)
       emit('receive', data)
     })
