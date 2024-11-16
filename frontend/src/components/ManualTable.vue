@@ -39,14 +39,15 @@ const helpNearpin = () => {
 }
 
 const dump = (player_index, s) => {
-  const gross = score.value.score.scores[player_index].score.reduce(function (sum, element) {
+  const target = score.value.score.scores[player_index]
+  const gross = target.score.reduce(function (sum, element) {
     return sum + element.score
   }, 0)
+  target.gross = gross
+  changeHdcp(player_index)
   if (s.score > 10) {
     alert(`${s.score} も打った??\nマジですか????`)
   }
-  score.value.score.scores[player_index].gross = gross
-  //  score.value[player_index].net = gross - score.value[player_index].hdcp
 }
 const sort = () => {
   if (!score.value.score.course) {
