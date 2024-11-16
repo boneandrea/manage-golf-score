@@ -11,7 +11,7 @@ const courseInfo = ref({ name: '', date: null })
 const par = ref([...Array(HOLE)].map((_, i) => null))
 const NEWUSER = {
   name: '',
-  score: [...Array(HOLE)].map((_, i) => null),
+  score: [...Array(HOLE)].map((_, i) => ({ hole: i, score: null })),
   gross: 0,
   hdcp: 0,
   net: 0,
@@ -64,10 +64,7 @@ const sort = () => {
 }
 
 const changeDate = (e) => emit('changeDate', e.target.value)
-const addPlayer = () => {
-  console.log(1, score.value)
-  score.value.score.scores.push(structuredClone(NEWUSER))
-}
+const addPlayer = () => score.value.score.scores.push(structuredClone(NEWUSER))
 
 import { onMounted } from 'vue'
 
