@@ -29,6 +29,7 @@ const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
 const newScore = (e) => {
+  dateList.value.splice(0)
   emit('receive', {})
 }
 const recv = (data) => {
