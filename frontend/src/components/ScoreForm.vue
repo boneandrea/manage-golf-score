@@ -315,8 +315,10 @@ const today = new Date()
     </div>
     <hr />
     <h2 class="green">RESULT</h2>
-    <h3 v-if="game.date" class="green">
-      [{{ game.course }}] {{ game.date.getFullYear() }}/{{ game.date.getMonth() + 1 }}/{{ game.date.getDate() }}
+    <h3 v-if="data.date" class="green">
+      [{{ data.course }}] {{ new Date(data.date.$date).getFullYear() }}/{{
+        new Date(data.date.$date).getMonth() + 1
+      }}/{{ new Date(data.date.$date).getDate() }}
     </h3>
     <table class="table table-striped table-bordered">
       <thead>
@@ -333,27 +335,27 @@ const today = new Date()
       </thead>
       <tbody>
         <tr
-          v-for="(member, index) in members"
+          v-for="(score, index) in data.scores"
           :draggable="true"
           @dragstart="dragStart(index)"
           @dragenter="dragEnter(index)"
         >
           <td>{{ index + 1 }}</td>
           <td>
-            <input class="form-control responsive" type="text" style="min-width: 10em" v-model="member.name" />
+            <input class="form-control responsive" type="text" style="min-width: 10em" v-model="score.name" />
           </td>
           <td>
-            <input type="checkbox" @change="change(e, index, 0)" :checked="members[index].near0" />
-            <input type="checkbox" @change="change(e, index, 1)" :checked="members[index].near1" />
+            <input type="checkbox" @change="change(e, index, 0)" :checked="score.near0" />
+            <input type="checkbox" @change="change(e, index, 1)" :checked="score.near1" />
           </td>
           <td class="col-xs-6">
-            <input type="checkbox" @change="change(e, index, 2)" :checked="members[index].near2" />
-            <input type="checkbox" @change="change(e, index, 3)" :checked="members[index].near3" />
+            <input type="checkbox" @change="change(e, index, 2)" :checked="score.near2" />
+            <input type="checkbox" @change="change(e, index, 3)" :checked="score.near3" />
           </td>
-          <td>{{ member.gross }}</td>
-          <td>{{ member.hdcp }}</td>
-          <td>{{ member.net }}</td>
-          <td>{{ member.point }}</td>
+          <td>{{ score.gross }}</td>
+          <td>{{ score.hdcp }}</td>
+          <td>{{ score.net }}</td>
+          <td>{{ score.point }}</td>
         </tr>
       </tbody>
     </table>
