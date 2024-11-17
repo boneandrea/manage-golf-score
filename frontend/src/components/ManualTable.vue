@@ -44,6 +44,7 @@ const dump = (player_index, s) => {
   }, 0)
   target.gross = gross
   changeHdcp(player_index)
+  console.log(par, (s.prize = getPrize(par.value, s.score)))
   if (s.score > 10) {
     alert(`${s.score} も打った??\nマジですか????`)
   }

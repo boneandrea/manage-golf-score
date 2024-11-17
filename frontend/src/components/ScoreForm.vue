@@ -208,11 +208,6 @@ function updateManualData(score, par, courseInfo) {
 
 function send() {
   if (!confirm('送信してよいですか？')) return
-  console.log(props.data)
-  console.log(props.data.date)
-  console.log(props.data.date)
-  console.log(props.data.date)
-  console.log(props.data.date)
   const content = {
     course: props.data.course,
     date: props.data.date,
