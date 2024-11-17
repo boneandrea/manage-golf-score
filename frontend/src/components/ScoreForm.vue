@@ -146,36 +146,22 @@ const setNet = () => {
   })
 }
 
-function change(e, i, nearPinIndex) {
-  if (nearPinIndex === 0) members.value[i].near0 = true
-  if (nearPinIndex === 1) members.value[i].near1 = true
-  if (nearPinIndex === 2) members.value[i].near2 = true
-  if (nearPinIndex === 3) members.value[i].near3 = true
+const changeNearPin = (e, i, nearPinIndex) => {
+  if (nearPinIndex === 0) props.data.scores[i].near0 = true
+  if (nearPinIndex === 1) props.data.scores[i].near1 = true
+  if (nearPinIndex === 2) props.data.scores[i].near2 = true
+  if (nearPinIndex === 3) props.data.scores[i].near3 = true
 }
 
-const sort = () => {
-  members.value.sort((a, b) => {
-    if (a.net > b.net) return 1
-    if (a.net < b.net) return -1
-    if (a.gross > b.gross) return 1
-    if (a.gross < b.gross) return -1
-    return 0
-  })
-}
+const hdcp = (i) => {}
 
 const dragIndex = ref(null)
-
-function dragList(e, i) {
-  console.log(e, i)
-}
 
 const dragStart = (index) => {
   console.log('drag start', index)
   console.log(props.data.scores[index])
   dragIndex.value = index
 }
-
-const hdcp = (i) => {}
 
 const dragEnter = (index) => {
   if (index === dragIndex) return
@@ -386,12 +372,12 @@ const today = new Date()
             <input class="form-control responsive" type="text" style="min-width: 10em" v-model="score.name" />
           </td>
           <td>
-            <input type="checkbox" @change="change(e, index, 0)" :checked="score.near0" />
-            <input type="checkbox" @change="change(e, index, 1)" :checked="score.near1" />
+            <input type="checkbox" @change="changeNearPin(e, index, 0)" :checked="score.near0" />
+            <input type="checkbox" @change="changeNearPin(e, index, 1)" :checked="score.near1" />
           </td>
           <td class="col-xs-6">
-            <input type="checkbox" @change="change(e, index, 2)" :checked="score.near2" />
-            <input type="checkbox" @change="change(e, index, 3)" :checked="score.near3" />
+            <input type="checkbox" @change="changeNearPin(e, index, 2)" :checked="score.near2" />
+            <input type="checkbox" @change="changeNearPin(e, index, 3)" :checked="score.near3" />
           </td>
           <td>{{ score.gross }}</td>
           <td>{{ score.hdcp }}</td>
