@@ -167,22 +167,20 @@ const dragIndex = ref(null)
 
 function dragList(e, i) {
   console.log(e, i)
-  console.log(members.value)
 }
 
 const dragStart = (index) => {
   console.log('drag start', index)
+  console.log(props.data.scores[index])
   dragIndex.value = index
 }
 
-const hdcp = (i) => {
-  members.value[i].net = members.value[i].gross - members.value[i].hdcp
-}
+const hdcp = (i) => {}
 
 const dragEnter = (index) => {
   if (index === dragIndex) return
-  const deleteElement = members.value.splice(dragIndex.value, 1)[0]
-  members.value.splice(index, 0, deleteElement)
+  const deleteElement = props.data.scores.splice(dragIndex.value, 1)[0]
+  props.data.scores.splice(index, 0, deleteElement)
   dragIndex.value = index
 }
 
