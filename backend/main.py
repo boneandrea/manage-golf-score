@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response, json
 from flask_cors import cross_origin
 from bson.json_util import dumps
 from bson.objectid import ObjectId
@@ -49,6 +49,19 @@ app.logger.debug("HELLO")
 def find():
     items = readAll()
     return dumps(items, default=str)
+
+
+# 過去データdownload
+@app.route('/api/download', methods=["GET"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
+def download():
+    items = readAll()
+    json_str = dumps(items, default=str)
+    # レスポンスを作成してContent-Dispositionヘッダーを設定し、ダウンロードさせる
+    # jsでファイル名つけるのも可能
+    response = Response(json_str, content_type='application/json')
+    # response.headers['Content-Disposition'] = "golf.json"
+    return response
 
 
 # 過去データ読み取り

@@ -16,6 +16,9 @@
         <li class="nav-list-item">
           <a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026</a>
         </li>
+        <li class="nav-list-item">
+          <a href="#" @click="download">download</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -62,6 +65,21 @@ const editScore = (e) => {
       alert(e)
     })
     .finally(() => {})
+}
+const download = async (e) => {
+  const apiUrl = `${API_ROOT}/download`
+  const response = await fetch(apiUrl, {
+    method: 'GET',
+  })
+
+  if (response.ok) {
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'golf.json'
+    a.click()
+  }
 }
 </script>
 <style>
