@@ -56,7 +56,7 @@ def find():
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
 def download():
     items = readAll()
-    json_str = dumps(items, default=str)
+    json_str = dumps(items, default=str, ensure_ascii=False)
     # レスポンスを作成してContent-Dispositionヘッダーを設定し、ダウンロードさせる
     # jsでファイル名つけるのも可能
     response = Response(json_str, content_type='application/json')
