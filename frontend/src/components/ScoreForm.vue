@@ -40,6 +40,7 @@ const remove = () => {
     })
     .then((data) => {
       alert('削除しました')
+      window.location.reload()
     })
     .finally(() => {
       spinner0.value = false
