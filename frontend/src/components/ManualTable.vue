@@ -26,7 +26,6 @@ const score = ref({
     date: '',
   },
 })
-const mydate = ref(null)
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
   const target = score.value.score.scores[index]
@@ -37,14 +36,14 @@ const helpNearpin = () => {
   alert('ニアピンはRESULT画面で設定してください')
 }
 
-const dump = (player_index, s) => {
+const dump = (player_index, hole_index, s) => {
   const target = score.value.score.scores[player_index]
-  const gross = target.score.reduce(function (sum, element) {
+  target.gross = target.score.reduce(function (sum, element) {
     return sum + element.score
   }, 0)
-  target.gross = gross
+
   changeHdcp(player_index)
-  console.log(par, (s.prize = getPrize(par.value, s.score)))
+  s.prize = getPrize(score.value.score.par[hole_index], target.score[hole_index].score)
   if (s.score > 10) {
     alert(`${s.score} も打った??\nマジですか????`)
   }
@@ -80,6 +79,7 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   score.value = Object.assign(score.value, props)
+
   if (!score.value.score) {
     addPlayer()
   }
@@ -124,8 +124,8 @@ onMounted(() => {
         <tr>
           <th />
           <th class="corner">NAME \ PAR</th>
-          <td v-for="(_p, index) in par">
-            <input class="form-control" type="number" min="1" max="6" required v-model="par[index]" />
+          <td v-for="(par, index) in score.score.par">
+            <input class="form-control" type="number" min="1" max="6" required v-model="score.score.par[index]" />
           </td>
         </tr>
         <tr v-for="(s, player_index) in score.score.scores">
@@ -143,7 +143,7 @@ onMounted(() => {
               :class="{ 'is-invalid': !s.name }"
             />
           </td>
-          <td v-for="ss in s.score">
+          <td v-for="(ss, hole_index) in s.score">
             <input
               class="form-control score"
               type="number"
@@ -151,7 +151,7 @@ onMounted(() => {
               min="1"
               max="20"
               required
-              @change="dump(player_index, ss)"
+              @change="dump(player_index, hole_index, ss)"
             />
           </td>
           <td>

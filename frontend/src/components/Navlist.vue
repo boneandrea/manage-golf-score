@@ -28,6 +28,7 @@ import { ref, computed } from 'vue'
 import Navlist from './Navlist.vue'
 import DateList from './DateList.vue'
 import { API_ROOT } from '@/utils/common'
+import { HOLE, getPrize } from '@/utils/utils'
 const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
@@ -36,6 +37,12 @@ const newScore = (e) => {
   emit('receive', { scores: [] })
 }
 const recv = (data) => {
+  // par,古いデータはない
+  if (!data.par) {
+    console.log('set par: default')
+    data.par = [...Array(HOLE)].map((_, i) => null)
+  }
+  console.log(data)
   emit('receive', data)
 }
 const editScore = (e) => {
