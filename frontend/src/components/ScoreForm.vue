@@ -236,15 +236,6 @@ function send() {
       }
       spinner1.value = false
       alert('送信成功しました')
-      return
-      members.splice(0, members.value.length)
-      for (let key in game.value) {
-        if (game.value.hasOwnProperty(key)) {
-          delete game.value.key
-        }
-      }
-      game.value.date = null
-      localStorage.removeItem('golf-gplus')
     })
     .catch((e) => {
       spinner1.value = false
