@@ -43,7 +43,8 @@ const dump = (player_index, hole_index, s) => {
   }, 0)
 
   changeHdcp(player_index)
-  s.prize = getPrize(score.value.score.par[hole_index], target.score[hole_index].score)
+  if (score.value.score.par[hole_index])
+    s.prize = getPrize(score.value.score.par[hole_index], target.score[hole_index].score)
   if (s.score > 10) {
     alert(`${s.score} も打った??\nマジですか????`)
   }
