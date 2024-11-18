@@ -11,7 +11,7 @@ const courseInfo = ref({ name: '', date: null })
 const par = ref([...Array(HOLE)].map((_, i) => null))
 const NEWUSER = {
   name: '',
-  score: [...Array(HOLE)].map((_, i) => ({ hole: i, score: null })),
+  score: [...Array(HOLE)].map((_, i) => ({ hole: i + 1, score: null })),
   gross: 0,
   hdcp: 0,
   net: 0,
