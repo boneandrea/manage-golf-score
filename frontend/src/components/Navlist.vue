@@ -17,6 +17,14 @@
           <a href="https://boneandrea.github.io/gplus-golf-score/2026" target="_blank">2026</a>
         </li>
         <li class="nav-list-item">
+          <a
+            href="https://peixe.biz/junk/donguri/update_gplus_tour.php?key=ahv0doodinaefahv8Sahgee4ede1shee"
+            target="_blank"
+            @click="updateRanking"
+            >ランキング更新</a
+          >
+        </li>
+        <li class="nav-list-item">
           <a href="#" @click="download">download</a>
         </li>
       </ul>
@@ -35,6 +43,11 @@ const dateList = ref([])
 const newScore = (e) => {
   dateList.value.splice(0)
   emit('receive', { scores: [] })
+}
+const updateRanking = (e) => {
+  if (!confirm('ランキングページを更新しますか？')) {
+    e.preventDefault()
+  }
 }
 const recv = (data) => {
   // par,古いデータはない
