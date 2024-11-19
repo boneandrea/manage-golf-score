@@ -40,10 +40,6 @@ import { HOLE, getPrize } from '@/utils/utils'
 const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
-const newScore = (e) => {
-  dateList.value.splice(0)
-  emit('receive', { scores: [] })
-}
 const updateRanking = (e) => {
   if (!confirm('ランキングページを更新しますか？')) {
     e.preventDefault()
@@ -57,6 +53,15 @@ const recv = (data) => {
   }
   console.log(data)
   emit('receive', data)
+}
+const newScore = (e) => {
+  dateList.value.splice(0)
+  emit('receive', {
+    course: '',
+    date: '',
+    par: [...Array(HOLE)].map((_, i) => null),
+    scores: [],
+  })
 }
 const editScore = (e) => {
   showList.value = !showList.value

@@ -19,12 +19,7 @@ const NEWUSER = {
 
 // propsをコピーした値
 const score = ref({
-  peria_holes: [],
-  score: {
-    course: '',
-    scores: [],
-    date: '',
-  },
+  score: {},
 })
 const holes = [...Array(HOLE)].map((_, i) => i + 1)
 const changeHdcp = (index) => {
