@@ -27,3 +27,8 @@ npm run dev
 ```sh
 npm run build
 ```
+
+# Tasks
+
+- HDCP管理
+- HDCP計算
