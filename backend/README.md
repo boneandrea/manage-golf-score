@@ -20,3 +20,11 @@ tags:
 
 - Install Python requirements `pip install -r requirements.txt`
 - Start the server for development `python3 main.py`
+
+
+## db
+membersに制約
+```
+score> db.members.createIndex({name:1},{unique: true})
+```
+
