@@ -20,7 +20,7 @@ const fetchMembers = () => {
       return response.json()
     })
     .then((data) => {
-      console.log(data)
+      data.forEach((d) => members.value.push(d))
     })
     .catch((e) => {
       console.error(e)
@@ -29,12 +29,17 @@ const fetchMembers = () => {
 }
 </script>
 <template>
-  <h1 class="green">HDCP管理</h1>
-  <ul>
-    <li v-for="m in members">
-      {{ m.name }}
-    </li>
-  </ul>
+  <div>
+    <h1 class="green">HDCP管理</h1>
+    <ul>
+      <li v-for="m in members">
+        <div class="form-group row ml-1">
+          {{ m.name }}
+          <input class="form-control hdcp" type="number" step="0.1" required v-model.trim="m.hdcp" />
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
