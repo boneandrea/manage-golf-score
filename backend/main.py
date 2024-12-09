@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, Response, json
+from flask import Flask, jsonify, request, Response, json, Blueprint
 from flask_cors import cross_origin
 from bson.json_util import dumps
 from bson.objectid import ObjectId
@@ -12,6 +12,7 @@ from database import *
 from igolf import *
 from marshalI import *
 from golfweb import *
+from members import *
 
 # from logging.config import dictCjjjjonfig
 import logging
@@ -33,13 +34,13 @@ import logging
 
 
 app = Flask(__name__)
+app.register_blueprint(module_api)
 # app.logger.setLevel(logging.INFO)
 app.logger.setLevel(logging.DEBUG)
 
 # .envの`PORT`は勝手に読まれる
 
 FRONTEND = os.getenv("FRONTEND_URL")
-print(FRONTEND)
 app.logger.debug("HELLO")
 
 

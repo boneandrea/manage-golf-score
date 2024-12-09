@@ -1,7 +1,40 @@
 <script setup>
+import { onMounted, defineEmits, ref, computed } from 'vue'
+import { API_ROOT } from '@/utils/common'
+const props = defineProps({
+  members: Array,
+})
+// propsをコピーした値
+const members = ref([])
+onMounted(() => {
+  fetchMembers()
+})
+
+const fetchMembers = () => {
+  const apiUrl = `${API_ROOT}/members/`
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: { 'content-type': 'application/json' },
+  })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((e) => {
+      console.error(e)
+      alert(e)
+    })
+}
 </script>
 <template>
-<h1 class="green">HDCP管理</h1>
+  <h1 class="green">HDCP管理</h1>
+  <ul>
+    <li v-for="m in members">
+      {{ m.name }}
+    </li>
+  </ul>
 </template>
 
 <style scoped>
