@@ -20,11 +20,16 @@ class CreateHdcp:
         table = db["score"]
         members = []
         for game in table.find():
-            for member in game["scores"]:
-                members.append(member["name"])
-                print({"name": member["name"], "hdcp": 0})
+            try:
+                for member in game["scores"]:
+                    members.append(member["name"])
+            except KeyError:
+                continue
 
-        return sorted(list(set(members)))
+        for name in sorted(list(set(members))):
+            user = {"name": name, "hdcp": 0}
+            print(user)
+            db["members"].insert_one(user)
 
     def default_query(self):
         return {
@@ -35,11 +40,11 @@ class CreateHdcp:
             }
         }
 
-    def set_best_gross(self):
+    def create_members(self):
         games = self.collect_members()
 
 
 if __name__ == "__main__":
 
     x = CreateHdcp(verbose=True)
-    x.set_best_gross()
+    x.create_members()
