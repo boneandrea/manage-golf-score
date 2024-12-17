@@ -5,6 +5,7 @@ import App from './App.vue'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import HdcpView from './components/HdcpView.vue'
 import ScoreFormView from './components/ScoreFormView.vue'
+import ToastPlugin from 'vue-toast-notification'
 
 const routes = [
   {
@@ -24,4 +25,4 @@ const router = createRouter({
   routes,
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(ToastPlugin).mount('#app')

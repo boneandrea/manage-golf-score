@@ -1,11 +1,14 @@
 <script setup>
 import { onMounted, defineEmits, ref, computed } from 'vue'
 import { API_ROOT } from '@/utils/common'
+import { useToast } from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+const $toast = useToast()
 const props = defineProps({
   members: Array,
 })
 // propsをコピーした値
-const members = ref([])
+const items = ref([])
 onMounted(() => {
   fetchMembers()
 })
@@ -20,7 +23,7 @@ const fetchMembers = () => {
       return response.json()
     })
     .then((data) => {
-      data.forEach((d) => members.value.push(d))
+      data.forEach((d) => items.value.push(d))
     })
     .catch((e) => {
       console.error(e)
@@ -32,12 +35,13 @@ const send = () => {
   fetch(apiUrl, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ members: members.value }),
+    body: JSON.stringify({ members: items.value }),
   })
     .then((response) => {
       return response.json()
     })
     .then((data) => {
+      $toast.success('更新しました')
       console.log(data)
     })
     .catch((e) => {
@@ -50,7 +54,7 @@ const send = () => {
   <div>
     <h1 class="green">HDCP管理</h1>
     <ul>
-      <li v-for="m in members" :key="m.id">
+      <li v-for="m in items" :key="m.id">
         <div class="form-group row ml-1">
           <div class="name">{{ m.name }}</div>
           <div>
