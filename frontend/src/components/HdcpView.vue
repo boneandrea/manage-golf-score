@@ -27,18 +27,39 @@ const fetchMembers = () => {
       alert(e)
     })
 }
+const send = () => {
+  const apiUrl = `${API_ROOT}/members/update`
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ members: members.value }),
+  })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((e) => {
+      console.error(e)
+      alert(e)
+    })
+}
 </script>
 <template>
   <div>
     <h1 class="green">HDCP管理</h1>
     <ul>
-      <li v-for="m in members">
+      <li v-for="m in members" :key="m.id">
         <div class="form-group row ml-1">
-          {{ m.name }}
-          <input class="form-control hdcp" type="number" step="0.1" required v-model.trim="m.hdcp" />
+          <div class="name">{{ m.name }}</div>
+          <div>
+            <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
+          </div>
         </div>
       </li>
     </ul>
+    <button type="button" class="btn btn-primary" @click="send">更新</button>
   </div>
 </template>
 
@@ -65,6 +86,18 @@ td {
 table {
   max-width: 800px;
 }
+li {
+  display: flex;
+}
+li input {
+  display: inline-block;
+}
+li .name {
+  display: flex;
+  width: 16em;
+  align-items: center;
+}
+
 @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {
