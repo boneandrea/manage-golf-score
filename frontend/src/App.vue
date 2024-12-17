@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
-import ScoreForm from './components/ScoreForm.vue'
 import Sidebar from './components/Sidebar.vue'
+import { RouterView } from 'vue-router'
+
 const data = ref({})
 const recv = (e) => {
   Object.keys(data.value).forEach((k) => delete data.value[k])
@@ -11,7 +12,7 @@ const recv = (e) => {
 
 <template>
   <Sidebar @receive="recv" />
-  <ScoreForm :data="data" />
+  <RouterView :data="data" />
 </template>
 
 <style scoped>

@@ -2,7 +2,9 @@
   <div>
     <nav class="nav-list-wrapper">
       <ul class="nav-list">
-        <li class="nav-list-item" @click="newScore"><a href="#">新規入力</a></li>
+        <li class="nav-list-item" @click="newScore">
+          <RouterLink @click="goHdcp" to="/new">新規入力</RouterLink>
+        </li>
         <li class="nav-list-item" @click="editScore">
           <a href="#">過去データ修正</a>
           <DateList @receive="recv" class="ml-auto" :dateList="dateList"></DateList>
@@ -25,6 +27,9 @@
           >
         </li>
         <li class="nav-list-item">
+          <RouterLink to="/hdcp">HDCP管理</RouterLink>
+        </li>
+        <li class="nav-list-item">
           <a href="#" @click="download">download</a>
         </li>
       </ul>
@@ -37,6 +42,8 @@ import Navlist from './Navlist.vue'
 import DateList from './DateList.vue'
 import { API_ROOT } from '@/utils/common'
 import { HOLE, getPrize } from '@/utils/utils'
+import { useRoute, useRouter } from 'vue-router'
+
 const emit = defineEmits(['receive'])
 const showList = ref(false)
 const dateList = ref([])
@@ -45,6 +52,19 @@ const updateRanking = (e) => {
     e.preventDefault()
   }
 }
+
+const router = useRouter()
+const route = useRoute()
+
+const search = computed({
+  get() {
+    return route.query.search ?? ''
+  },
+  set(search) {
+    router.replace({ query: { search } })
+  },
+})
+
 const recv = (data) => {
   // par,古いデータはない
   if (!data.par) {

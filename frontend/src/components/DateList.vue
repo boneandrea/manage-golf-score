@@ -1,10 +1,10 @@
 <template>
   <ul>
-    <li v-for="d in props.dateList">
-      <a href="#" target="_blank" @click.stop.prevent="selectDate(d.id)">
+    <li v-for="d in props.dateList" :key="d.id">
+      <RouterLink @click.stop.prevent="selectDate(d.id)" to="/new">
         {{ formattedDate(d.date.$date) }}:
         {{ d.course }}
-      </a>
+      </RouterLink>
     </li>
   </ul>
 </template>
