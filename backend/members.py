@@ -41,18 +41,7 @@ def update():
             members.update_one({"_id": ObjectId(member["_id"]["$oid"])},
                                {"$set": {"hdcp": member["hdcp"]}})
     except Exception as e:
+        return dumps([], default=str), 500
         pass
 
-    return dumps([], default=str)
-
-
-def updateOne(json):
-    app.logger.debug("update one; mongodb....")
-    score = db["score"]
-    app.logger.debug(json)
-    id = json["id"]
-    del json["id"]
-    json["date"] = dateutil.parser.parse(
-        json["date"])  # from string to ISODate
-    score.update_one({"_id": ObjectId(id)}, {"$set": json})
-    return {}
+    return dumps([], default=str), 200
