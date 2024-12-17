@@ -2,6 +2,9 @@ from datetime import datetime
 import sys
 from util import *
 from database import *
+"""
+docker compose exec backend python /home/create_hdcp.py
+"""
 
 
 class CreateHdcp:
