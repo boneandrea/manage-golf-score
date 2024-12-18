@@ -72,7 +72,9 @@ const add = () => {
       alert(e)
     })
 }
-const remove = (_id) => {
+const remove = (_id, name) => {
+  if (!confirm(`${name}: 削除してよいですか.戻せません`)) return
+  if (!confirm(`${name}: 戻せません,OK?`)) return
   const id = _id['$oid']
   const apiUrl = `${API_ROOT}/members/remove`
   fetch(apiUrl, {
@@ -84,10 +86,9 @@ const remove = (_id) => {
       return response.json()
     })
     .then((data) => {
-      $toast.success('登録しました')
-      newMember.value.name = ''
-      newMember.value.hdcp = -100
-      console.log(data)
+      $toast.success('削除しました')
+      const removeIndex = items.value.findIndex((e) => e._id['$oid'] === id)
+      items.value.splice(removeIndex, 1)
     })
     .catch((e) => {
       console.error(e)
@@ -118,7 +119,7 @@ const remove = (_id) => {
             <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
           </div>
           <div>
-            <button type="button" class="btn btn-danger" @click="remove(m._id)">削除</button>
+            <button type="button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
           </div>
         </div>
       </li>
