@@ -51,18 +51,17 @@ def update():
 def add():
     payload = request.json["member"]
     logger = current_app.logger
-    logger.debug(payload)
 
     client = database().connect_db()
     members = client["score"]["members"]
 
     try:
-        members.insert_one(payload)
+        result=members.insert_one(payload)
     except Exception as e:
         return dumps([], default=str), 500
         pass
 
-    return dumps({"add":True}, default=str), 200
+    return dumps({"_id":{"$oid":str(result.inserted_id)},"name":payload["name"],"hdcp": payload["hdcp"]}, default=str), 200
 
 @module_api.route('/api/members/remove', methods=["POST"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])

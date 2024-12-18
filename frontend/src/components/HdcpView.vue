@@ -65,7 +65,7 @@ const add = () => {
       $toast.success('登録しました')
       newMember.value.name = ''
       newMember.value.hdcp = -100
-      console.log(data)
+      items.value.push(data)
     })
     .catch((e) => {
       console.error(e)
