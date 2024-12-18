@@ -108,7 +108,7 @@ const remove = (_id, name) => {
       <div>
         <input v-model="newMember.hdcp" class="form-control hdcp" type="number" step="1" placeholder="hdcp" required />
       </div>
-      <button type="button" class="btn btn-primary" @click="add">追加</button>
+      <button type="button" class="btn btn-primary" @click="add" :disabled="!newMember.name">追加</button>
     </div>
     <hr />
     <ul>
