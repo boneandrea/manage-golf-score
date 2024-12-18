@@ -1,13 +1,13 @@
-from flask import Flask, jsonify, request, Response, json, Blueprint
+from flask import Flask, jsonify, request, Response, json, Blueprint, current_app
 from flask_cors import cross_origin
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from database import *
+import logging
 
 
 module_api = Blueprint('members', __name__)
 FRONTEND = os.getenv("FRONTEND_URL")
-
 
 @module_api.route('/api/members/', methods=["GET"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
@@ -45,3 +45,40 @@ def update():
         pass
 
     return dumps([], default=str), 200
+
+@module_api.route('/api/members/add', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
+def add():
+    payload = request.json["member"]
+    logger = current_app.logger
+    logger.debug(payload)
+
+    client = database().connect_db()
+    members = client["score"]["members"]
+
+    try:
+        members.insert_one(payload)
+    except Exception as e:
+        return dumps([], default=str), 500
+        pass
+
+    return dumps({"add":True}, default=str), 200
+
+@module_api.route('/api/members/remove', methods=["POST"])
+@cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
+def remove():
+    payload = request.json["member"]
+    id=payload["id"]
+    logger = current_app.logger
+    logger.debug(payload)
+
+    client = database().connect_db()
+    members = client["score"]["members"]
+
+    try:
+        members.delete_one({"_id": ObjectId(id)})
+    except Exception as e:
+        return dumps([], default=str), 500
+        pass
+
+    return dumps({"remove":True}, default=str), 200
