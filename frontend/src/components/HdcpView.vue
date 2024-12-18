@@ -13,6 +13,8 @@ onMounted(() => {
   fetchMembers()
 })
 
+const newMember = ref({ name: '', hdcp: -100 })
+
 const fetchMembers = () => {
   const apiUrl = `${API_ROOT}/members/`
   fetch(apiUrl, {
@@ -30,7 +32,7 @@ const fetchMembers = () => {
       alert(e)
     })
 }
-const send = () => {
+const update = () => {
   const apiUrl = `${API_ROOT}/members/update`
   fetch(apiUrl, {
     method: 'POST',
@@ -49,10 +51,66 @@ const send = () => {
       alert(e)
     })
 }
+const add = () => {
+  const apiUrl = `${API_ROOT}/members/add`
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ member: newMember.value }),
+  })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      $toast.success('登録しました')
+      newMember.value.name = ''
+      newMember.value.hdcp = -100
+      items.value.push(data)
+    })
+    .catch((e) => {
+      console.error(e)
+      alert(e)
+    })
+}
+const remove = (_id, name) => {
+  if (!confirm(`${name}: 削除してよいですか.戻せません`)) return
+  if (!confirm(`${name}: 戻せません,OK?`)) return
+  const id = _id['$oid']
+  const apiUrl = `${API_ROOT}/members/remove`
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ member: { id } }),
+  })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      $toast.success('削除しました')
+      const removeIndex = items.value.findIndex((e) => e._id['$oid'] === id)
+      items.value.splice(removeIndex, 1)
+    })
+    .catch((e) => {
+      console.error(e)
+      alert(e)
+    })
+}
 </script>
 <template>
   <div>
     <h1 class="green">HDCP管理</h1>
+    <hr />
+    <h2>新規登録</h2>
+    <div class="form-group row ml-1">
+      <div class="name">
+        <input v-model="newMember.name" class="form-control" placeholder="name" required />
+      </div>
+      <div>
+        <input v-model="newMember.hdcp" class="form-control hdcp" type="number" step="1" placeholder="hdcp" required />
+      </div>
+      <button type="button" class="btn btn-primary" @click="add">追加</button>
+    </div>
+    <hr />
     <ul>
       <li v-for="m in items" :key="m.id">
         <div class="form-group row ml-1">
@@ -60,10 +118,13 @@ const send = () => {
           <div>
             <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
           </div>
+          <div>
+            <button type="button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
+          </div>
         </div>
       </li>
     </ul>
-    <button type="button" class="btn btn-primary" @click="send">更新</button>
+    <button type="button" class="btn btn-primary" @click="update">更新</button>
   </div>
 </template>
 

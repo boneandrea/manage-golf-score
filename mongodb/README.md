@@ -10,7 +10,7 @@ mongosh monorail.proxy.rlwy.net:56751 -u $MONGO_INITDB_ROOT_USERNAME
 ```
 localは
 ```
-mongosh mongodb://root:example@localhost:27018/admin -u $MONGO_INITDB_ROOT_USERNAME -u $MONGO_INITDB_ROOT_PASSWORD
+mongosh mongodb://admin:adminpass@localhost:27018/admin
 ```
 
 ```
