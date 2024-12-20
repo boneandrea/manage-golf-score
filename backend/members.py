@@ -64,16 +64,15 @@ def add():
         return dumps([], default=str), 500
         pass
 
-    return dumps({"_id":{"$oid":str(result.inserted_id)},"name":payload["name"],"hdcp": payload["hdcp"]}, default=str), 200
+    return dumps({"_id": {"$oid": str(result.inserted_id)}, "name": payload["name"], "hdcp": payload["hdcp"]}, default=str), 200
+
 
 @module_api.route('/api/members/remove', methods=["POST"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
 def remove():
     payload = request.json["member"]
-    id=payload["id"]
+    id = payload["id"]
     logger = current_app.logger
-    logger.debug(payload)
-
     client = database().connect_db()
     members = client["score"]["members"]
 
@@ -83,4 +82,4 @@ def remove():
         return dumps([], default=str), 500
         pass
 
-    return dumps({"remove":True}, default=str), 200
+    return dumps({"remove": True}, default=str), 200

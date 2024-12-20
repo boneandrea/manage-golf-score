@@ -13,6 +13,7 @@ from igolf import *
 from marshalI import *
 from golfweb import *
 from members import *
+from hdcp import *
 
 # from logging.config import dictCjjjjonfig
 import logging
@@ -32,9 +33,9 @@ import logging
 #     }
 # })
 
-
 app = Flask(__name__)
 app.register_blueprint(module_api)
+app.register_blueprint(module_hdcp)
 # app.logger.setLevel(logging.INFO)
 app.logger.setLevel(logging.DEBUG)
 
