@@ -95,9 +95,38 @@ const remove = (_id, name) => {
       alert(e)
     })
 }
+const download = () => {
+  const apiUrl = `${API_ROOT}/download`
+  fetch(apiUrl, {
+    method: 'GET',
+  })
+    .then(async (response) => {
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data)
+      const str = createCsv(data)
+      const blob = new Blob([str], { type: 'text/csv' })
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = `fe.csv`
+      link.click()
+    })
+    .catch((e) => {
+      console.error(e)
+      alert(e)
+    })
+}
+const createCsv = (members) => {
+  let str = ''
+  members.forEach((e) => {
+    str += `${e.name},${e.hdcp}\n`
+  })
+  return str
+}
 </script>
 <template>
-  <div>
+  <div class="md-3">
     <h1 class="green">HDCP管理</h1>
     <hr />
     <h2>新規登録</h2>
@@ -124,7 +153,10 @@ const remove = (_id, name) => {
         </div>
       </li>
     </ul>
-    <button type="button" class="btn btn-primary" @click="update">更新</button>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="mr-2 btn btn-primary" @click="update">更新</button>
+      <button type="button" class="btn btn-secondary" @click="download">提出用HDCPダウンロード</button>
+    </div>
   </div>
 </template>
 
