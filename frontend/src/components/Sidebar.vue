@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-container">
-    <h1>G+ ゴルフデータ管理</h1>
+    <h1><a href="/">G+ ゴルフデータ管理</a></h1>
     <navlist @receive="recv"></navlist>
   </div>
 </template>
