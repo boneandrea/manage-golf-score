@@ -9,6 +9,7 @@ import logging
 module_api = Blueprint('members', __name__)
 FRONTEND = os.getenv("FRONTEND_URL")
 
+
 @module_api.route('/api/members/', methods=["GET"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["GET"])
 def index():
@@ -46,6 +47,7 @@ def update():
 
     return dumps([], default=str), 200
 
+
 @module_api.route('/api/members/add', methods=["POST"])
 @cross_origin(origins=[FRONTEND, "http://localhost:8003/"], methods=["POST"])
 def add():
@@ -54,9 +56,10 @@ def add():
 
     client = database().connect_db()
     members = client["score"]["members"]
+    payload["name"] = payload["name"].strip().replace(" ", "").replace("　", "")
 
     try:
-        result=members.insert_one(payload)
+        result = members.insert_one(payload)
     except Exception as e:
         return dumps([], default=str), 500
         pass
