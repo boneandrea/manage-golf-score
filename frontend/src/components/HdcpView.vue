@@ -109,7 +109,7 @@ const download = () => {
       const blob = new Blob([str], { type: 'text/csv' })
       const link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
-      link.download = `fe.csv`
+      link.download = `hdcp.csv`
       link.click()
     })
     .catch((e) => {
