@@ -1,4 +1,7 @@
 from flask import Flask, jsonify, request, Response, json, Blueprint, current_app, make_response
+import io as cStringIO
+import codecs
+import csv
 from flask_cors import cross_origin
 from bson.json_util import dumps
 from bson.objectid import ObjectId
@@ -16,4 +19,18 @@ def download():
     client = database().connect_db()
     members = client["score"]["members"]
     items = members.find()
-    return dumps(items, default=str), 200
+    sjis = map(lambda x: {"name": x["name"].encode(
+        "shift_jis"), "hdcp": x["hdcp"]}, items)
+
+    csv_file = cStringIO.StringIO()
+    writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+    x = []
+    x.append(("あああ", "1"))
+    writer.writerows(x)
+
+    response.data = csv_file.getvalue().encode("shift_jis")
+    current_app.logger.debug(response.data)
+    response.headers['Content-Type'] = 'application/octet-stream'
+    response.headers['Content-Disposition'] = u'attachment; filename=a.csv'
+    return response
+    # return dumps(items, default=str), 200
