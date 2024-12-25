@@ -99,14 +99,11 @@ const download = () => {
   const apiUrl = `${API_ROOT}/download`
   fetch(apiUrl, {
     method: 'GET',
+    responseType: 'arrayBuffer', // バイナリデータとして受け取る
   })
     .then(async (response) => {
-      return response.json()
-    })
-    .then((data) => {
-      console.log(data)
-      const str = createCsv(data)
-      const blob = new Blob([str], { type: 'text/csv' })
+      const sjisStr = await response.arrayBuffer()
+      const blob = new Blob([sjisStr], { type: 'text/csv;charset=shift-jis;' })
       const link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
       link.download = `hdcp.csv`
