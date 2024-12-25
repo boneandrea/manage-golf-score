@@ -24,9 +24,10 @@ def download():
 
     csv_file = cStringIO.StringIO()
     writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
-    x = []
-    x.append(("あああ", "1"))
-    writer.writerows(x)
+    download_csv = []
+    for item in items:
+        download_csv.append((item["name"], item["hdcp"]))
+    writer.writerows(download_csv)
 
     response.data = csv_file.getvalue().encode("shift_jis")
     current_app.logger.debug(response.data)
