@@ -208,12 +208,10 @@ function updateManualData(score, par, courseInfo) {
 }
 
 function changeOdds(v) {
-  console.log(v)
   odds.value = v
 }
 function send() {
   alert(odds.value)
-  return
   if (!confirm('送信してよいですか？')) return
   const content = {
     course: props.data.course,
