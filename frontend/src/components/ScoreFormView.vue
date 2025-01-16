@@ -14,6 +14,7 @@ const props = defineProps({
 const spinner0 = ref(false)
 const spinner1 = ref(false)
 const edit_mode = ref('url')
+const odds = ref(1)
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
 
@@ -206,7 +207,13 @@ function updateManualData(score, par, courseInfo) {
   sort()
 }
 
+function changeOdds(v) {
+  console.log(v)
+  odds.value = v
+}
 function send() {
+  alert(odds.value)
+  return
   if (!confirm('送信してよいですか？')) return
   const content = {
     course: props.data.course,
@@ -334,6 +341,23 @@ const today = new Date()
     <hr />
     <h2 class="green">RESULT</h2>
     <h3 v-if="data.date" class="green">[{{ data.course }}] / {{ data.date }}</h3>
+    <div class="container">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="odds"
+          id="flexRadioDefault1"
+          :checked="odds === 1"
+          @change="changeOdds(1)"
+        />
+        <label class="form-check-label" for="flexRadioDefault1"> 1倍 </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="odds" id="flexRadioDefault2" @change="changeOdds(2)" />
+        <label class="form-check-label" for="flexRadioDefault2"> 2倍 </label>
+      </div>
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
