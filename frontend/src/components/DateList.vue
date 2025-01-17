@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="d in props.dateList" :key="d.id">
-      <RouterLink @click.stop.prevent="selectDate(d.id)" to="/new">
+      <RouterLink to="/new" @click.stop.prevent="selectDate(d.id)">
         {{ formattedDate(d.date.$date) }}:
         {{ d.course }}
       </RouterLink>
