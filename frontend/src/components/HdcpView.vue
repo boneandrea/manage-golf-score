@@ -114,13 +114,6 @@ const download = () => {
       alert(e)
     })
 }
-const createCsv = (members) => {
-  let str = ''
-  members.forEach((e) => {
-    str += `${e.name},${e.hdcp}\n`
-  })
-  return str
-}
 </script>
 <template>
   <div class="md-3">

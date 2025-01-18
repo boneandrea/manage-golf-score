@@ -66,12 +66,11 @@ const search = computed({
 })
 
 const recv = (data) => {
-  // par,古いデータはない
+  // 古いデータはpar情報を持たない
   if (!data.par) {
     console.log('set par: default')
     data.par = [...Array(HOLE)].map((_, i) => null)
   }
-  console.log(data)
   emit('receive', data)
 }
 const newScore = (e) => {

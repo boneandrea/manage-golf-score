@@ -9,11 +9,12 @@ const msg = '本日のスコア'
 const game = ref({})
 const peria_holes = ref([...Array(HOLE)].map((_, i) => null))
 const props = defineProps({
-  data: Object,
+  data: Object({}),
 })
 const spinner0 = ref(false)
 const spinner1 = ref(false)
 const edit_mode = ref('url')
+const rate = ref(1)
 console.log(import.meta.env.MODE)
 console.log(API_ROOT)
 
@@ -50,6 +51,7 @@ watch(props, () => {
   if (props.data._id) {
     edit_mode.value = 'manual'
   }
+  rate.value = props.data.rate || 1
 })
 
 const changeDate = (e) => (props.data.date = e)
@@ -97,9 +99,9 @@ const fetchData = () => {
       return response.json()
     })
     .then((data) => {
-      console.log(data)
       game.value.course = data.course
       game.value.date = new Date(data.date)
+      rate.value = data.rate
       if (data.status === 'error') {
         throw new Error(data['reason'])
       }
@@ -206,6 +208,9 @@ function updateManualData(score, par, courseInfo) {
   sort()
 }
 
+function changeRate(v) {
+  rate.value = v
+}
 function send() {
   if (!confirm('送信してよいですか？')) return
   const content = {
@@ -213,6 +218,7 @@ function send() {
     date: props.data.date,
     par: props.data.par,
     scores: props.data.scores,
+    rate: rate.value,
   }
   if (props.data._id) {
     content.id = props.data._id.$oid
@@ -334,6 +340,32 @@ const today = new Date()
     <hr />
     <h2 class="green">RESULT</h2>
     <h3 v-if="data.date" class="green">[{{ data.course }}] / {{ data.date }}</h3>
+    <div class="container">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          name="rate"
+          type="radio"
+          v-model="rate"
+          id="flexRadioDefault1"
+          value="1"
+          @change="changeRate(1)"
+        />
+        <label class="form-check-label" for="flexRadioDefault1"> 1倍 </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          v-model="rate"
+          value="2"
+          name="rate"
+          id="flexRadioDefault2"
+          @change="changeRate(2)"
+        />
+        <label class="form-check-label" for="flexRadioDefault2"> 2倍 </label>
+      </div>
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
