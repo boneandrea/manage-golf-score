@@ -12,8 +12,21 @@ const items = ref([])
 onMounted(() => {
   fetchMembers()
 })
+const prize = ref([])
 
 const newMember = ref({ name: '', hdcp: -100 })
+const updateHdcp = (index) => {
+  const player = items.value[index]
+  if (prize.value[index] === '1') {
+    player.hdcp *= 0.7
+  }
+  if (prize.value[index] === '2') {
+    player.hdcp *= 0.8
+  }
+  if (prize.value[index] === '3') {
+    player.hdcp *= 0.9
+  }
+}
 
 const fetchMembers = () => {
   const apiUrl = `${API_ROOT}/members/`
@@ -25,7 +38,10 @@ const fetchMembers = () => {
       return response.json()
     })
     .then((data) => {
-      data.forEach((d) => items.value.push(d))
+      data.forEach((d) => {
+        items.value.push(d)
+        prize.value.push(0)
+      })
     })
     .catch((e) => {
       console.error(e)
@@ -141,14 +157,24 @@ const createCsv = (members) => {
     </div>
     <hr />
     <ul>
-      <li v-for="m in items" :key="m.id">
+      <li v-for="(m, index) in items" :key="m.id">
         <div class="form-group row ml-1">
           <div class="name">{{ m.name }}</div>
           <div>
             <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
           </div>
-          <div>
-            <button type="button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
+          <div class="row">
+            <div class="column">
+              <button type="button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
+            </div>
+            <div class="column">
+              <select v-model="prize[index]" class="form-control" @change="updateHdcp(index)">
+                <option></option>
+                <option value="1">1位</option>
+                <option value="2">2位</option>
+                <option value="3">3位</option>
+              </select>
+            </div>
           </div>
         </div>
       </li>
