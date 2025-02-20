@@ -7,14 +7,38 @@ const $toast = useToast()
 const props = defineProps({
   members: Array,
 })
-// propsをコピーした値
-const items = ref([])
+
+const items = ref([]) // propsをコピーした値
+const items_org = [] // 初期値
 onMounted(() => {
   fetchMembers()
 })
+const prize = ref([])
 
 const newMember = ref({ name: '', hdcp: -100 })
+const updateHdcp = (index) => {
+  const player = items.value[index]
+  if (prize.value[index] === '') {
+    resetHdcp(index)
+    return
+  }
+  if (prize.value[index] === '1') {
+    player.hdcp *= 0.7
+    return
+  }
+  if (prize.value[index] === '2') {
+    player.hdcp *= 0.8
+    return
+  }
+  if (prize.value[index] === '3') {
+    player.hdcp *= 0.9
+    return
+  }
+}
 
+const resetHdcp = (index) => {
+  items.value[index].hdcp = items_org[index].hdcp
+}
 const fetchMembers = () => {
   const apiUrl = `${API_ROOT}/members/`
   fetch(apiUrl, {
@@ -25,7 +49,12 @@ const fetchMembers = () => {
       return response.json()
     })
     .then((data) => {
-      data.forEach((d) => items.value.push(d))
+      data.forEach((d) => {
+        items.value.push(d)
+        items_org.push(structuredClone(d))
+        prize.value.push(0)
+      })
+      console.log(items_org)
     })
     .catch((e) => {
       console.error(e)
@@ -131,14 +160,24 @@ const download = () => {
     </div>
     <hr />
     <ul>
-      <li v-for="m in items" :key="m.id">
-        <div class="form-group row ml-1">
-          <div class="name">{{ m.name }}</div>
-          <div>
-            <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
-          </div>
-          <div>
-            <button type="button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
+      <li v-for="(m, index) in items" :key="m.id">
+        <div class="form-group ml-1">
+          <div class="row">
+            <div class="col name">
+              {{ m.name }}
+            </div>
+            <div class="col">
+              <input v-model.trim="m.hdcp" class="form-control hdcp" type="number" step="1" required />
+            </div>
+            <div class="col">
+              <button type="form-control button" class="btn btn-danger" @click="remove(m._id, m.name)">削除</button>
+              <select v-model="prize[index]" class="form-select" @change="updateHdcp(index)">
+                <option></option>
+                <option value="1">1位</option>
+                <option value="2">2位</option>
+                <option value="3">3位</option>
+              </select>
+            </div>
           </div>
         </div>
       </li>
