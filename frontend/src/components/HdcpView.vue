@@ -18,20 +18,21 @@ const prize = ref([])
 const newMember = ref({ name: '', hdcp: -100 })
 const updateHdcp = (index) => {
   const player = items.value[index]
-  if (prize.value[index] === '') {
+  const rank = prize.value[index]
+  if (rank === '') {
     resetHdcp(index)
     return
   }
-  if (prize.value[index] === '1') {
-    player.hdcp *= 0.7
+  if (rank === '1') {
+    player.hdcp = Math.trunc(items_org[index].hdcp * 0.7)
     return
   }
-  if (prize.value[index] === '2') {
-    player.hdcp *= 0.8
+  if (rank === '2') {
+    player.hdcp = Math.trunc(items_org[index].hdcp * 0.8)
     return
   }
-  if (prize.value[index] === '3') {
-    player.hdcp *= 0.9
+  if (rank === '3') {
+    player.hdcp = Math.trunc(items_org[index].hdcp * 0.9)
     return
   }
 }
