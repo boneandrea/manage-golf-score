@@ -16,5 +16,5 @@ COPY ./backend /app
 WORKDIR /app
 
 ENV PATH="/usr/local/bin:/opt/venv/bin:${PATH}"
-RUN pip install -U pip && pip install -r requirements.txt
+RUN pip install -U pip && pip install --use-pep517 -r requirements.txt
 CMD ["gunicorn","main:app"]
