@@ -149,7 +149,7 @@ def readAll():
     client = database().connect_db()
     db = client["score"]
     score = db["score"]
-    return list(score.find())
+    return list(score.find().sort("date", -1))
 
 
 def readOne(id):
