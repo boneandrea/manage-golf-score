@@ -213,6 +213,10 @@ function changeRate(v) {
 }
 function send() {
   if (!confirm('送信してよいですか？')) return
+  if (!props.data.scores[0].point) {
+    alert('ポイントが入っていません。Sortを押してください。')
+    return
+  }
   const content = {
     course: props.data.course,
     date: props.data.date,
