@@ -369,6 +369,18 @@ const today = new Date()
         />
         <label class="form-check-label" for="flexRadioDefault2"> 2倍 </label>
       </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          v-model="rate"
+          value="2"
+          name="rate"
+          id="flexRadioDefault3"
+          @change="changeRate(3)"
+        />
+        <label class="form-check-label" for="flexRadioDefault3"> 3倍 </label>
+      </div>
     </div>
     <table class="table table-striped table-bordered">
       <thead>
