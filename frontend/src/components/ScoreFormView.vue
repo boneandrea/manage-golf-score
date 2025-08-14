@@ -346,39 +346,15 @@ const today = new Date()
     <h3 v-if="data.date" class="green">[{{ data.course }}] / {{ data.date }}</h3>
     <div class="container">
       <div class="form-check">
-        <input
-          class="form-check-input"
-          name="rate"
-          type="radio"
-          v-model="rate"
-          id="flexRadioDefault1"
-          value="1"
-          @change="changeRate(1)"
-        />
+        <input id="flexRadioDefault1" v-model="rate" class="form-check-input" name="rate" type="radio" value="1" />
         <label class="form-check-label" for="flexRadioDefault1"> 1倍 </label>
       </div>
       <div class="form-check">
-        <input
-          class="form-check-input"
-          type="radio"
-          v-model="rate"
-          value="2"
-          name="rate"
-          id="flexRadioDefault2"
-          @change="changeRate(2)"
-        />
+        <input id="flexRadioDefault2" v-model="rate" class="form-check-input" type="radio" name="rate" value="2" />
         <label class="form-check-label" for="flexRadioDefault2"> 2倍 </label>
       </div>
       <div class="form-check">
-        <input
-          class="form-check-input"
-          type="radio"
-          v-model="rate"
-          value="2"
-          name="rate"
-          id="flexRadioDefault3"
-          @change="changeRate(3)"
-        />
+        <input id="flexRadioDefault3" v-model="rate" class="form-check-input" type="radio" value="3" name="rate" />
         <label class="form-check-label" for="flexRadioDefault3"> 3倍 </label>
       </div>
     </div>
