@@ -23,7 +23,15 @@
             href="https://peixe.biz/junk/donguri/update_gplus_tour.php?key=ahv0doodinaefahv8Sahgee4ede1shee"
             target="_blank"
             @click="updateRanking"
-            >ランキング更新</a
+            >ランキング更新(フル表示)</a
+          >
+        </li>
+        <li class="nav-list-item">
+          <a
+            href="https://peixe.biz/junk/donguri/update_gplus_tour.php?key=ahv0doodinaefahv8Sahgee4ede1shee&mode=easy"
+            target="_blank"
+            @click="updateRanking"
+            >ランキング更新(簡易)</a
           >
         </li>
         <li class="nav-list-item">
