@@ -1,7 +1,7 @@
 # for Railway.app
 FROM anzusystems/node:3.0.0-node24-nginx
 
-COPY ./frontend /app
+COPY ./hehe /app
 WORKDIR /app
 ARG BASIC_AUTH_PASSWORD
 ARG BASIC_AUTH_USERNAME
