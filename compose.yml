@@ -12,6 +12,19 @@ services:
     depends_on:
       - mongodb
 
+  new_frontend:
+    build:
+      context: ./hehe
+      dockerfile: Dockerfile.local
+    ports:
+      - 8005:5173
+    environment:
+      PORT: 8005
+    volumes:
+      - ./hehe:/app
+    depends_on:
+      - mongodb
+
   backend:
     build:
       context: ./backend
